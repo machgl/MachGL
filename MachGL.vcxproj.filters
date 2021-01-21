@@ -1,0 +1,227 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{5f695769-4f6b-4469-8fcf-ed6e26545bab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{f4ad6c2d-d654-4b76-8632-24caf26fc412}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Maths">
+      <UniqueIdentifier>{69149f2e-b338-4209-9784-805350d778fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Object">
+      <UniqueIdentifier>{69053d63-1c82-42f1-aa3f-ed8266847d40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Object">
+      <UniqueIdentifier>{180b6011-3668-4142-bb0e-eb3d5122de31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{b4b2eedb-072b-408f-8599-5a6ea2cf5863}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\Buffers">
+      <UniqueIdentifier>{4af2d882-97bc-42bb-9cf1-c14b56f087c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{cb93e5e9-95b9-4714-a86e-3d20116d7422}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\Buffers">
+      <UniqueIdentifier>{4e589c54-b5c1-47b1-97cf-5bd2c602d856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{055dc2d5-0fe5-448b-aef9-51a33e988db3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utilities">
+      <UniqueIdentifier>{577d8598-ba47-47ce-ad4e-80b1a639e91a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Screens">
+      <UniqueIdentifier>{f740032a-7d17-44e3-8d31-e420412583ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Screens">
+      <UniqueIdentifier>{5f87f493-a441-472f-8ef6-1bf1792fec86}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Buffer.cpp">
+      <Filter>Source Files\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Source Files\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexArray.cpp">
+      <Filter>Source Files\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer3D.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer2D.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Image.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Splash.cpp">
+      <Filter>Source Files\Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="SimpleRect.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="glad.c">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Plane.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="DataStructures.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Includes.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Header Files\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Header Files\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexArray.h">
+      <Filter>Header Files\Graphics\Buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer3D.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer2D.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Image.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Splash.h">
+      <Filter>Header Files\Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="CoreFunctions.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleRect.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="glad.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Plane.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="Maths.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Noise.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="test.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="splash.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="splash.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="simpleRect.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="simpleRect.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="skybox.vert">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+    <None Include="skybox.frag">
+      <Filter>Resource Files\Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
