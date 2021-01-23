@@ -10,6 +10,11 @@ namespace MachGL {
 			m_texture = load();
 		}
 
+		Image::Image(const char* fileName, const bool& mipmap) : m_fileName(fileName), m_mipmap(mipmap) {
+
+			m_texture = load();
+		}
+
 		Image::Image(std::vector<const char*> fileNames) : m_fileNames(fileNames) {
 
 			m_texture = loadCube();
@@ -27,7 +32,7 @@ namespace MachGL {
 			
 			if (data) {
 
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 				stbi_image_free(data);
 			}
 			else {
@@ -36,15 +41,22 @@ namespace MachGL {
 				stbi_image_free(data);
 			}
 
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-			glGenerateMipmap(GL_TEXTURE_2D);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0);
+			if (m_mipmap) {
+
+				glGenerateMipmap(GL_TEXTURE_2D);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_LOD_BIAS, 0);
+			}
+			else {
+
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			}
 
 			GLfloat value, maxAnisotropy = 8.0f;
 			if (glfwExtensionSupported("GL_ARB_texture_filter_anisotropic")) {
-
+			
 				glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
 				value = (value > maxAnisotropy) ? maxAnisotropy : value;
 				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, value);

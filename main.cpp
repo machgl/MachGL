@@ -16,11 +16,11 @@ int main() {
     window.MSAA(8);
     window.init();
 
-    Graphics::Image crosshair_texture("Textures/crosshair.png");
+    Graphics::Image crosshairTexture("Textures/crosshair.png", false);
     Graphics::Image grassTexture("Textures/testTexture.jpg");
     Graphics::Image deathstarTexture("Textures/deathstar.png");
     Graphics::Image dirtTexture("Textures/dirtTexture.jpg");
-    Graphics::SimpleRect simple(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), &crosshair_texture, WIDTH, HEIGHT);
+    Graphics::SimpleRect simple(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), &crosshairTexture, WIDTH, HEIGHT);
 
     std::vector<const char*> fileNames{
 
@@ -64,7 +64,9 @@ int main() {
     Object::Model cubeModel("Models/cube.obj");
     Object::Model shipModel("Models/ship.obj");
     
-    Object::Object scene(Object::Terrain(800, 70).getModel(), float3(-200, 0, -200), &dirtTexture);
+    Object::Terrain terrain(800, 50, 2.5f, 1, 1.5f, 1);
+
+    Object::Object scene(terrain.getModel(), float3(-200, 0, -200), &dirtTexture);
     Object::Object sun_object(&sphereModel, sun.getPosition(), nullptr);
     Object::Object sphere(&sphereModel, light2.getPosition(), nullptr);
     Object::Object suzanne(&suzanneModel, light.getPosition(), &deathstarTexture);

@@ -15,11 +15,13 @@ namespace MachGL {
 				const char* m_fileName;
 				std::vector<const char*> m_fileNames;
 				GLuint m_texture = 0;
+				bool m_mipmap = true;
 				
 			public:
 
 				Image() = default;
 				Image(const char* fileName);
+				Image(const char* fileName, const bool& mipmap);
 				Image(std::vector<const char*> fileNames);
 				GLuint load();
 				GLuint loadCube();

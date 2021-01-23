@@ -52,6 +52,9 @@
     <Filter Include="Header Files\Screens">
       <UniqueIdentifier>{5f87f493-a441-472f-8ef6-1bf1792fec86}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Maths">
+      <UniqueIdentifier>{f3af41ac-45bc-44b4-912a-45f415574a54}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -107,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="Terrain.cpp">
       <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplexNoise.cpp">
+      <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -194,8 +200,11 @@
     <ClInclude Include="Terrain.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Noise.h">
-      <Filter>Header Files\Maths</Filter>
+    <ClInclude Include="FileUtilities.h">
+      <Filter>Header Files\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplexNoise.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

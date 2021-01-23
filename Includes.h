@@ -8,6 +8,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include "SimplexNoise.h"
 #include "math.h"
 #include <list>
 #include <vector>
@@ -24,3 +25,4 @@
 #include <chrono>
 #include <random>
 #include <numeric>
+

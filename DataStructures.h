@@ -7,6 +7,8 @@ using float3 = glm::vec3;
 using float4 = glm::vec4;
 using matrix4x4 = glm::mat4x4;
 
+typedef SimplexNoise Noise;
+
 struct Vertex {
 
     float3 vertex;

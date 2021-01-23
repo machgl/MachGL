@@ -1,5 +1,4 @@
 #include "Camera.h"
-#include "Includes.h"
 
 namespace MachGL {
 	namespace Object {

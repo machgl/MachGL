@@ -15,11 +15,11 @@ namespace MachGL {
 		}
 
 		Terrain::Terrain(const int& size, const int& vertexCount, const float& amplitude, 
-					const int& octaves, const float& roughness, const long& seed)
-					: m_amplitude(amplitude), m_octaves(octaves), m_roughness(roughness), m_seed(seed) {
+					const int& octaves, const float& roughness, const int& seed)
+					: m_size(size), m_vertexCount(vertexCount), m_amplitude(amplitude), m_octaves(octaves), m_roughness(roughness), m_seed(seed) {
 
+			m_noise = Noise(seed);
 			m_model = generateTerrain();
-			noise = Maths::Noise(m_seed);
 		}
 
 		Model* Terrain::generateTerrain() {
@@ -74,7 +74,7 @@ namespace MachGL {
 
 		float Terrain::generateHeight(const float& x, const float& z) {
 			
-			if (!m_octaves != 0) {
+			if (m_octaves != 0) {
 
 				float total = 0;
 				float d = (float) pow(2, m_octaves - 1);
@@ -83,7 +83,7 @@ namespace MachGL {
 
 					float frequency = (float) (pow(2, i) / d);
 					float amplitude = (float) pow(m_roughness, i) * m_amplitude;
-					total += noise.getNoise(x, z, 0);
+					total += m_noise.noise(x * frequency, z * frequency) * amplitude;
 				}
 
 				return total;
