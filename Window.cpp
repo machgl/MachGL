@@ -16,8 +16,8 @@ namespace MachGL {
     }
 
     Window::Window(const char* title, const float& width, const float& height)
-        : m_title(title), m_width((int) width), m_height((int) height) { 
-    
+        : m_title(title), m_width((int)width), m_height((int)height) {
+
         m_icons[0] = GLFWimage();
     }
 
@@ -58,11 +58,10 @@ namespace MachGL {
         glfwWindowHint(GLFW_SAMPLES, m_aa);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
-        #ifdef MACHGL_FULLSCREEN
+        if (m_fullscreen)
             m_window = glfwCreateWindow(m_width, m_height, m_title, glfwGetPrimaryMonitor(), NULL);
-        #else
+        else
             m_window = glfwCreateWindow(m_width, m_height, m_title, NULL, NULL);
-        #endif
 
         if (!m_window) {
 
@@ -71,9 +70,10 @@ namespace MachGL {
             return;
         }
 
-        #ifdef MACHGL_DISABLE_CURSOR
+        if (!m_cursor) {
+
             glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        #endif
+        }
 
         m_icons[0].pixels = stbi_load(m_iconPath, &m_icons[0].width, &m_icons[0].height, 0, 4);
         glfwSetWindowIcon(m_window, 1, m_icons);
@@ -88,10 +88,11 @@ namespace MachGL {
             return;
         }
 
-        #ifdef MACHGL_DEBUG
+        if (m_debug) {
+
             glEnable(GL_DEBUG_OUTPUT);
             glDebugMessageCallback(MessageCallback, 0);
-        #endif
+        }
 
         glfwGetFramebufferSize(m_window, &m_width, &m_height);
         glViewport(0, 0, m_width, m_height);
@@ -107,9 +108,9 @@ namespace MachGL {
         else
             glfwSwapInterval(0);
 
-        
+
         m_splashImage = Graphics::Image("Textures/splash.png");
-        m_splashScreen = new Splash((float) m_width, (float) m_height, &m_splashImage);
+        m_splashScreen = new Splash((float)m_width, (float)m_height, &m_splashImage);
     }
 
     void Window::clear() {
@@ -151,7 +152,7 @@ namespace MachGL {
         }
 
         if (m_timer.elapsedTimeSeconds() > 3) {
-            
+
             windowLoaded();
             m_timer.~Timer();
         }
@@ -176,19 +177,19 @@ namespace MachGL {
 
     void Window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 
-        Window* win = (Window*) glfwGetWindowUserPointer(window);
+        Window* win = (Window*)glfwGetWindowUserPointer(window);
         win->m_keys[key] = action != GLFW_RELEASE;
     }
 
     void Window::mouseButton_callback(GLFWwindow* window, int button, int action, int mods) {
 
-        Window* win = (Window*) glfwGetWindowUserPointer(window);
+        Window* win = (Window*)glfwGetWindowUserPointer(window);
         win->m_mouseButtons[button] = action != GLFW_RELEASE;
     }
 
     void Window::cursor_position_callback(GLFWwindow* window, double xpos, double ypos) {
 
-        Window* win = (Window*) glfwGetWindowUserPointer(window);
+        Window* win = (Window*)glfwGetWindowUserPointer(window);
         win->mx = xpos;
         win->my = ypos;
     }

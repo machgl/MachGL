@@ -1,8 +1,5 @@
-//#define MACHGL_FULLSCREEN
-//#define MACHGL_DISABLE_CURSOR
-//#define MACHGL_DEBUG
-#define WIDTH (float) 1920
-#define HEIGHT (float) 1080
+#define WIDTH (float) 3840
+#define HEIGHT (float) 2160
 #define MAX_LIGHTS 12
 
 #include "MachGL.h"
@@ -13,6 +10,9 @@ int main() {
 
     Window window("Kepler Game Engine", WIDTH, HEIGHT);
     //window.vsync();
+    window.disableCursor();
+    window.fullscreen();
+    //window.debug();
     window.MSAA(8);
     window.init();
 
