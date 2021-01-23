@@ -1,19 +1,19 @@
-#include "MachGL.h"
-
-using namespace MachGL;
-
+//#define MACHGL_FULLSCREEN
+//#define MACHGL_DISABLE_CURSOR
+//#define MACHGL_DEBUG
 #define WIDTH (float) 1920
 #define HEIGHT (float) 1080
 #define MAX_LIGHTS 12
+
+#include "MachGL.h"
+
+using namespace MachGL;
 
 int main() {
 
     Window window("Kepler Game Engine", WIDTH, HEIGHT);
     //window.vsync();
     window.MSAA(8);
-    //window.disableCursor();
-    //window.fullscreen();
-    //window.debug();
     window.init();
 
     Graphics::Image crosshair_texture("Textures/crosshair.png");
@@ -21,7 +21,6 @@ int main() {
     Graphics::Image deathstarTexture("Textures/deathstar.png");
     Graphics::Image dirtTexture("Textures/dirtTexture.jpg");
     Graphics::SimpleRect simple(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), &crosshair_texture, WIDTH, HEIGHT);
-    
 
     std::vector<const char*> fileNames{
 

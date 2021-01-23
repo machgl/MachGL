@@ -58,11 +58,12 @@ namespace MachGL {
         glfwWindowHint(GLFW_SAMPLES, m_aa);
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
-        if (m_fullscreen)
+        #ifdef MACHGL_FULLSCREEN
             m_window = glfwCreateWindow(m_width, m_height, m_title, glfwGetPrimaryMonitor(), NULL);
-        else
+        #else
             m_window = glfwCreateWindow(m_width, m_height, m_title, NULL, NULL);
-    
+        #endif
+
         if (!m_window) {
 
             glfwTerminate();
@@ -70,10 +71,9 @@ namespace MachGL {
             return;
         }
 
-        if (!m_cursor) {
-
+        #ifdef MACHGL_DISABLE_CURSOR
             glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-        }
+        #endif
 
         m_icons[0].pixels = stbi_load(m_iconPath, &m_icons[0].width, &m_icons[0].height, 0, 4);
         glfwSetWindowIcon(m_window, 1, m_icons);
@@ -88,11 +88,10 @@ namespace MachGL {
             return;
         }
 
-        if (m_debug) {
-           
+        #ifdef MACHGL_DEBUG
             glEnable(GL_DEBUG_OUTPUT);
             glDebugMessageCallback(MessageCallback, 0);
-        }
+        #endif
 
         glfwGetFramebufferSize(m_window, &m_width, &m_height);
         glViewport(0, 0, m_width, m_height);

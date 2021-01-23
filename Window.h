@@ -20,16 +20,13 @@ namespace MachGL {
             GLFWwindow* m_window = nullptr;
             Splash* m_splashScreen = nullptr;
             Graphics::Image m_splashImage;
-            bool m_vsync = false;
-            bool m_fullscreen = false;
             double previousTime = 0;
             int frameCount = 0;
             static bool m_keys[MAX_KEYS];
             static bool m_mouseButtons[MAX_BUTTONS];
             static double mx, my;
+            bool m_vsync = false;
             bool m_isLoaded = false;
-            bool m_cursor = true;
-            bool m_debug = false;
             Timer m_timer;
             const char* m_iconPath = "Textures/defaultIcon.png";
             GLFWimage m_icons[1];
@@ -57,21 +54,6 @@ namespace MachGL {
             /// </summary>
             /// <param name="aa">MSAA multiplier</param>
             void MSAA(const int& aa) { m_aa = aa; }
-
-            /// <summary>
-            /// Enables fullscreen mode
-            /// </summary>
-            void fullscreen() { m_fullscreen = true; } 
-
-            /// <summary>
-            /// Disables the cursor for infinite mouse movement, ie. for a mouse based camera system
-            /// </summary>
-            void disableCursor() { m_cursor = false; }
-
-            /// <summary>
-            /// Enables OpenGL degub mode for more information on OpenGL errors
-            /// </summary>
-            void debug() { m_debug = true; }
 
             /// <summary>
             /// Initilizes the window.
