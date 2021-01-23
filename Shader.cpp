@@ -1,38 +1,7 @@
-#pragma once
-
 #include "Shader.h"
 
 namespace MachGL {
     namespace Graphics {
-
-        std::string readFromFile(const char* filePath) {
-
-            FILE* file;
-            errno_t error;
-
-            if ((error = fopen_s(&file, filePath, "rt")) != 0) {
-
-                std::cout << "Failed to open file" << std::endl;
-            }
-
-            if (file == NULL) {
-
-                std::cout << "Failed to open file" << std::endl;
-
-            } else {
-
-                fseek(file, 0, SEEK_END);
-                unsigned long length = ftell(file);
-                char* data = new char[length + 1];
-                memset(data, 0, length + 1);
-                fseek(file, 0, SEEK_SET);
-                fread(data, 1, length, file);
-                fclose(file);
-                std::string result(data);
-                delete[] data;
-                return result;
-            }
-        }
 
         Shader::Shader(const char* vertexPath, const char* fragmentPath) {
 
@@ -52,8 +21,8 @@ namespace MachGL {
             GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
             GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
 
-            std::string vertSourceString = readFromFile(m_vertPath);
-            std::string fragSourceString = readFromFile(m_fragPath);
+            std::string vertSourceString = Utilities::readFromFile(m_vertPath);
+            std::string fragSourceString = Utilities::readFromFile(m_fragPath);
 
             const char* vertSource = vertSourceString.c_str();
             const char* fragSource = fragSourceString.c_str();

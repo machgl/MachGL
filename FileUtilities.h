@@ -10,6 +10,7 @@ namespace Kepler {
 			FILE* file;
 			errno_t error;
 
+			//Windows only
 			if ((error = fopen_s(&file, filePath, "rt")) != 0) {
 
 				std::cout << "Failed to open file" << std::endl;

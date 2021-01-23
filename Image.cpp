@@ -5,8 +5,6 @@
 namespace MachGL {
 	namespace Graphics{
 
-		Image::Image() {}
-
 		Image::Image(const char* fileName) : m_fileName(fileName) {
 
 			m_texture = load();

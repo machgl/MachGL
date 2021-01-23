@@ -10,6 +10,8 @@ Mach::GL (Alpha)
 #include "Includes.h"
 #include "DataStructures.h"
 #include "Model.h"
+#include "Vector.h"
+#include "Noise.h"
 
 namespace MachGL {
 	namespace Object {
@@ -20,11 +22,19 @@ namespace MachGL {
 				Model* m_model;
 				int m_size;
 				int m_vertexCount;
+				float m_amplitude;
+				int m_octaves;
+				float m_roughness;
+				long m_seed;
 				Model* generateTerrain();
+				Maths::Noise noise;
 				float generateHeight(const float& x, const float& z);
 				float3 calculateNormal(const float&x, const float& z);
 			public:
-				Terrain(int size, int vertexCount);
+				Terrain() = default;
+				Terrain(const int& size, const int& vertexCount);
+				Terrain(const int& size, const int& vertexCount, const float& amplitude, 
+					const int& octaves, const float& roughness, const long& seed);
 				Model* getModel() const { return m_model; }
 		};
 	}

@@ -18,7 +18,7 @@ namespace MachGL {
 				
 			public:
 
-				Image();
+				Image() = default;
 				Image(const char* fileName);
 				Image(std::vector<const char*> fileNames);
 				GLuint load();

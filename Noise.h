@@ -13,7 +13,6 @@ Mach::GL (Alpha)
 #include "DataStructures.h"
 #include <math.h>
 
-
 namespace MachGL {
 	namespace Maths {
 
@@ -76,7 +75,7 @@ namespace MachGL {
 			y -= floor(y);
 			z -= floor(z);
 
-			double u = fade(x),
+			double u = fade(x);
 			double v = fade(y);
 			double w = fade(z);
 

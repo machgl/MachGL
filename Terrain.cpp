@@ -5,14 +5,21 @@ Mach::GL (Alpha)
 */
 
 #include "Terrain.h"
-#include "Vector.h"
 
 namespace MachGL {
 	namespace Object {
 	
-		Terrain::Terrain(int size, int vertexCount) : m_size(size), m_vertexCount(vertexCount) {
+		Terrain::Terrain(const int& size, const int& vertexCount) : m_size(size), m_vertexCount(vertexCount) {
 
 			m_model = generateTerrain();
+		}
+
+		Terrain::Terrain(const int& size, const int& vertexCount, const float& amplitude, 
+					const int& octaves, const float& roughness, const long& seed)
+					: m_amplitude(amplitude), m_octaves(octaves), m_roughness(roughness), m_seed(seed) {
+
+			m_model = generateTerrain();
+			noise = Maths::Noise(m_seed);
 		}
 
 		Model* Terrain::generateTerrain() {
@@ -66,7 +73,24 @@ namespace MachGL {
 		}
 
 		float Terrain::generateHeight(const float& x, const float& z) {
-			return 1;
+			
+			if (!m_octaves != 0) {
+
+				float total = 0;
+				float d = (float) pow(2, m_octaves - 1);
+
+				for (int i = 0; i < m_octaves; i++) {
+
+					float frequency = (float) (pow(2, i) / d);
+					float amplitude = (float) pow(m_roughness, i) * m_amplitude;
+					total += noise.getNoise(x, z, 0);
+				}
+
+				return total;
+			
+			}
+			else 
+				return 1;
 		}
 
 		float3 Terrain::calculateNormal(const float& x, const float& z) {

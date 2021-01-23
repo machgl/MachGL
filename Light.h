@@ -16,7 +16,7 @@ namespace MachGL {
 
         public:
             Light(const float3& position, const float4& color) : m_position(position), m_color(color) { }
-            ~Light() {}
+            ~Light() = default;
 
             inline void setPosition(const float3& pos) { m_position = pos; }
             inline void setColor(const float4& color) { m_color = color; }

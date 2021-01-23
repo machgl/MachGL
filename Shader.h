@@ -1,7 +1,8 @@
 #pragma once
 
+#include "Includes.h"
 #include "DataStructures.h"
-#include "glm/gtc/type_ptr.hpp"
+#include "FileUtilities.h"
 
 namespace MachGL {
     namespace Graphics {

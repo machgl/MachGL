@@ -9,8 +9,6 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
-        Model::Model() {}
-
 		Model::Model(const char* filepath) 
 			: m_filepath(filepath) {
 

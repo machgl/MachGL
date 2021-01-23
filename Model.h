@@ -27,7 +27,7 @@ namespace MachGL {
 				void tokenise(std::string const& str, const char& delim, std::vector<std::string>& out);
 				bool m_hasTexture = true;
 			public:
-				Model();
+				Model() = default;
 				Model(const char* filepath);
 				Model(const std::vector<float3>& vertices);
 				Model(const std::vector<float3>& vertices, const std::vector<float3>& normals, const std::vector<float2>& UVs, 
