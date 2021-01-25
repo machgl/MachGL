@@ -57,179 +57,173 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="Sandbox\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Window.cpp">
+    <ClCompile Include="MachGL\Source\Core\Window.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
+    <ClCompile Include="MachGL\Source\Graphics\Buffer\Buffer.cpp">
+      <Filter>Source Files\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Graphics\Buffer\IndexBuffer.cpp">
+      <Filter>Source Files\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Graphics\Buffer\VertexArray.cpp">
+      <Filter>Source Files\Graphics\Buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Graphics\Image.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Graphics\Plane.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Graphics\Renderer2D.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Graphics\Renderer3D.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Graphics\Shader.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Graphics\SimpleRect.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Object\Camera.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Buffer.cpp">
-      <Filter>Source Files\Graphics\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexBuffer.cpp">
-      <Filter>Source Files\Graphics\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexArray.cpp">
-      <Filter>Source Files\Graphics\Buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer3D.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer2D.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="MachGL\Source\Object\Model.cpp">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Image.cpp">
-      <Filter>Source Files\Graphics</Filter>
+    <ClCompile Include="MachGL\Source\Object\Object.cpp">
+      <Filter>Source Files\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Splash.cpp">
+    <ClCompile Include="MachGL\Source\Object\Skybox.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Object\Terrain.cpp">
+      <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="MachGL\Source\Screens\Splash.cpp">
       <Filter>Source Files\Screens</Filter>
     </ClCompile>
-    <ClCompile Include="SimpleRect.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="glad.c">
+    <ClCompile Include="MachGL\Vendor\glad.c">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
-    <ClCompile Include="Plane.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Skybox.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>Source Files\Object</Filter>
-    </ClCompile>
-    <ClCompile Include="SimplexNoise.cpp">
+    <ClCompile Include="MachGL\Vendor\SimplexNoise.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="MachGL\Headers\Core\CoreFunctions.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="DataStructures.h">
+    <ClInclude Include="MachGL\Headers\Core\DataStructures.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Includes.h">
+    <ClInclude Include="MachGL\Headers\Core\Includes.h">
       <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>Header Files\Object</Filter>
+    <ClInclude Include="MachGL\Headers\Core\Window.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
-    <ClInclude Include="Buffer.h">
+    <ClInclude Include="MachGL\Headers\Graphics\Buffer\Buffer.h">
       <Filter>Header Files\Graphics\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
+    <ClInclude Include="MachGL\Headers\Graphics\Buffer\IndexBuffer.h">
       <Filter>Header Files\Graphics\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="VertexArray.h">
+    <ClInclude Include="MachGL\Headers\Graphics\Buffer\VertexArray.h">
       <Filter>Header Files\Graphics\Buffers</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
+    <ClInclude Include="MachGL\Headers\Graphics\Image.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer3D.h">
+    <ClInclude Include="MachGL\Headers\Graphics\Plane.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
+    <ClInclude Include="MachGL\Headers\Graphics\Renderer2D.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer2D.h">
+    <ClInclude Include="MachGL\Headers\Graphics\Renderer3D.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>Header Files\Core</Filter>
+    <ClInclude Include="MachGL\Headers\Graphics\Shader.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Object</Filter>
+    <ClInclude Include="MachGL\Headers\Graphics\SimpleRect.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Constants.h">
+    <ClInclude Include="MachGL\Headers\Maths\Constants.h">
       <Filter>Header Files\Maths</Filter>
     </ClInclude>
-    <ClInclude Include="Image.h">
+    <ClInclude Include="MachGL\Headers\Maths\Maths.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Headers\Maths\Matrix.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Headers\Maths\Vector.h">
+      <Filter>Header Files\Maths</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Headers\Object\Camera.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Headers\Object\Light.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Splash.h">
+    <ClInclude Include="MachGL\Headers\Object\Model.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Headers\Object\Object.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Headers\Object\Skybox.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Headers\Object\Terrain.h">
+      <Filter>Header Files\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Headers\Screens\Splash.h">
       <Filter>Header Files\Screens</Filter>
     </ClInclude>
-    <ClInclude Include="CoreFunctions.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="MachGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimpleRect.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="glad.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Plane.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix.h">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector.h">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="Maths.h">
-      <Filter>Header Files\Maths</Filter>
-    </ClInclude>
-    <ClInclude Include="stb_image.h">
-      <Filter>Header Files\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Skybox.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
-    <ClInclude Include="FileUtilities.h">
+    <ClInclude Include="MachGL\Headers\Utilities\FileUtilities.h">
       <Filter>Header Files\Utilities</Filter>
     </ClInclude>
-    <ClInclude Include="SimplexNoise.h">
+    <ClInclude Include="MachGL\Headers\Utilities\Timer.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Vendor\glad.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Vendor\SimplexNoise.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\Vendor\stb_image.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="MachGL\MachGL.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="test.vert">
+    <None Include="Sandbox\Shaders\test.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="test.frag">
+    <None Include="Sandbox\Shaders\test.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="splash.vert">
+    <None Include="MachGL\CoreAssets\CoreShaders\simpleRect.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="splash.frag">
+    <None Include="MachGL\CoreAssets\CoreShaders\simpleRect.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="simpleRect.vert">
+    <None Include="MachGL\CoreAssets\CoreShaders\skybox.frag">
       <Filter>Resource Files\Shaders</Filter>
     </None>
-    <None Include="simpleRect.frag">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="skybox.vert">
-      <Filter>Resource Files\Shaders</Filter>
-    </None>
-    <None Include="skybox.frag">
+    <None Include="MachGL\CoreAssets\CoreShaders\skybox.vert">
       <Filter>Resource Files\Shaders</Filter>
     </None>
   </ItemGroup>
