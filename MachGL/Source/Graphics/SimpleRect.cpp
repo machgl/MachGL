@@ -9,23 +9,22 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Graphics {
 
-		SimpleRect::SimpleRect(const float2& pos, const float2& size, Image* image, const float& windowWidth, const float& windowHeight)
+		SimpleRect::SimpleRect(const float2& pos, const float2& size, const std::shared_ptr<Image>& image, const float& windowWidth, const float& windowHeight)
 			: m_pos(pos), m_size(size), m_image(image), m_windowWidth(windowWidth), m_windowHeight(windowHeight) { 
 
 			m_projection = Maths::Matrix::simpleOrthographic(windowWidth, windowHeight);
-			m_shader = new Shader("MachGL/CoreAssets/CoreShaders/simpleRect.vert", "MachGL/CoreAssets/CoreShaders/simpleRect.frag");
-			m_plane = new Plane(float3(m_pos.x, m_pos.y, 0), m_size, m_image);
-			m_renderer = new Renderer2D();
+			m_shader = std::unique_ptr<Shader>(new Shader("MachGL/CoreAssets/CoreShaders/simpleRect.vert", "MachGL/CoreAssets/CoreShaders/simpleRect.frag"));
+			m_plane = std::unique_ptr<Plane>(new Plane(float3(m_pos.x, m_pos.y, 0), m_size, m_image));
+			m_renderer = std::unique_ptr<Renderer2D>(new Renderer2D());
 		}
 
 		SimpleRect::SimpleRect(const float2& pos, const float2& size, const float4& color, const float& windowWidth, const float& windowHeight)
 			: m_pos(pos), m_size(size), m_color(color), m_windowWidth(windowWidth), m_windowHeight(windowHeight) {
 
 			m_projection = Maths::Matrix::simpleOrthographic(windowWidth, windowHeight);
-			m_image = nullptr;
-			m_shader = new Shader("MachGL/CoreAssets/CoreShaders/simpleRect.vert", "MachGL/CoreAssets/CoreShaders/simpleRect.frag");
-			m_plane = new Plane(float3(m_pos.x, m_pos.y, 0), m_size, m_color);
-			m_renderer = new Renderer2D();
+			m_shader = std::unique_ptr<Shader>(new Shader("MachGL/CoreAssets/CoreShaders/simpleRect.vert", "MachGL/CoreAssets/CoreShaders/simpleRect.frag"));
+			m_plane = std::unique_ptr<Plane>(new Plane(float3(m_pos.x, m_pos.y, 0), m_size, m_color));
+			m_renderer = std::unique_ptr<Renderer2D>(new Renderer2D());
 		}
 
 		void SimpleRect::render() {
@@ -44,12 +43,6 @@ namespace MachGL {
 			m_shader->disable();
 
 			glDisable(GL_BLEND);
-		}
-
-		SimpleRect::~SimpleRect() {
-
-			delete m_renderer;
-			delete m_plane;
 		}
 	}
 }

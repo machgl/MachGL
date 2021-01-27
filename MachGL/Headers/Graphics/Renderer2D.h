@@ -42,7 +42,7 @@ namespace MachGL {
 				~Renderer2D();
 
 				void begin();
-				void submit(Plane* plane);
+				void submit(const std::unique_ptr<Plane>& plane);
 				void flush();
 				void end();
 		};

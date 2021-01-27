@@ -18,8 +18,7 @@ namespace MachGL {
         int m_width, m_height;
         int m_aa = 0;
         GLFWwindow* m_window = nullptr;
-        std::unique_ptr<Splash> m_splash;
-        Splash* m_splashScreen = nullptr;
+        std::unique_ptr<Splash> m_splashScreen;
         Graphics::Image m_splashImage;
         bool m_vsync = false;
         bool m_fullscreen = false;

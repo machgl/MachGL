@@ -15,7 +15,7 @@ namespace MachGL {
 
             private:
 
-                Model* m_model;
+                std::shared_ptr<Model> m_model;
                 float3 m_position;
                 GLuint m_VAO;
                 GLuint m_VBO;
@@ -33,14 +33,14 @@ namespace MachGL {
 
             public:
                 Object();
-                Object(Model* model, const float3& position, std::shared_ptr<Graphics::Image> image);
-                Object(Model* model, const float3& position, Graphics::Image* image, const ObjectType& type);
+                Object(const std::shared_ptr<Model>& model, const float3& position, const std::shared_ptr<Graphics::Image>& image);
+                Object(const std::shared_ptr<Model>& model, const float3& position, const std::shared_ptr<Graphics::Image>&, const ObjectType& type);
                 ~Object();
 
                 inline void setShineDamper(const float& shineDamper) { m_shineDamper = shineDamper; }
                 inline void setReflectivity(const float& reflectivity) { m_reflectivity = reflectivity; }
                 inline void setColor(const float4& color) { m_color = color; }
-                inline void setTexture(std::shared_ptr<Graphics::Image> image) { m_image = image; }
+                inline void setTexture(const std::shared_ptr<Graphics::Image>& image) { m_image = image; }
                 inline void setScale(const float3& scale) { m_scale = scale; }
                 inline void setTextureScale(const float& textureScale) { m_textureScale = textureScale; }
 
@@ -57,7 +57,7 @@ namespace MachGL {
 
                 inline const GLuint getTID() const { return m_image == nullptr ? 0 : m_image->getTID(); }
 
-                inline const Model* getModel() const { return m_model; }
+                inline const std::shared_ptr<Model> getModel() const { return m_model; }
                 inline const float3& getScale() const { return m_scale; }
 
                 inline const ObjectType& getType() const { return m_type; }

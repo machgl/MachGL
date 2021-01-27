@@ -20,16 +20,16 @@ namespace MachGL {
 		class Skybox {
 
 			private:
-				Graphics::Image* m_image;
+				const std::shared_ptr<Graphics::Image>& m_image;
 				std::vector<float3> m_vertices;
 				Graphics::Renderer3D m_renderer;
 				Model m_skyboxModel;
 				Object m_skybox;
 				std::vector<Object> m_objects;
-				Graphics::Shader* m_shader;
+				std::unique_ptr<Graphics::Shader> m_shader;
 				void init();
 			public:
-				Skybox(Graphics::Image* image);
+				Skybox(const std::shared_ptr<Graphics::Image>& image);
 				void render(const matrix4x4& projection, const matrix4x4& view);
 		};
 	}

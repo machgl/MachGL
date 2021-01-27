@@ -20,7 +20,7 @@ int main() {
     Graphics::Image grassTexture("Sandbox/Textures/grassBlock.jpg");
     Graphics::Image deathstarTexture("Sandbox/Textures/deathstar.png");
     Graphics::Image dirtTexture("Sandbox/Textures/dirtTexture.jpg");
-    Graphics::SimpleRect simple(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), &crosshairTexture, WIDTH, HEIGHT);
+    Graphics::SimpleRect simple(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), std::make_shared<Graphics::Image>(crosshairTexture), WIDTH, HEIGHT);
 
     std::vector<const char*> fileNames{
 
@@ -34,7 +34,7 @@ int main() {
 
     Graphics::Image skyboxTexture(fileNames);
 
-    Object::Skybox skybox(&skyboxTexture);
+    Object::Skybox skybox(std::make_shared<Graphics::Image>(skyboxTexture));
 
     GLint m_TIDs[32] = {
                     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
@@ -66,12 +66,12 @@ int main() {
     
     Object::Terrain terrain(800, 50, 2.5f, 1, 1.5f, 1);
 
-    Object::Object scene(terrain.getModel(), float3(-200, 0, -200), std::make_shared<Graphics::Image>(&dirtTexture));
-    Object::Object sun_object(&sphereModel, sun.getPosition(), nullptr);
-    Object::Object sphere(&sphereModel, light2.getPosition(), std::make_shared<Graphics::Image>(&deathstarTexture));
-    Object::Object suzanne(&suzanneModel, light.getPosition(), std::make_shared<Graphics::Image>(&deathstarTexture));
-    Object::Object cube(&cubeModel, float3(0, 5, 10), std::make_shared<Graphics::Image>(&grassTexture));
-    Object::Object ship(&shipModel, float3(0, 15, 0), nullptr);
+    Object::Object scene(terrain.getModel(), float3(-200, 0, -200), std::make_shared<Graphics::Image>(dirtTexture));
+    Object::Object sun_object(std::make_shared<Object::Model>(sphereModel), sun.getPosition(), nullptr);
+    Object::Object sphere(std::make_shared<Object::Model>(sphereModel), light2.getPosition(), std::make_shared<Graphics::Image>(deathstarTexture));
+    Object::Object suzanne(std::make_shared<Object::Model>(suzanneModel), light.getPosition(), std::make_shared<Graphics::Image>(deathstarTexture));
+    Object::Object cube(std::make_shared<Object::Model>(cubeModel), float3(0, 5, 10), std::make_shared<Graphics::Image>(grassTexture));
+    Object::Object ship(std::make_shared<Object::Model>(shipModel), float3(0, 15, 0), nullptr);
 
     sun_object.setColor(sun.getColor());
     

@@ -11,6 +11,7 @@ namespace MachGL {
         Renderer2D::~Renderer2D() {
 
             delete m_IBO;
+            delete m_buffer;
         }
 
 		void Renderer2D::init() {
@@ -54,7 +55,7 @@ namespace MachGL {
             m_buffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
         }
 
-        void Renderer2D::submit(Plane* plane) {
+        void Renderer2D::submit(const std::unique_ptr<Plane>& plane) {
 
             const float3& position = plane->getPosition();
             const float2& size = plane->getSize();

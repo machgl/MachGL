@@ -29,6 +29,7 @@ namespace MachGL {
 
 			public:
 				Camera(const float3& position, const CameraType& cameraType, Window* window);
+				~Camera();
 				inline const float3& getPosition() const { return m_pos; }
 				void avoidDefaults() { m_defaults = false; }
 				void setForward(const float3& cameraFront) { m_cameraFront = cameraFront; }
