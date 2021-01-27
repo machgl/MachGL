@@ -1,0 +1,3 @@
+[submodule "MachGL/Vendor/include/glfw"]
+	path = MachGL/Vendor/include/glfw
+	url = https://github.com/glfw/glfw
