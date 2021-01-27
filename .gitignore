@@ -13,6 +13,7 @@
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+*.DS_Store
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -31,6 +32,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Xx]64/
+.vscode
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
