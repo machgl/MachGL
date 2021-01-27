@@ -4,10 +4,10 @@
 
 #include <iostream>
 #include "../../Vendor/glad.h"
-#include "../../Vendor/include/glfw/include/GLFW/glfw3.h"
-#include "../../Vendor/include/glm/glm/glm.hpp"
-#include "../../Vendor/include/glm/glm/gtc/matrix_transform.hpp"
-#include "../../Vendor/include/glm/glm/gtc/type_ptr.hpp"
+#include "../../Vendor/glfw/include/GLFW/glfw3.h"
+#include "../../Vendor/glm/glm/glm.hpp"
+#include "../../Vendor/glm/glm/gtc/matrix_transform.hpp"
+#include "../../Vendor/glm/glm/gtc/type_ptr.hpp"
 #include "../../Vendor/SimplexNoise.h"
 #include "math.h"
 #include <list>
