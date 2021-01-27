@@ -64,8 +64,6 @@ int main() {
     Object::Model cubeModel("Sandbox/Models/cube.obj");
     Object::Model shipModel("Sandbox/Models/ship.obj");
     
-    std::cout << sphereModel.getVertexSize() << " " << sphereModel.getUVs().size() << std::endl;
-
     Object::Terrain terrain(800, 50, 2.5f, 1, 1.5f, 1);
 
     Object::Object scene(terrain.getModel(), float3(-200, 0, -200), &dirtTexture);

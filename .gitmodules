@@ -1,6 +1,6 @@
 [submodule "MachGL/Vendor/include/glfw"]
-	path = MachGL/Vendor/include/glfw
+	path = MachGL/Vendor/glfw
 	url = https://github.com/glfw/glfw
 [submodule "MachGL/Vendor/include/glm"]
-	path = MachGL/Vendor/include/glm
+	path = MachGL/Vendor/glm
 	url = https://github.com/g-truc/glm
