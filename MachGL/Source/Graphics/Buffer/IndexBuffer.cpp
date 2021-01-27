@@ -1,4 +1,4 @@
-#include "../../Headers/Graphics/Buffer/IndexBuffer.h"
+#include "../../../Headers/Graphics/Buffer/IndexBuffer.h"
 
 namespace MachGL {
     namespace Graphics {

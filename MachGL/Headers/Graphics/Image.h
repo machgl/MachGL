@@ -2,6 +2,7 @@
 
 #include "../../Headers/Core/Includes.h"
 #include "../../Vendor/stb_image.h"
+
 namespace MachGL {
 	namespace Graphics {
 
