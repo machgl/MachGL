@@ -13,7 +13,7 @@ namespace MachGL {
             m_model = NULL;
         }   
 
-        Object::Object(Model* model, const float3& position, Graphics::Image* image)
+        Object::Object(Model* model, const float3& position, std::shared_ptr<Graphics::Image> image)
             : m_model(model), m_position(position), m_image(image), m_type(ObjectType::MESH) {
 
             loadToVAO();

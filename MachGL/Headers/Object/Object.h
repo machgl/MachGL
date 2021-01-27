@@ -23,7 +23,7 @@ namespace MachGL {
                 float4 m_color = float4(1, 1, 1, 1);
                 float3 m_scale = float3(1, 1, 1);
                 float m_TID;
-                Graphics::Image* m_image = nullptr;
+                std::shared_ptr<Graphics::Image> m_image;
                 float m_shineDamper = 1;
                 float m_reflectivity = 0;
                 float m_textureScale = 1;
@@ -33,14 +33,14 @@ namespace MachGL {
 
             public:
                 Object();
-                Object(Model* model, const float3& position, Graphics::Image* image);
+                Object(Model* model, const float3& position, std::shared_ptr<Graphics::Image> image);
                 Object(Model* model, const float3& position, Graphics::Image* image, const ObjectType& type);
                 ~Object();
 
                 inline void setShineDamper(const float& shineDamper) { m_shineDamper = shineDamper; }
                 inline void setReflectivity(const float& reflectivity) { m_reflectivity = reflectivity; }
                 inline void setColor(const float4& color) { m_color = color; }
-                inline void setTexture(Graphics::Image* image) { m_image = image; }
+                inline void setTexture(std::shared_ptr<Graphics::Image> image) { m_image = image; }
                 inline void setScale(const float3& scale) { m_scale = scale; }
                 inline void setTextureScale(const float& textureScale) { m_textureScale = textureScale; }
 

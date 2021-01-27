@@ -7,11 +7,15 @@ namespace MachGL {
     double Window::mx;
     double Window::my;
 
-    void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
-        fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
-            (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
-            type, severity, message);
-    }
+    #if defined(__WIN32__) || defined(__WIN64)
+
+        void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
+            fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+                (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+                type, severity, message);
+        }
+
+    #endif
 
     Window::Window(const char* title, const float& width, const float& height)
         : m_title(title), m_width((int)width), m_height((int)height) {
@@ -47,12 +51,22 @@ namespace MachGL {
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
         glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_NATIVE_CONTEXT_API);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-#if  defined(__APPLE__) 
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-#endif
+        #if defined(__APPLE__)
+
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
+
+        #else
+
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+
+        #endif
+
+        #if  defined(__APPLE__) 
+            glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        #endif
 
         glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -83,6 +97,8 @@ namespace MachGL {
 
         glfwMakeContextCurrent(m_window);
 
+        #if defined(__WIN32__) || defined(__WIN64__)
+
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 
             glfwTerminate();
@@ -95,6 +111,8 @@ namespace MachGL {
             glEnable(GL_DEBUG_OUTPUT);
             glDebugMessageCallback(MessageCallback, 0);
         }
+
+        #endif
 
         glfwGetFramebufferSize(m_window, &m_width, &m_height);
         glViewport(0, 0, m_width, m_height);

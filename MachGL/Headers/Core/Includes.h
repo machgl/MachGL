@@ -3,8 +3,7 @@
 #define MACH_GL_VERSION "1 (ALPHA)"
 
 #if defined(__WIN32__) || defined(__WIN64__) 
-    #include <../../Vendor/glad.h>
-    #include <../../Vendor/glfw/include/GLFW/glfw3.h>
+    #include "../../Vendor/glad.h"
 #endif
 
 #if defined(__APPLE__)
@@ -12,6 +11,7 @@
     #include <OpenGL/gl3.h>
 #endif
 
+#include "../../Vendor/glfw/include/GLFW/glfw3.h"
 #include "../../Vendor/glm/glm/glm.hpp"
 #include "../../Vendor/glm/glm/gtc/matrix_transform.hpp"
 #include "../../Vendor/glm/glm/gtc/type_ptr.hpp"
@@ -33,4 +33,5 @@
 #include <chrono>
 #include <random>
 #include <numeric>
+#include <memory>
 
