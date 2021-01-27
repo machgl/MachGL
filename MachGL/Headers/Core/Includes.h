@@ -2,7 +2,6 @@
 
 #define MACH_GL_VERSION "1 (ALPHA)"
 
-
 #if defined(__WIN32__) || defined(__WIN64__) 
     #include <../../Vendor/glad.h>
     #include <../../Vendor/glfw/include/GLFW/glfw3.h>
