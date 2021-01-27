@@ -9,14 +9,14 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
-		Skybox::Skybox(const std::shared_ptr<Graphics::Image>& image) : m_image(image) {
+		Skybox::Skybox(const std::shared_ptr<Graphics::Image>& image) 
+        : m_image(image), Object(std::make_shared<Model>(&m_skyboxModel), float3(0, 0, 0), m_image, ObjectType::SKYBOX) {
 
 			init();
 
             m_skyboxModel = Model(m_vertices);
-            m_skybox = Object(std::make_shared<Model>(&m_skyboxModel), float3(0, 0, 0), m_image, ObjectType::SKYBOX);
-            m_skybox.setScale(float3(20, 20, 20));
-            m_objects.push_back(m_skybox);
+            this->setScale(float3(20, 20, 20));
+            m_objects.push_back(*this);
             m_shader = std::unique_ptr<Graphics::Shader>(new Graphics::Shader("MachGL/CoreAssets/CoreShaders/skybox.vert", "MachGL/CoreAssets/CoreShaders/skybox.frag"));
 		}
 

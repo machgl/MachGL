@@ -17,7 +17,7 @@ Mach::Gl (Alpha)
 namespace MachGL {
 	namespace Graphics {
 
-		class SimpleRect {
+		class SimpleRect : public Plane {
 
 			private:
 				float2 m_pos;
@@ -26,7 +26,6 @@ namespace MachGL {
 				std::shared_ptr<Image> m_image;
 				matrix4x4 m_projection;
 				std::unique_ptr<Shader> m_shader;
-				std::unique_ptr<Plane> m_plane;
 				float m_windowWidth;
 				float m_windowHeight;
 				std::unique_ptr<Renderer2D> m_renderer;

@@ -8,17 +8,18 @@ namespace MachGL {
         static std::string readFromFile(const char* filePath) {
 
             FILE* file;
-            errno_t error;
 
-            if ((error = fopen_s(&file, filePath, "rt")) != 0) {
-
-                std::cout << "Failed to open file" << std::endl;
-            }
+            #if defined(__WIN32__) || defined(__WIN64__)
+                errno_t error;
+                if ((error = fopen_s(&file, filePath, "rt")) != 0) 
+                    std::cout << "Failed to open file" << std::endl;
+            #else
+                file = fopen(filePath, "rt");
+            #endif
 
             if (file == NULL) {
 
                 std::cout << "Failed to open file" << std::endl;
-
             }
             else {
 

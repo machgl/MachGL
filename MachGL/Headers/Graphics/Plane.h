@@ -14,7 +14,7 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Graphics {
 
-		class Plane {
+		class Plane{
 
 			private:
 				float3 m_position;

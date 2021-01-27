@@ -17,14 +17,13 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
-		class Skybox {
+		class Skybox : public Object {
 
 			private:
 				const std::shared_ptr<Graphics::Image>& m_image;
 				std::vector<float3> m_vertices;
 				Graphics::Renderer3D m_renderer;
 				Model m_skyboxModel;
-				Object m_skybox;
 				std::vector<Object> m_objects;
 				std::unique_ptr<Graphics::Shader> m_shader;
 				void init();
