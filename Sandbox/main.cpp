@@ -17,7 +17,7 @@ int main() {
     window.init();
 
     Graphics::Image crosshairTexture("Sandbox/Textures/crosshair.png", false);
-    Graphics::Image grassTexture("Sandbox/Textures/testTexture.jpg");
+    Graphics::Image grassTexture("Sandbox/Textures/grassBlock.jpg");
     Graphics::Image deathstarTexture("Sandbox/Textures/deathstar.png");
     Graphics::Image dirtTexture("Sandbox/Textures/dirtTexture.jpg");
     Graphics::SimpleRect simple(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), &crosshairTexture, WIDTH, HEIGHT);
@@ -31,7 +31,7 @@ int main() {
         "Sandbox/Textures/Skybox/front.jpg",
         "Sandbox/Textures/Skybox/back.jpg"
     };
-    
+
     Graphics::Image skyboxTexture(fileNames);
 
     Object::Skybox skybox(&skyboxTexture);
@@ -45,8 +45,8 @@ int main() {
 
     Object::Camera camera(float3(0, 5, 10), Object::CameraType::FPS, &window);
 
-    Object::Light light(float3(10, 10, 10), float4(1, 1, 0, 1));
-    Object::Light light2(float3(-10, 5, 10), float4(0, 1, 1, 1));
+    Object::Light light(float3(10, 10, 10), float4(1, 1, 1, 1));
+    Object::Light light2(float3(-10, 5, 10), float4(1, 1, 1, 1));
     Object::Light sun(float3(0, 70, 0), float4(1, 1, 0.8f, 1));
 
     light.setAttenuation(float3(1, 0.001f, 0.002f));
@@ -64,11 +64,13 @@ int main() {
     Object::Model cubeModel("Sandbox/Models/cube.obj");
     Object::Model shipModel("Sandbox/Models/ship.obj");
     
+    std::cout << sphereModel.getVertexSize() << " " << sphereModel.getUVs().size() << std::endl;
+
     Object::Terrain terrain(800, 50, 2.5f, 1, 1.5f, 1);
 
     Object::Object scene(terrain.getModel(), float3(-200, 0, -200), &dirtTexture);
     Object::Object sun_object(&sphereModel, sun.getPosition(), nullptr);
-    Object::Object sphere(&sphereModel, light2.getPosition(), nullptr);
+    Object::Object sphere(&sphereModel, light2.getPosition(), &deathstarTexture);
     Object::Object suzanne(&suzanneModel, light.getPosition(), &deathstarTexture);
     Object::Object cube(&cubeModel, float3(0, 5, 10), &grassTexture);
     Object::Object ship(&shipModel, float3(0, 15, 0), nullptr);

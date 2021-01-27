@@ -9,7 +9,7 @@
 namespace MachGL {
 	namespace Object {
 
-        enum class ObjectType { MESH, SKYBOX };
+        enum class ObjectType { MESH, SKYBOX, TERRAIN };
 
         class Object {
 
