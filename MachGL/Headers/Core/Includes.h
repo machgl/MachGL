@@ -2,14 +2,23 @@
 
 #define MACH_GL_VERSION "1 (ALPHA)"
 
-#include <iostream>
-#include "../../Vendor/glad.h"
-#include "../../Vendor/glfw/include/GLFW/glfw3.h"
+
+#if defined(__WIN32__) || defined(__WIN64__) 
+    #include <../../Vendor/glad.h>
+    #include <../../Vendor/glfw/include/GLFW/glfw3.h>
+#endif
+
+#if defined(__APPLE__)
+    #define GLFW_INCLUDE_GLCOREARB
+    #include <OpenGL/gl3.h>
+#endif
+
 #include "../../Vendor/glm/glm/glm.hpp"
 #include "../../Vendor/glm/glm/gtc/matrix_transform.hpp"
 #include "../../Vendor/glm/glm/gtc/type_ptr.hpp"
 #include "../../Vendor/SimplexNoise.h"
-#include "math.h"
+#include <math.h>
+#include <iostream>
 #include <list>
 #include <vector>
 #include <stdio.h>
