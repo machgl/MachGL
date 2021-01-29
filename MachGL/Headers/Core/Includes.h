@@ -2,7 +2,11 @@
 
 #define MACH_GL_VERSION "1 (ALPHA)"
 
-#if defined(__WIN32__) || defined(__WIN64__) 
+#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
+    #define WINDOWS
+#endif
+
+#if defined(WINDOWS) 
     #include "../../Vendor/glad.h"
 #endif
 

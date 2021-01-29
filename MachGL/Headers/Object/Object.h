@@ -15,7 +15,7 @@ namespace MachGL {
 
             private:
 
-                std::shared_ptr<Model> m_model;
+                Model* m_model;
                 float3 m_position;
                 GLuint m_VAO;
                 GLuint m_VBO;
@@ -33,8 +33,8 @@ namespace MachGL {
 
             public:
                 Object();
-                Object(const std::shared_ptr<Model>& model, const float3& position, const std::shared_ptr<Graphics::Image>& image);
-                Object(const std::shared_ptr<Model>& model, const float3& position, const std::shared_ptr<Graphics::Image>&, const ObjectType& type);
+                Object(Model* model, const float3& position, const std::shared_ptr<Graphics::Image>& image);
+                Object(Model* model, const float3& position, const std::shared_ptr<Graphics::Image>& image, const ObjectType& type);
                 ~Object();
 
                 inline void setShineDamper(const float& shineDamper) { m_shineDamper = shineDamper; }
@@ -57,7 +57,7 @@ namespace MachGL {
 
                 inline const GLuint getTID() const { return m_image == nullptr ? 0 : m_image->getTID(); }
 
-                inline const std::shared_ptr<Model> getModel() const { return m_model; }
+                inline const Model* getModel() const { return m_model; }
                 inline const float3& getScale() const { return m_scale; }
 
                 inline const ObjectType& getType() const { return m_type; }

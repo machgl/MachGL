@@ -18,14 +18,14 @@ namespace MachGL {
 		class Terrain {
 
 			private:
-				std::shared_ptr<Model> m_model;
+				Model* m_model;
 				int m_size;
 				int m_vertexCount;
 				float m_amplitude;
 				int m_octaves;
 				float m_roughness;
 				long m_seed;
-				std::shared_ptr<Model> generateTerrain();
+				Model* generateTerrain();
 				Noise m_noise;
 				float generateHeight(const float& x, const float& z);
 				float3 calculateNormal(const float&x, const float& z);
@@ -34,7 +34,7 @@ namespace MachGL {
 				Terrain(const int& size, const int& vertexCount);
 				Terrain(const int& size, const int& vertexCount, const float& amplitude, 
 					const int& octaves, const float& roughness, const int& seed);
-				const std::shared_ptr<Model>& getModel() const { return m_model; }
+				Model* getModel() const { return m_model; }
 		};
 	}
 }

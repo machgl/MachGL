@@ -22,7 +22,7 @@ namespace MachGL {
 			m_model = generateTerrain();
 		}
 
-		std::shared_ptr<Model> Terrain::generateTerrain() {
+		Model* Terrain::generateTerrain() {
 
 			const int count = m_vertexCount * m_vertexCount;
 			std::vector<float3> vertices(count);
@@ -69,7 +69,7 @@ namespace MachGL {
 				}
 			}
 
-			return std::shared_ptr<Model>(new Model(vertices, normals, textureCoords, indices));
+			return new Model(vertices, normals, textureCoords, indices);
 		}
 
 		float Terrain::generateHeight(const float& x, const float& z) {

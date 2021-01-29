@@ -37,11 +37,11 @@ namespace MachGL {
 
             begin(object);
 
-            const float3& position = object.getPosition();
             const std::vector<float3>& vertices = object.getModel()->getVertices();
             const float3& scale = object.getScale();
             const std::vector<float2>& UVs = object.getModel()->getUVs();
             const std::vector<float3>& normals = object.getModel()->getNormals();
+            const float3& position = object.getPosition();
             const std::vector<GLushort>& indices = object.getModel()->getIndices();
             const float& shineDamper = object.getShineDamper();
             const float& reflectivity = object.getReflectivity();

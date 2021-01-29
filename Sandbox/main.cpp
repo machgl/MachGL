@@ -67,11 +67,11 @@ int main() {
     Object::Terrain terrain(800, 50, 2.5f, 1, 1.5f, 1);
 
     Object::Object scene(terrain.getModel(), float3(-200, 0, -200), std::make_shared<Graphics::Image>(dirtTexture));
-    Object::Object sun_object(std::make_shared<Object::Model>(sphereModel), sun.getPosition(), nullptr);
-    Object::Object sphere(std::make_shared<Object::Model>(sphereModel), light2.getPosition(), std::make_shared<Graphics::Image>(deathstarTexture));
-    Object::Object suzanne(std::make_shared<Object::Model>(suzanneModel), light.getPosition(), std::make_shared<Graphics::Image>(deathstarTexture));
-    Object::Object cube(std::make_shared<Object::Model>(cubeModel), float3(0, 5, 10), std::make_shared<Graphics::Image>(grassTexture));
-    Object::Object ship(std::make_shared<Object::Model>(shipModel), float3(0, 15, 0), nullptr);
+    Object::Object sun_object(&sphereModel, sun.getPosition(), nullptr);
+    Object::Object sphere(&sphereModel, light2.getPosition(), std::make_shared<Graphics::Image>(deathstarTexture));
+    Object::Object suzanne(&suzanneModel, light.getPosition(), std::make_shared<Graphics::Image>(deathstarTexture));
+    Object::Object cube(&cubeModel, float3(0, 5, 10), std::make_shared<Graphics::Image>(grassTexture));
+    Object::Object ship(&shipModel, float3(0, 15, 0), nullptr);
 
     sun_object.setColor(sun.getColor());
     

@@ -7,7 +7,7 @@ namespace MachGL {
     double Window::mx;
     double Window::my;
 
-    #if defined(__WIN32__) || defined(__WIN64)
+    #if defined(WINDOWS)
 
         void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
             fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
@@ -97,7 +97,7 @@ namespace MachGL {
 
         glfwMakeContextCurrent(m_window);
 
-        #if defined(__WIN32__) || defined(__WIN64__)
+        #if defined(WINDOWS)
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 

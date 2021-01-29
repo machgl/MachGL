@@ -9,7 +9,7 @@ namespace MachGL {
 
             FILE* file;
 
-            #if defined(__WIN32__) || defined(__WIN64__)
+            #if defined(WINDOWS)
                 errno_t error;
                 if ((error = fopen_s(&file, filePath, "rt")) != 0) 
                     std::cout << "Failed to open file" << std::endl;

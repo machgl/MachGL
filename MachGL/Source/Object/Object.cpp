@@ -13,13 +13,13 @@ namespace MachGL {
             m_model = NULL;
         }   
 
-        Object::Object(const std::shared_ptr<Model>& model, const float3& position, const std::shared_ptr<Graphics::Image>& image)
+        Object::Object(Model* model, const float3& position, const std::shared_ptr<Graphics::Image>& image)
             : m_model(model), m_position(position), m_image(image), m_type(ObjectType::MESH) {
 
             loadToVAO();
         }
 
-        Object::Object(const std::shared_ptr<Model>& model, const float3& position, const std::shared_ptr<Graphics::Image>& image, const ObjectType& type)
+        Object::Object(Model* model, const float3& position, const std::shared_ptr<Graphics::Image>& image, const ObjectType& type)
             : m_model(model), m_position(position), m_image(image), m_type(type) {
 
             loadToVAO();
