@@ -9,15 +9,26 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
+<<<<<<< HEAD
 		Skybox::Skybox(const std::shared_ptr<Graphics::Image>& image) 
         : m_image(image), Object(&m_skyboxModel, float3(0, 0, 0), m_image, ObjectType::SKYBOX) {
+=======
+		Skybox::Skybox(Graphics::Image* image) : m_image(image) {
+>>>>>>> parent of 7a8f169... Smart Pointers
 
 			init();
 
             m_skyboxModel = Model(m_vertices);
+<<<<<<< HEAD
             //this->setScale(float3(20, 20, 20));
             //m_objects.push_back(*this);
             m_shader = std::unique_ptr<Graphics::Shader>(new Graphics::Shader("MachGL/CoreAssets/CoreShaders/skybox.vert", "MachGL/CoreAssets/CoreShaders/skybox.frag"));
+=======
+            m_skybox = Object(&m_skyboxModel, float3(0, 0, 0), m_image, ObjectType::SKYBOX);
+            m_skybox.setScale(float3(20, 20, 20));
+            m_objects.push_back(m_skybox);
+            m_shader = new Graphics::Shader("MachGL/CoreAssets/CoreShaders/skybox.vert", "MachGL/CoreAssets/CoreShaders/skybox.frag");
+>>>>>>> parent of 7a8f169... Smart Pointers
 		}
 
 		void Skybox::init() {

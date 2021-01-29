@@ -130,7 +130,7 @@ namespace MachGL {
 
 
         m_splashImage = Graphics::Image("MachGL/CoreAssets/CoreTextures/splash.png");
-        m_splashScreen = std::unique_ptr<Splash>(new Splash((float)m_width, (float)m_height, std::make_unique<Graphics::Image>(m_splashImage)));
+        m_splashScreen = new Splash((float)m_width, (float)m_height, &m_splashImage);
     }
 
     void Window::clear() {

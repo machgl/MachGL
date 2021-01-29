@@ -15,7 +15,7 @@ namespace MachGL {
 			setupUVs();
 		}
 
-		Plane::Plane(const float3& position, const float2& size, const std::shared_ptr<Image>& image)
+		Plane::Plane(const float3& position, const float2& size, Image* image)
 			: m_position(position), m_size(size), m_image(image) { 
 		
 			m_color = float4();

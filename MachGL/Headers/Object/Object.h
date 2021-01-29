@@ -33,14 +33,19 @@ namespace MachGL {
 
             public:
                 Object();
+<<<<<<< HEAD
                 Object(Model* model, const float3& position, const std::shared_ptr<Graphics::Image>& image);
                 Object(Model* model, const float3& position, const std::shared_ptr<Graphics::Image>& image, const ObjectType& type);
+=======
+                Object(Model* model, const float3& position, std::shared_ptr<Graphics::Image> image);
+                Object(Model* model, const float3& position, Graphics::Image* image, const ObjectType& type);
+>>>>>>> parent of 7a8f169... Smart Pointers
                 ~Object();
 
                 inline void setShineDamper(const float& shineDamper) { m_shineDamper = shineDamper; }
                 inline void setReflectivity(const float& reflectivity) { m_reflectivity = reflectivity; }
                 inline void setColor(const float4& color) { m_color = color; }
-                inline void setTexture(const std::shared_ptr<Graphics::Image>& image) { m_image = image; }
+                inline void setTexture(std::shared_ptr<Graphics::Image> image) { m_image = image; }
                 inline void setScale(const float3& scale) { m_scale = scale; }
                 inline void setTextureScale(const float& textureScale) { m_textureScale = textureScale; }
 

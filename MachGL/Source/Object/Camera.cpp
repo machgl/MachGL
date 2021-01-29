@@ -9,11 +9,6 @@ namespace MachGL {
 			m_originalY = m_originalPos.y;
 		}
 
-		Camera::~Camera() {
-
-			delete m_window;
-		}
-
 		void Camera::moveX(const float& velocity) {
 			
 			m_pos += velocity * m_cameraFront;

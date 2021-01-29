@@ -21,14 +21,14 @@ namespace MachGL {
 				float2 m_size;
 				float m_TID;
 				float4 m_color;
-				std::shared_ptr<Image> m_image;
+				Image* m_image = nullptr;
 				std::vector<float2> m_uvs;
 				
 				void setupUVs();
 				
 			public:
 				Plane(const float3& position, const float2& size, const float4& color);
-				Plane(const float3& position, const float2& size, const std::shared_ptr<Image>& image);
+				Plane(const float3& position, const float2& size, Image* image);
 
 				inline const float3& getPosition() const { return m_position; }
 				inline const float2& getSize() const { return m_size; }

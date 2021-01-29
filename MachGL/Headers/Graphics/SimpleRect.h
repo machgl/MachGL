@@ -23,12 +23,17 @@ namespace MachGL {
 				float2 m_pos;
 				float2 m_size;
 				float4 m_color = float4(1.0f, 1.0f, 1.0f, 1.0f);
-				std::shared_ptr<Image> m_image;
+				Image* m_image;
 				matrix4x4 m_projection;
+<<<<<<< HEAD
 				std::unique_ptr<Shader> m_shader;
+=======
+				Shader* m_shader;
+				Plane* m_plane;
+>>>>>>> parent of 7a8f169... Smart Pointers
 				float m_windowWidth;
 				float m_windowHeight;
-				std::unique_ptr<Renderer2D> m_renderer;
+				Renderer2D* m_renderer;
 				GLint m_TIDs[32] = { 
 					0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,
 					16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 
@@ -36,10 +41,10 @@ namespace MachGL {
 				float m_alpha = 1.0f;
 				
 			public:
-				SimpleRect(const float2& pos, const float2& size, const std::shared_ptr<Image>& image, const float& windowWidth, const float& windowHeight);
+				SimpleRect(const float2& pos, const float2& size, Image* image, const float& windowWidth, const float& windowHeight);
 				SimpleRect(const float2& pos, const float2& size, const float4& color, const float& windowWidth, const float& windowHeight);
 				void render();
-				~SimpleRect() = default;
+				~SimpleRect();
 
 				inline void setAlpha(const float& alpha) { m_alpha = alpha; }
 		};
