@@ -3,21 +3,33 @@
 namespace MachGL {
     namespace Graphics {
 
+        typedef Object::ObjectType type;
+
         Renderer3D::~Renderer3D() {
 
             delete m_buffer;
             delete m_indexBuffer;
         }
 
-        void Renderer3D::begin(const Object::Object& object) {
+        void Renderer3D::begin(const Object::Object& object){
 
             glBindBuffer(GL_ARRAY_BUFFER, object.getVBO());
             m_buffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 
-            if (object.getType() == Object::ObjectType::MESH) {
+            if (object.getType() == type::MESH || object.getType() == type::TERRAIN) {
 
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object.getIBO());
                 m_indexBuffer = (Index*)glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
+            }
+        }
+
+        void Renderer3D::submit(const std::vector<Object::Object>& objects) {
+
+            for (int i = 0; i < objects.size(); i++) {
+
+                if (objects[i].getType() == type::MESH) renderMesh(objects[i]);
+                if (objects[i].getType() == type::SKYBOX) renderSkybox(objects[i]);
+                if (objects[i].getType() == type::TERRAIN) renderTerrain(objects[i]);
             }
         }
 
@@ -26,11 +38,41 @@ namespace MachGL {
             glUnmapBuffer(GL_ARRAY_BUFFER);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-            if (object.getType() == Object::ObjectType::MESH) {
+            if (object.getType() == type::MESH || object.getType() == type::TERRAIN) {
 
                 glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
             }
+        }
+
+        void Renderer3D::flush(const Object::Object& object) {
+
+            glBindVertexArray(object.getVAO());
+            
+            if (object.getType() == type::MESH || object.getType() == type::TERRAIN) {
+
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object.getIBO());
+                glEnable(GL_CULL_FACE);
+                glCullFace(GL_BACK);
+                glFrontFace(GL_CCW);
+            }
+
+            if (object.getType() == type::MESH || object.getType() == type::TERRAIN)
+                glDrawElements(GL_TRIANGLES, object.getModel()->getIndexSize(), GL_UNSIGNED_SHORT, NULL);
+
+            if (object.getType() == type::SKYBOX)
+                glDrawArrays(GL_TRIANGLES, 0, object.getModel()->getVertices().size());
+
+            if (object.getType() == type::MESH || object.getType() == type::TERRAIN) {
+
+                glDisable(GL_CULL_FACE);
+                glBindTexture(GL_TEXTURE_2D, 0);
+            }
+
+            if (object.getType() == type::MESH || object.getType() == type::TERRAIN)
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+            glBindVertexArray(0);
         }
 
         void Renderer3D::renderMesh(const Object::Object& object) {
@@ -126,18 +168,7 @@ namespace MachGL {
                 glBindTexture(GL_TEXTURE_2D, m_textureSlots[i]);
             }
 
-            glBindVertexArray(object.getVAO());
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object.getIBO());
-
-            glEnable(GL_CULL_FACE);
-            glCullFace(GL_BACK);
-            glFrontFace(GL_CCW);
-            glDrawElements(GL_TRIANGLES, object.getModel()->getIndexSize(), GL_UNSIGNED_SHORT, NULL);
-            glDisable(GL_CULL_FACE);
-
-            glBindTexture(GL_TEXTURE_2D, 0);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-            glBindVertexArray(0);
+            flush(object);
         }
 
         void Renderer3D::renderSkybox(const Object::Object& object) {
@@ -160,12 +191,7 @@ namespace MachGL {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_CUBE_MAP, tid);
 
-            glBindVertexArray(object.getVAO());
-
-            glDrawArrays(GL_TRIANGLES, 0, object.getModel()->getVertices().size());
-
-            glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-            glBindVertexArray(0);
+            flush(object);
         }
 
         void Renderer3D::renderTerrain(const Object::Object& object) {
@@ -218,7 +244,6 @@ namespace MachGL {
                     m_textureSlots.push_back(tid);
                     ts = (float)(m_textureSlots.size());
                 }
-
             }
             else {
 
@@ -261,28 +286,7 @@ namespace MachGL {
                 glBindTexture(GL_TEXTURE_2D, m_textureSlots[i]);
             }
 
-            glBindVertexArray(object.getVAO());
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, object.getIBO());
-
-            glEnable(GL_CULL_FACE);
-            glCullFace(GL_BACK);
-            glFrontFace(GL_CCW);
-            glDrawElements(GL_TRIANGLES, object.getModel()->getIndexSize(), GL_UNSIGNED_SHORT, NULL);
-            glDisable(GL_CULL_FACE);
-
-            glBindTexture(GL_TEXTURE_2D, 0);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-            glBindVertexArray(0);
-        }
-
-        void Renderer3D::submit(const std::vector<Object::Object>& objects) {
-
-            for (int i = 0; i < objects.size(); i++) {
-
-                if (objects[i].getType() == Object::ObjectType::MESH) renderMesh(objects[i]);
-                if (objects[i].getType() == Object::ObjectType::SKYBOX) renderSkybox(objects[i]);
-                if (objects[i].getType() == Object::ObjectType::TERRAIN) renderTerrain(objects[i]);
-            }
+            flush(object);
         }
    }
 }

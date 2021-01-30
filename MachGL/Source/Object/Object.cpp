@@ -5,6 +5,7 @@ namespace MachGL {
 
         Object::Object() { 
             
+            m_position = float3();
             m_type = ObjectType::MESH;
             m_VAO = 0;
             m_IBO = 0;
@@ -13,24 +14,62 @@ namespace MachGL {
             m_model = NULL;
         }   
 
-<<<<<<< HEAD
-        Object::Object(Model* model, const float3& position, const std::shared_ptr<Graphics::Image>& image)
-=======
-        Object::Object(Model* model, const float3& position, std::shared_ptr<Graphics::Image> image)
->>>>>>> parent of 7a8f169... Smart Pointers
+        Object::Object(Model* model, const float3& position, Graphics::Image* image)
             : m_model(model), m_position(position), m_image(image), m_type(ObjectType::MESH) {
 
             loadToVAO();
+            generateCubeBounds();
         }
 
-<<<<<<< HEAD
-        Object::Object(Model* model, const float3& position, const std::shared_ptr<Graphics::Image>& image, const ObjectType& type)
-=======
         Object::Object(Model* model, const float3& position, Graphics::Image* image, const ObjectType& type)
->>>>>>> parent of 7a8f169... Smart Pointers
             : m_model(model), m_position(position), m_image(image), m_type(type) {
 
             loadToVAO();
+            generateCubeBounds();
+        }
+
+        void Object::generateCubeBounds() {
+
+            std::vector<float3> cube = {
+
+                float3(-0.5f, -0.5f, -0.5f),
+                float3(0.5f, -0.5f, -0.5f),
+                float3(0.5f, 0.5f, -0.5f),
+                float3(-0.5f, 0.5f, -0.5f),
+                float3(-0.5f, -0.5f, 0.5f),
+                float3(0.5f, -0.5f, 0.5f),
+                float3(0.5f, 0.5f, 0.5f),
+                float3(-0.5f, 0.5f, 0.5f)
+            };
+
+            float minX, maxX, minY, maxY, minZ, maxZ;
+
+            minX = maxX = m_model->getVertices()[0].x;
+            minY = maxY = m_model->getVertices()[0].y;
+            minZ = maxZ = m_model->getVertices()[0].z;
+
+            for (int i = 0; i < m_model->getVertexSize(); i++) {
+
+                if (m_model->getVertices()[i].x < minX) minX = m_model->getVertices()[i].x;
+                if (m_model->getVertices()[i].x > maxX) maxX = m_model->getVertices()[i].x;
+                if (m_model->getVertices()[i].y < minY) minY = m_model->getVertices()[i].y;
+                if (m_model->getVertices()[i].y > maxY) maxY = m_model->getVertices()[i].y;
+                if (m_model->getVertices()[i].z < minZ) minZ = m_model->getVertices()[i].z;
+                if (m_model->getVertices()[i].z > maxZ) maxZ = m_model->getVertices()[i].z;
+            }
+
+            float3 size(maxX - minX, maxY - minY, maxZ - minZ);
+            float3 center((minX + maxX) / 2.0f, (minY + maxY) / 2.0f, (minZ + maxZ) / 2.0f);
+            size *= m_scale;
+            center += m_position;
+
+            for (int i = 0; i < 8; i++) {
+
+                cube[i] *= size;
+                cube[i] += center;
+            }
+
+            m_bounds = new Bound(size, center, cube);
         }
 
         void Object::loadToVAO() {

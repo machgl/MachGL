@@ -2,19 +2,12 @@
 
 #define MACH_GL_VERSION "1 (ALPHA)"
 
-<<<<<<< HEAD
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
     #define WINDOWS
 #endif
 
 #if defined(WINDOWS) 
     #include "../../Vendor/glad.h"
-=======
-
-#if defined(__WIN32__) || defined(__WIN64__) 
-    #include <../../Vendor/glad.h>
-    #include <../../Vendor/glfw/include/GLFW/glfw3.h>
->>>>>>> parent of 7bd52dc... Update Includes.h
 #endif
 
 #if defined(__APPLE__)

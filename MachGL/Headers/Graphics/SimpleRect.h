@@ -17,7 +17,7 @@ Mach::Gl (Alpha)
 namespace MachGL {
 	namespace Graphics {
 
-		class SimpleRect : public Plane {
+		class SimpleRect {
 
 			private:
 				float2 m_pos;
@@ -25,12 +25,8 @@ namespace MachGL {
 				float4 m_color = float4(1.0f, 1.0f, 1.0f, 1.0f);
 				Image* m_image;
 				matrix4x4 m_projection;
-<<<<<<< HEAD
-				std::unique_ptr<Shader> m_shader;
-=======
 				Shader* m_shader;
 				Plane* m_plane;
->>>>>>> parent of 7a8f169... Smart Pointers
 				float m_windowWidth;
 				float m_windowHeight;
 				Renderer2D* m_renderer;

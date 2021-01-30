@@ -66,20 +66,17 @@ int main() {
     
     Object::Terrain terrain(800, 50, 2.5f, 1, 1.5f, 1);
 
-<<<<<<< HEAD
-    Object::Object scene(terrain.getModel(), float3(-200, 0, -200), std::make_shared<Graphics::Image>(dirtTexture));
+    Object::Object scene(terrain.getModel(), float3(-200, 0, -200), &dirtTexture, Object::ObjectType::TERRAIN);
     Object::Object sun_object(&sphereModel, sun.getPosition(), nullptr);
-    Object::Object sphere(&sphereModel, light2.getPosition(), std::make_shared<Graphics::Image>(deathstarTexture));
-    Object::Object suzanne(&suzanneModel, light.getPosition(), std::make_shared<Graphics::Image>(deathstarTexture));
-    Object::Object cube(&cubeModel, float3(0, 5, 10), std::make_shared<Graphics::Image>(grassTexture));
-=======
-    Object::Object scene(terrain.getModel(), float3(-200, 0, -200), std::make_shared<Graphics::Image>(&dirtTexture));
-    Object::Object sun_object(&sphereModel, sun.getPosition(), nullptr);
-    Object::Object sphere(&sphereModel, light2.getPosition(), std::make_shared<Graphics::Image>(&deathstarTexture));
-    Object::Object suzanne(&suzanneModel, light.getPosition(), std::make_shared<Graphics::Image>(&deathstarTexture));
-    Object::Object cube(&cubeModel, float3(0, 5, 10), std::make_shared<Graphics::Image>(&grassTexture));
->>>>>>> parent of 7a8f169... Smart Pointers
-    Object::Object ship(&shipModel, float3(0, 15, 0), nullptr);
+    Object::Object sphere(&sphereModel, light2.getPosition(), &deathstarTexture);
+    Object::Object suzanne(&suzanneModel, light.getPosition(), &deathstarTexture);
+    Object::Object cube(&cubeModel, float3(0, 5, 10), &grassTexture);
+    Object::Object ship(&shipModel, float3(0, 10, 0), nullptr);
+
+    for (int i = 0; i < 8; i++) {
+
+        Maths::Vector::printVector(ship.getBounds()->getVertices()[i]);
+    }
 
     sun_object.setColor(sun.getColor());
     
@@ -98,6 +95,8 @@ int main() {
 
     suzanne.setScale(float3(5, 5, 5));
 
+    std::cout << isInBounds(sphere.getBounds(), ship.getBounds()) << std::endl;
+
     std::vector<Object::Object> objects;
     
     objects.push_back(scene);
@@ -108,7 +107,7 @@ int main() {
     objects.push_back(ship);
     
     Graphics::Renderer3D renderer3D;
-    matrix4x4 projection = Maths::Matrix::simpleProjection(90, WIDTH, HEIGHT);
+    matrix4x4 projection = Maths::Matrix::projection(90, WIDTH, HEIGHT, 0.1f, 1000);
     matrix4x4 simpleProject = Maths::Matrix::simpleOrthographic(WIDTH, HEIGHT);
 
     Timer fpsTimer;

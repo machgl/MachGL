@@ -27,6 +27,7 @@ namespace MachGL {
 				void setupUVs();
 				
 			public:
+				Plane() = default;
 				Plane(const float3& position, const float2& size, const float4& color);
 				Plane(const float3& position, const float2& size, Image* image);
 

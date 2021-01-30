@@ -16,6 +16,7 @@ namespace MachGL {
             const char* m_fragPath;
 
         public:
+            Shader() = default;
             Shader(const char* vertexPath, const char* fragmentPath);
             ~Shader();
 

@@ -7,6 +7,7 @@
 #include "../../Headers/Object/Object.h"
 #include "Shader.h"
 #include "../../Headers/Maths/Vector.h"
+#include "../../Headers/Object/Camera.h"
 
 namespace MachGL {
     namespace Graphics {
@@ -26,6 +27,7 @@ namespace MachGL {
             private:
                 void begin(const Object::Object& object);
                 void end(const Object::Object& object);
+                void flush(const Object::Object& object);
                 void renderMesh(const Object::Object& object);
                 void renderSkybox(const Object::Object& object);
                 void renderTerrain(const Object::Object& object);
