@@ -27,9 +27,23 @@ namespace MachGL {
 
             for (int i = 0; i < objects.size(); i++) {
 
-                if (objects[i].getType() == type::MESH) renderMesh(objects[i]);
-                if (objects[i].getType() == type::SKYBOX) renderSkybox(objects[i]);
-                if (objects[i].getType() == type::TERRAIN) renderTerrain(objects[i]);
+                switch (objects[i].getType()) {
+
+                    case type::SKYBOX:
+                        if (objects[i].isDynamicSkybox())
+                            renderDynamicSkybox(objects[i]);
+                        else
+                            renderSkybox(objects[i]);
+                        break;
+
+                    case type::TERRAIN:
+                        renderTerrain(objects[i]);
+                        break;
+                    
+                    default:
+                        renderMesh(objects[i]);
+                        break;
+                }
             }
         }
 
@@ -190,6 +204,30 @@ namespace MachGL {
 
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_CUBE_MAP, tid);
+
+            flush(object);
+        }
+
+        void Renderer3D::renderDynamicSkybox(const Object::Object& object) {
+
+            begin(object);
+
+            const std::vector<float3>& vertices = object.getModel()->getVertices();
+            const float3& position = object.getPosition();
+            const float3& scale = object.getScale();
+            
+            for (int i = 0; i < vertices.size(); i++) {
+
+                m_buffer->vertex = (vertices[i] * scale) + position;
+                m_buffer++;
+            }
+
+            end(object);
+
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, object.getTID());
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, object.getTID2());
 
             flush(object);
         }

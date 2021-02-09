@@ -91,7 +91,7 @@ namespace MachGL {
             glfwSetInputMode(m_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
         }
 
-        m_icons[0].pixels = stbi_load(m_iconPath, &m_icons[0].width, &m_icons[0].height, 0, 4);
+        m_icons[0].pixels = stbi_load(m_iconPath.c_str(), &m_icons[0].width, &m_icons[0].height, 0, 4);
         glfwSetWindowIcon(m_window, 1, m_icons);
         stbi_image_free(m_icons[0].pixels);
 
@@ -130,7 +130,7 @@ namespace MachGL {
 
 
         m_splashImage = Graphics::Image("MachGL/CoreAssets/CoreTextures/splash.png");
-        m_splashScreen = new Splash((float)m_width, (float)m_height, &m_splashImage);
+        m_splashScreen = make_sPoint<Splash>(Splash((float)m_width, (float)m_height, m_splashImage.ref()));
     }
 
     void Window::clear() {
@@ -140,6 +140,8 @@ namespace MachGL {
             std::cout << "Window is not initilized, make sure you call init()" << std::endl;
             return;
         }
+
+        glViewport(0, 0, m_width, m_height);
 
         glEnable(GL_DEPTH_TEST);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

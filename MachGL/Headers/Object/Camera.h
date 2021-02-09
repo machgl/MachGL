@@ -17,8 +17,8 @@ namespace MachGL {
 				float3 m_cameraFront = float3(0, 0, -1);
 				float3 m_cameraUp = float3(0, 1, 0);
 				CameraType m_cameraType = CameraType::FPS;
-				Window* m_window = nullptr;
-				float m_yaw = -90.0f;
+				sPoint<Window> m_window = nullptr;
+				float m_yaw = 0.0f;
 				float m_pitch = 0.0f;
 				float m_cameraY = m_pos.y;
 				float m_originalY = m_originalPos.y;
@@ -28,10 +28,10 @@ namespace MachGL {
 				bool m_defaults = true;
 
 			public:
-				Camera(const float3& position, const CameraType& cameraType, Window* window);
+				Camera(const float3& position, const CameraType& cameraType, const sPoint<Window>& window);
 				inline const float3& getPosition() const { return m_pos; }
 				void avoidDefaults() { m_defaults = false; }
-				void setForward(const float3& cameraFront) { m_cameraFront = cameraFront; }
+				void setYaw(const float& yaw) { m_yaw = yaw; }
 				void setUp(const float3& cameraUp) { m_cameraUp = cameraUp; }
 				void limitY(const float& cameraY) { m_cameraY = cameraY; }
 				void reset() { m_pos = m_originalPos; m_cameraY = m_originalY; };

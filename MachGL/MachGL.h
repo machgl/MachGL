@@ -52,3 +52,4 @@
 #include "Headers/Object/Model.h"
 #include "Headers/Object/Terrain.h"
 #include "Headers/Object/Skybox.h"
+#include "Headers/Graphics/Framebuffer.h"

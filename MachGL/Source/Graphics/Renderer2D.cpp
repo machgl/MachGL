@@ -2,69 +2,73 @@
 
 namespace MachGL {
 	namespace Graphics {
-        
-		Renderer2D::Renderer2D() {
-    
-            init();
-		}
 
         Renderer2D::~Renderer2D() {
 
-            delete m_IBO;
+            delete m_buffer;
+            delete m_indexBuffer;
         }
 
-		void Renderer2D::init() {
+        void Renderer2D::begin(const Plane& plane) {
 
-            glGenVertexArrays(1, &m_VAO);
-            glGenBuffers(1, &m_VBO);
-            glBindVertexArray(m_VAO);
-            glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-            glEnableVertexAttribArray(SHADER_VERTEX_INDEX);
-            glEnableVertexAttribArray(SHADER_UV_INDEX);
-            glEnableVertexAttribArray(SHADER_TID_INDEX);
-            glEnableVertexAttribArray(SHADER_COLOR_INDEX);
-            glBufferData(GL_ARRAY_BUFFER, RENDERER_BUFFER_SIZE, NULL, GL_DYNAMIC_DRAW);
-            glVertexAttribPointer(SHADER_VERTEX_INDEX, 3, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)0);
-            glVertexAttribPointer(SHADER_UV_INDEX, 2, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(Vertex, uv)));
-            glVertexAttribPointer(SHADER_TID_INDEX, 1, GL_FLOAT, GL_FALSE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(Vertex, tid)));
-            glVertexAttribPointer(SHADER_COLOR_INDEX, 4, GL_UNSIGNED_BYTE, GL_TRUE, RENDERER_VERTEX_SIZE, (const GLvoid*)(offsetof(Vertex, color)));
+            glBindBuffer(GL_ARRAY_BUFFER, plane.getVBO());
+            m_buffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, plane.getIBO());
+            m_indexBuffer = (Index*)glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
+        }
+
+        void Renderer2D::submit(const std::vector<Plane>& planes) {
+
+            for (int i = 0; i < planes.size(); i++) {
+
+                render(planes[i]);
+            }
+        }
+
+        void Renderer2D::end(const Plane& plane) {
+
+            glUnmapBuffer(GL_ARRAY_BUFFER);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-            int offset = 0;
-            for (int i = 0; i < RENDERER_INDICIES_SIZE; i += 6) {
-
-                m_indicies[i] = offset + 0;
-                m_indicies[i + 1] = offset + 1;
-                m_indicies[i + 2] = offset + 2;
-                m_indicies[i + 3] = offset + 2;
-                m_indicies[i + 4] = offset + 3;
-                m_indicies[i + 5] = offset + 0;
-
-                offset += 4;
-            }
-
-            m_IBO = new IndexBuffer(m_indicies, RENDERER_INDICIES_SIZE);
-
-            glBindVertexArray(0);
-		}
-
-        void Renderer2D::begin() {
-
-            glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-            m_buffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+            glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         }
 
-        void Renderer2D::submit(Plane* plane) {
+        void Renderer2D::flush(const Plane& plane) {
 
-            const float3& position = plane->getPosition();
-            const float2& size = plane->getSize();
-            const std::vector<float2>& uvs = plane->getUVs();
-            const GLuint tid = plane->getTID();
-            const float4& color = plane->getColor();
+            glBindVertexArray(plane.getVAO());
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, plane.getIBO());
 
-            unsigned int c = 0;
+            glDrawElements(GL_TRIANGLES, plane.getIndices().size(), GL_UNSIGNED_SHORT, NULL);
+            
+            glBindTexture(GL_TEXTURE_2D, 0);
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            glBindVertexArray(0);
+        }
+
+        void Renderer2D::render(const Plane& plane) {
+
+            begin(plane);
+
+            const std::vector<float3>& vertices = plane.getVertices();
+            const std::vector<GLushort>& indices = plane.getIndices();
+            const std::vector<float2>& uvs = plane.getUVs();
+            const float3& position = plane.getPosition();
+            const float2& size = plane.getSize();
+            const float4& color = plane.getColor();
 
             float ts = 0.0f;
+            unsigned int c = 0;
+
+            int r = color.x * 255.0f;
+            int g = color.y * 255.0f;
+            int b = color.z * 255.0f;
+            int a = color.x * 255.0f;
+
+            c = a << 24 | b << 16 | g << 8 | r;
+
+            const GLuint tid = plane.getTID();
 
             if (tid > 0) {
 
@@ -81,56 +85,35 @@ namespace MachGL {
                 }
 
                 if (!found) {
-                    
+
                     if (m_textureSlots.size() >= 32) {
 
-                        end();
-                        flush();
-                        begin();
+                        end(plane);
+                        flush(plane);
+                        begin(plane);
                     }
 
                     m_textureSlots.push_back(tid);
                     ts = (float)(m_textureSlots.size());
                 }
-
-            }  else {
-
-                int r = color.x * 255.0f;
-                int g = color.y * 255.0f;
-                int b = color.z * 255.0f;
-                int a = color.x * 255.0f;
-
-                c = a << 24 | b << 16 | g << 8 | r;
             }
 
-            m_buffer->vertex = position;
-            m_buffer->uv = uvs[0];
-            m_buffer->tid = ts;
-            m_buffer->color = c;
-            m_buffer++;
+            for (int i = 0; i < vertices.size(); i++) {
 
-            m_buffer->vertex = float3(position.x, position.y + size.y, position.z);
-            m_buffer->uv = uvs[1];
-            m_buffer->tid = ts;
-            m_buffer->color = c;
-            m_buffer++;
+                m_buffer->vertex = (vertices[i] * float3(size.x, size.y, 0)) + position;
+                m_buffer->uv = uvs[i];
+                m_buffer->tid = ts;
+                m_buffer->color = c;
+                m_buffer++;
+            }
 
-            m_buffer->vertex = float3(position.x + size.x, position.y + size.y, position.z);
-            m_buffer->uv = uvs[2];
-            m_buffer->tid = ts;
-            m_buffer->color =c;
-            m_buffer++;
+            for (int i = 0; i < indices.size(); i++) {
 
-            m_buffer->vertex = float3(position.x + size.x, position.y, position.z);
-            m_buffer->uv = uvs[3];
-            m_buffer->tid = ts;
-            m_buffer->color = c;
-            m_buffer++;
+                m_indexBuffer->index = indices[i];
+                m_indexBuffer++;
+            }
 
-            m_indexCount += 6;
-        }
-
-        void Renderer2D::flush() {
+            end(plane);
 
             for (int i = 0; i < m_textureSlots.size(); i++) {
 
@@ -138,21 +121,7 @@ namespace MachGL {
                 glBindTexture(GL_TEXTURE_2D, m_textureSlots[i]);
             }
 
-            glBindVertexArray(m_VAO);
-            m_IBO->bind();
-
-            glDrawElements(GL_TRIANGLES, m_IBO->getCount(), GL_UNSIGNED_SHORT, NULL);
-
-            m_IBO->unbind();
-            glBindVertexArray(0);
-
-            m_indexCount = 0;
-        }
-
-        void Renderer2D::end() {
-
-            glUnmapBuffer(GL_ARRAY_BUFFER);
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            flush(plane);
         }
 	}
 }

@@ -14,18 +14,21 @@ namespace MachGL {
             m_model = NULL;
         }   
 
-        Object::Object(Model* model, const float3& position, Graphics::Image* image)
-            : m_model(model), m_position(position), m_image(image), m_type(ObjectType::MESH) {
+        Object::Object(const sPoint<Model>& model, const float3& position, const sPoint<Graphics::Image>& image)
+            : m_model(model), m_position(position), m_image(image),
+            m_type(ObjectType::MESH) {
 
             loadToVAO();
             generateCubeBounds();
         }
 
-        Object::Object(Model* model, const float3& position, Graphics::Image* image, const ObjectType& type)
-            : m_model(model), m_position(position), m_image(image), m_type(type) {
+        Object::Object(const sPoint<Model>& model, const float3& position, const sPoint<Graphics::Image>& image, const sPoint<Graphics::Image>& image2, const ObjectType& type)
+            : m_model(model), m_position(position), m_image(image), m_image2(image2), m_type(type) {
 
             loadToVAO();
             generateCubeBounds();
+            if (m_image2 != nullptr)
+                m_dynamicSkybox = true;
         }
 
         void Object::generateCubeBounds() {
@@ -122,7 +125,5 @@ namespace MachGL {
 
             glBindVertexArray(0);
         }
-
-        Object::~Object() {   }
 	}
 }

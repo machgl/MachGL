@@ -25,3 +25,20 @@ struct Index {
 
     GLushort index;
 };
+
+namespace MachGL {
+
+    template<typename T> using uPoint = std::unique_ptr<T>;
+
+    template<typename T, typename ... Args> constexpr uPoint<T> make_uPoint(Args&& ... args) {
+
+        return std::make_unique<T>(std::forward<Args>(args)...);
+    }
+
+    template<typename T> using sPoint = std::shared_ptr<T>;
+
+    template<typename T, typename ... Args> constexpr sPoint<T> make_sPoint(Args&& ... args) {
+
+        return std::make_shared<T>(std::forward<Args>(args)...);
+    }
+}

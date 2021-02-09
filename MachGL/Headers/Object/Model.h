@@ -28,7 +28,7 @@ namespace MachGL {
 				bool m_hasTexture = true;
 			public:
 				Model() = default;
-				Model(const char* filepath);
+				Model(const std::string& filepath);
 				Model(const std::vector<float3>& vertices);
 				Model(const std::vector<float3>& vertices, const std::vector<float3>& normals, const std::vector<float2>& UVs, 
 					const std::vector<GLushort>& indices);
@@ -40,6 +40,7 @@ namespace MachGL {
 
 				inline const int& getVertexSize() const { return m_vertices.size(); }
 				inline const int& getIndexSize() const { return m_indices.size(); }
+				inline sPoint<Model> ref() { return make_sPoint<Model>(*this); }
 			};
 		
 	}

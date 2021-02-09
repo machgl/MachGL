@@ -1,9 +1,6 @@
 #pragma once
 
 #include "../../Headers/Core/Includes.h"
-#include "Buffer/IndexBuffer.h"
-#include "Buffer/VertexArray.h"
-#include "Buffer/Buffer.h"
 #include "../../Headers/Object/Object.h"
 #include "Shader.h"
 #include "../../Headers/Maths/Vector.h"
@@ -30,6 +27,7 @@ namespace MachGL {
                 void flush(const Object::Object& object);
                 void renderMesh(const Object::Object& object);
                 void renderSkybox(const Object::Object& object);
+                void renderDynamicSkybox(const Object::Object& object);
                 void renderTerrain(const Object::Object& object);
         };
     }

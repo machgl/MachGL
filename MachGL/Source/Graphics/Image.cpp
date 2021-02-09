@@ -6,17 +6,17 @@
 namespace MachGL {
 	namespace Graphics{
 
-		Image::Image(const char* fileName) : m_fileName(fileName) {
+		Image::Image(const std::string& fileName) : m_fileName(fileName) {
 
 			m_texture = load();
 		}
 
-		Image::Image(const char* fileName, const bool& mipmap) : m_fileName(fileName), m_mipmap(mipmap) {
+		Image::Image(const std::string& fileName, const bool& mipmap) : m_fileName(fileName), m_mipmap(mipmap) {
 
 			m_texture = load();
 		}
 
-		Image::Image(std::vector<const char*> fileNames) : m_fileNames(fileNames) {
+		Image::Image(const std::vector<std::string>& fileNames) : m_fileNames(fileNames) {
 
 			m_texture = loadCube();
 		}
@@ -29,7 +29,7 @@ namespace MachGL {
 			glGenTextures(1, &result);
 			glBindTexture(GL_TEXTURE_2D, result);
 
-			unsigned char* data = stbi_load(m_fileName, &m_width, &m_height, &m_channels, 0);
+			unsigned char* data = stbi_load(m_fileName.c_str(), &m_width, &m_height, &m_channels, 0);
 			
 			if (data) {
 
@@ -83,7 +83,7 @@ namespace MachGL {
 	
 			for (int i = 0; i < m_fileNames.size(); i++) {
 
-				unsigned char* data = stbi_load(m_fileNames[i], &m_width, &m_height, &m_channels, 0);
+				unsigned char* data = stbi_load(m_fileNames[i].c_str(), &m_width, &m_height, &m_channels, 0);
 
 				if (data) {
 

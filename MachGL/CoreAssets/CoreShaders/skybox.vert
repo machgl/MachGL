@@ -7,7 +7,6 @@ uniform mat4 _vw_matrix = mat4(1.0);
 
 out vec3 texCoords;
 
-
 void main() {
 	
 	texCoords = pos;

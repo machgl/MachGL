@@ -18,8 +18,7 @@ namespace MachGL {
         int m_width, m_height;
         int m_aa = 0;
         GLFWwindow* m_window = nullptr;
-        std::unique_ptr<Splash> m_splash;
-        Splash* m_splashScreen = nullptr;
+        sPoint<Splash> m_splashScreen = nullptr;
         Graphics::Image m_splashImage;
         bool m_vsync = false;
         bool m_fullscreen = false;
@@ -32,7 +31,7 @@ namespace MachGL {
         bool m_cursor = true;
         bool m_debug = false;
         Timer m_timer;
-        const char* m_iconPath = "MachGL/CoreAssets/CoreTextures/defaultIcon.png";
+        std::string m_iconPath = "MachGL/CoreAssets/CoreTextures/defaultIcon.png";
         GLFWimage m_icons[1];
 
     public:
@@ -159,7 +158,13 @@ namespace MachGL {
         /// Sets the icon for the window, defaults to the Mach::GL logo.
         /// </summary>
         /// <param name="file">Filepath of the icon</param>
-        void setIcon(const char* file) { m_iconPath = file; };
+        inline void setIcon(const char* file) { m_iconPath = file; };
+
+        /// <summary>
+        /// Returns a shared pointer of the window object
+        /// </summary>
+        /// <returns>Reference to the window</returns>
+        inline sPoint<Window> ref() { return make_sPoint<Window>(*this); }
     };
 }
 

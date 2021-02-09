@@ -5,13 +5,13 @@
 namespace MachGL {
 	namespace Utilities {
 
-        static std::string readFromFile(const char* filePath) {
+        static std::string readFromFile(const std::string& filePath) {
 
             FILE* file;
 
             #if defined(WINDOWS)
                 errno_t error;
-                if ((error = fopen_s(&file, filePath, "rt")) != 0) 
+                if ((error = fopen_s(&file, filePath.c_str(), "rt")) != 0) 
                     std::cout << "Failed to open file" << std::endl;
             #else
                 file = fopen(filePath, "rt");
@@ -34,6 +34,8 @@ namespace MachGL {
                 delete[] data;
                 return result;
             }
+
+            delete file;
         }
 	}
 }
