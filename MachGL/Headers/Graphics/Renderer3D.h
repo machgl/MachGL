@@ -18,6 +18,7 @@ namespace MachGL {
 
             public:
                 void submit(const std::vector<Object::Object>& objects);
+                void submit(const std::vector<Object::Object>& objects, const Object::Camera& camera, const float& renderDistance);
                 Renderer3D() = default;
                 ~Renderer3D();
             

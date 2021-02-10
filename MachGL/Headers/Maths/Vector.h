@@ -35,6 +35,10 @@ namespace MachGL {
 					std::cout << "x: " << v.x << ", y: " << v.y << std::endl;
 				}
 
+                static float distance(const float2& v1, const float2& v2) {
+                    return glm::distance(v1, v2);
+                }
+
                 //3D Vectors
 
                 static float dotProduct(const float3& v1, const float3& v2) {
@@ -57,6 +61,10 @@ namespace MachGL {
                     std::cout << "x: " << v.x << ", y: " << v.y << ", z: " << v.z << std::endl;
                 }
 
+                static float distance(const float3& v1, const float3& v2) {
+                    return glm::distance(v1, v2);
+                }
+
                 // 4D Vectors
 
                 static float dotProduct(const float4& v1, const float4& v2) {
@@ -73,6 +81,10 @@ namespace MachGL {
 
                 static void printVector(const float4& v) {
                     std::cout << "x: " << v.x << ", y: " << v.y << ", z: " << v.z << ", w: " << v.w << std::endl;
+                }
+
+                static float distance(const float4& v1, const float4& v2) {
+                    return glm::distance(v1, v2);
                 }
 		};
 	}

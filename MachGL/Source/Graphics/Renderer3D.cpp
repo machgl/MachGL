@@ -47,6 +47,30 @@ namespace MachGL {
             }
         }
 
+        void Renderer3D::submit(const std::vector<Object::Object>& objects, const Object::Camera& camera, const float& renderDistance) {
+
+            for (int i = 0; i < objects.size(); i++) {
+                switch (objects[i].getType()) {
+
+                    case type::SKYBOX:
+                        if (objects[i].isDynamicSkybox())
+                            renderDynamicSkybox(objects[i]);
+                        else
+                            renderSkybox(objects[i]);
+                        break;
+
+                    case type::TERRAIN:
+                        renderTerrain(objects[i]);
+                        break;
+
+                    default:
+                        if (Maths::Vector::distance(camera.getPosition(), objects[i].getPosition()) <= renderDistance)
+                            renderMesh(objects[i]);
+                        break;
+                }
+            }
+        }
+
         void Renderer3D::end(const Object::Object& object) {
 
             glUnmapBuffer(GL_ARRAY_BUFFER);
@@ -326,5 +350,5 @@ namespace MachGL {
 
             flush(object);
         }
-   }
+    }
 }

@@ -1,4 +1,4 @@
-#define FULLSCREEN
+//#define FULLSCREEN
 
 #if defined(FULLSCREEN)
 
@@ -250,7 +250,7 @@ int main() {
             shader.setUniformMatrix4fv("_tr_matrix", transform);
             shader.setUniformMatrix4fv("_vw_matrix", camera.getViewMatrix());
 
-            renderer3D.submit(objects);
+            renderer3D.submit(objects, camera, 50);
 
             shader.disable();
 
