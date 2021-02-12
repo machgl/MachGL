@@ -29,11 +29,13 @@ int main() {
     window.MSAA(8);
     window.init();
 
-    Graphics::Image crosshairTexture("Sandbox/Textures/crosshair.png", false);
-    Graphics::Image grassTexture("Sandbox/Textures/grassBlock.jpg");
-    Graphics::Image deathstarTexture("Sandbox/Textures/deathstar.png");
-    Graphics::Image dirtTexture("Sandbox/Textures/dirtTexture.jpg");
-    Graphics::SimpleRect crosshair(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), crosshairTexture.ref(), WIDTH, HEIGHT);
+    Graphics::Image crosshairTexture("Sandbox/Textures/crosshair.png", Graphics::ImageType::RGBA, false);
+    Graphics::Image grassTexture("Sandbox/Textures/grassBlock.jpg", Graphics::ImageType::RGB);
+    Graphics::Image deathstarTexture("Sandbox/Textures/deathstar.png", Graphics::ImageType::RGB);
+    Graphics::Image dirtTexture("Sandbox/Textures/dirtTexture.jpg", Graphics::ImageType::RGB);
+    Graphics::Image aTexture("Sandbox/Textures/a.png", Graphics::ImageType::RGB);
+    
+    Plane::SimpleRect crosshair(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), crosshairTexture.ref(), WIDTH, HEIGHT);
 
     std::vector<std::string> fileNames{
 
@@ -139,8 +141,8 @@ int main() {
 
     Graphics::Framebuffer fb(WIDTH / framebufferScale, HEIGHT / framebufferScale);
 
-    Graphics::SimpleRect framebufferQuad(float2(0, 0), float2(WIDTH / 2, HEIGHT / 2), fb.getColorTexture(), WIDTH, HEIGHT);
-
+    Plane::SimpleRect framebufferQuad(float2(0, 0), float2(WIDTH / 2, HEIGHT / 2), fb.getColorTexture(), WIDTH, HEIGHT);
+    
     while (!window.closed()) {
         
         Timer time;
@@ -259,13 +261,10 @@ int main() {
             crosshair.render();
 
             fpsTimer.getFPS();
-
         }
 
         window.update();
-        
         time.~Timer();
-
         lastTime = time.elapsedTimeMilliseconds() / 50;
     }
 

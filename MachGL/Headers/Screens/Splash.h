@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../Headers/Core/Includes.h"
-#include "../../Headers/Graphics/Image.h"
-#include "../../Headers/Graphics/SimpleRect.h"
+#include "../Core/Includes.h"
+#include "../Graphics/Image.h"
+#include "../Plane/SimpleRect.h"
 
 namespace MachGL {
 
@@ -11,7 +11,7 @@ namespace MachGL {
 		private:
 			float m_width, m_height;
 			sPoint<Graphics::Image> m_image;
-			Graphics::SimpleRect* m_splash;
+			Plane::SimpleRect* m_splash;
 			
 		public:
 			Splash(const float& width, const float& height, const sPoint<Graphics::Image>& image);

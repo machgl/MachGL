@@ -9,7 +9,7 @@ namespace MachGL {
             delete m_indexBuffer;
         }
 
-        void Renderer2D::begin(const Plane& plane) {
+        void Renderer2D::begin(const Plane::Plane& plane) {
 
             glBindBuffer(GL_ARRAY_BUFFER, plane.getVBO());
             m_buffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
@@ -18,7 +18,7 @@ namespace MachGL {
             m_indexBuffer = (Index*)glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
         }
 
-        void Renderer2D::submit(const std::vector<Plane>& planes) {
+        void Renderer2D::submit(const std::vector<Plane::Plane>& planes) {
 
             for (int i = 0; i < planes.size(); i++) {
 
@@ -26,7 +26,7 @@ namespace MachGL {
             }
         }
 
-        void Renderer2D::end(const Plane& plane) {
+        void Renderer2D::end(const Plane::Plane& plane) {
 
             glUnmapBuffer(GL_ARRAY_BUFFER);
             glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -35,19 +35,18 @@ namespace MachGL {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         }
 
-        void Renderer2D::flush(const Plane& plane) {
+        void Renderer2D::flush(const Plane::Plane& plane) {
 
             glBindVertexArray(plane.getVAO());
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, plane.getIBO());
 
             glDrawElements(GL_TRIANGLES, plane.getIndices().size(), GL_UNSIGNED_SHORT, NULL);
             
-            glBindTexture(GL_TEXTURE_2D, 0);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
             glBindVertexArray(0);
         }
 
-        void Renderer2D::render(const Plane& plane) {
+        void Renderer2D::render(const Plane::Plane& plane) {
 
             begin(plane);
 

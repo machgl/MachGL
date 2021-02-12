@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../Headers/Core/DataStructures.h"
-#include "../../Headers/Core/Includes.h"
+#include "../Core/DataStructures.h"
+#include "../Core/Includes.h"
 #include "Shader.h"
-#include "Plane.h"
-#include "../../Headers/Maths/Vector.h"
+#include "../Plane/Plane.h"
+#include "../Maths/Vector.h"
 
 namespace MachGL {
 	namespace Graphics {
@@ -19,13 +19,13 @@ namespace MachGL {
 			public:
 				Renderer2D() = default;
 				~Renderer2D();
-				void submit(const std::vector<Plane>& planes);
+				void submit(const std::vector<Plane::Plane>& planes);
 
 			private:
-				void begin(const Plane& plane);
-				void flush(const Plane& plane);
-				void end(const Plane& plane);
-				void render(const Plane& plane);
+				void begin(const Plane::Plane& plane);
+				void flush(const Plane::Plane& plane);
+				void end(const Plane::Plane& plane);
+				void render(const Plane::Plane& plane);
 		};
 	}
 }

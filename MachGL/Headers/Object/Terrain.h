@@ -7,10 +7,10 @@ Mach::GL (Alpha)
 
 #pragma once
 
-#include "../../Headers/Core/Includes.h"
-#include "../../Headers/Core/DataStructures.h"
+#include "../Core/Includes.h"
+#include "../Core/DataStructures.h"
 #include "Model.h"
-#include "../../Headers/Maths/Vector.h"
+#include "../Maths/Vector.h"
 
 namespace MachGL {
 	namespace Object {

@@ -7,12 +7,12 @@ Mach::GL (Alpha)
 
 #pragma once
 
-#include "../../Headers/Core/Includes.h"
-#include "../../Headers/Core/DataStructures.h"
-#include "Image.h"
+#include "..//Core/Includes.h"
+#include "..//Core/DataStructures.h"
+#include "../Graphics/Image.h"
 
 namespace MachGL {
-	namespace Graphics {
+	namespace Plane {
 
 		enum class PlaneType {
 
@@ -21,7 +21,7 @@ namespace MachGL {
 
 		enum class PlaneShape {
 
-			QUAD
+			QUAD, TRIANGLE, CUSTOM
 		};
 
 		class Plane{
@@ -31,7 +31,7 @@ namespace MachGL {
 				float2 m_size;
 				float m_TID;
 				float4 m_color;
-				sPoint<Image> m_image = nullptr;
+				sPoint<Graphics::Image> m_image = nullptr;
 				GLuint m_texture;
 				PlaneType m_type = PlaneType::STATIC;
 				PlaneShape m_shape = PlaneShape::QUAD;
@@ -41,6 +41,25 @@ namespace MachGL {
 				GLuint m_VAO;
 				GLuint m_VBO;
 				GLuint m_IBO;
+
+				std::vector<float3> m_triVertices = {
+
+					float3(0, 1, 0),
+					float3(1, 1, 0),
+					float3(0.5f, 0, 0)
+				};
+
+				std::vector<GLushort> m_triIndices = {
+
+					0, 1, 2
+				};
+
+				std::vector<float2> m_triUVs = {
+
+					float2(0, 0),
+					float2(1, 0),
+					float2(0.5f, 1)
+				};
 
 				std::vector<float3> m_quadVertices = {
 
@@ -66,7 +85,13 @@ namespace MachGL {
 			public:
 				Plane() = default;
 				Plane(const float3& position, const float2& size, const float4& color);
-				Plane(const float3& position, const float2& size, const sPoint<Image>& image);
+				Plane(const float3& position, const float2& size, const sPoint<Graphics::Image>& image);
+				Plane(const float3& position, const float2& size, const float4& color, const PlaneShape& shape);
+				Plane(const float3& position, const float2& size, const sPoint<Graphics::Image>& image, const PlaneShape& shape);
+				Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs,
+					const float3& position, const float3& size, const float4& color, const PlaneShape& shape);
+				Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs,
+					const float3& position, const float3& size, const sPoint<Graphics::Image>& image, const PlaneShape& shape);
 				Plane(const float3& position, const float2& size, const GLuint& texture);
 				~Plane() = default;
 

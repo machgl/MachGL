@@ -4,10 +4,10 @@ Mach::GL (Alpha)
 
 */
 
-#include "../../Headers/Graphics/Plane.h"
+#include "../../Headers/Plane/Plane.h"
 
 namespace MachGL {
-	namespace Graphics {
+	namespace Plane {
 
 		Plane::Plane(const float3& position, const float2& size, const float4& color)
 			: m_position(position), m_size(size), m_color(color) { 
@@ -16,10 +16,23 @@ namespace MachGL {
 			init();
 		}
 
-		Plane::Plane(const float3& position, const float2& size, const sPoint<Image>& image)
+		Plane::Plane(const float3& position, const float2& size, const sPoint<Graphics::Image>& image)
 			: m_position(position), m_size(size), m_image(image) { 
 		
 			m_shape = PlaneShape::QUAD;
+			m_color = float4();
+			init();
+		}
+
+		Plane::Plane(const float3& position, const float2& size, const float4& color, const PlaneShape& shape)
+			: m_position(position), m_size(size), m_color(color), m_shape(shape) {
+
+			init();
+		}
+
+		Plane::Plane(const float3& position, const float2& size, const sPoint<Graphics::Image>& image, const PlaneShape& shape)
+			: m_position(position), m_size(size), m_image(image), m_shape(shape) {
+
 			m_color = float4();
 			init();
 		}
@@ -33,6 +46,21 @@ namespace MachGL {
 			init();
 		}
 
+		Plane::Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs,
+			const float3& position, const float3& size, const float4& color, const PlaneShape& shape)
+			: m_vertices(vertices), m_indices(indices), m_UVs(uvs), m_color(color), m_shape(shape), m_position(position), m_size(size) {
+			
+			init();
+		}
+
+		Plane::Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs,
+			const float3& position, const float3& size, const sPoint<Graphics::Image>& image, const PlaneShape& shape)
+			: m_vertices(vertices), m_indices(indices), m_UVs(uvs), m_image(image), m_shape(shape), m_position(position), m_size(size) {
+
+			m_size = float3(1);
+			init();
+		}
+
 		void Plane::init() {
 
 			switch (m_shape) {
@@ -41,6 +69,12 @@ namespace MachGL {
 					m_vertices = m_quadVertices;
 					m_indices = m_quadIndices;
 					m_UVs = m_quadUVs;
+					break;
+				case PlaneShape::TRIANGLE:
+					m_vertices = m_triVertices;
+					m_indices = m_triIndices;
+					m_UVs = m_triUVs;
+				case PlaneShape::CUSTOM:
 					break;
 				default:
 					break;
@@ -72,7 +106,7 @@ namespace MachGL {
 			glVertexAttribPointer(vertex_index, 3, GL_FLOAT, GL_FALSE, vertexSize, (const GLvoid*)0);
 			glVertexAttribPointer(UV_index, 2, GL_FLOAT, GL_FALSE, vertexSize, (const GLvoid*)(offsetof(Vertex, uv)));
 			glVertexAttribPointer(TID_index, 1, GL_FLOAT, GL_FALSE, vertexSize, (const GLvoid*)(offsetof(Vertex, tid)));
-			glVertexAttribPointer(color_index, 4, GL_FLOAT, GL_FALSE, vertexSize, (const GLvoid*)(offsetof(Vertex, color)));
+			glVertexAttribPointer(color_index, 4, GL_UNSIGNED_BYTE, GL_TRUE, vertexSize, (const GLvoid*)(offsetof(Vertex, color)));
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../Headers/Core/Window.h"
-#include "../../Headers/Maths/Maths.h"
-#include "../../Headers/Core/Includes.h"
+#include "../Core/Window.h"
+#include "../Maths/Maths.h"
+#include "../Core/Includes.h"
 
 namespace MachGL {
 	namespace Object {

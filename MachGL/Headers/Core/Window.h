@@ -5,9 +5,9 @@
 
 #include "Includes.h"
 #include "DataStructures.h"
-#include "../../Headers/Screens/Splash.h"
-#include "../../Headers/Graphics/Image.h"
-#include "../../Headers/Utilities/Timer.h"
+#include "../Screens/Splash.h"
+#include "../Graphics/Image.h"
+#include "../Utilities/Timer.h"
 
 namespace MachGL {
 

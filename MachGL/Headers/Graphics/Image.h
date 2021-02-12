@@ -1,11 +1,16 @@
 #pragma once
 
-#include "../../Headers/Core/Includes.h"
+#include "../Core/Includes.h"
 #include "../../Vendor/stb_image.h"
-#include "../../Headers/Core/DataStructures.h"
+#include "../Core/DataStructures.h"
 
 namespace MachGL {
 	namespace Graphics {
+
+		enum class ImageType {
+
+			RGB, RGBA
+		};
 
 		class Image {
 
@@ -17,12 +22,13 @@ namespace MachGL {
 				std::vector<std::string> m_fileNames;
 				GLuint m_texture = 0;
 				bool m_mipmap = true;
+				ImageType m_type;
 				
 			public:
 
 				Image() = default;
-				Image(const std::string& fileName);
-				Image(const std::string& fileName, const bool& mipmap);
+				Image(const std::string& fileName, const ImageType& imageType);
+				Image(const std::string& fileName, const ImageType& imageType, const bool& mipmap);
 				Image(const std::vector<std::string>& fileNames);
 				GLuint load();
 				GLuint loadCube();

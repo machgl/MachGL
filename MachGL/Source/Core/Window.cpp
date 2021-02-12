@@ -129,7 +129,7 @@ namespace MachGL {
             glfwSwapInterval(0);
 
 
-        m_splashImage = Graphics::Image("MachGL/CoreAssets/CoreTextures/splash.png");
+        m_splashImage = Graphics::Image("MachGL/CoreAssets/CoreTextures/splash.png", Graphics::ImageType::RGBA);
         m_splashScreen = make_sPoint<Splash>(Splash((float)m_width, (float)m_height, m_splashImage.ref()));
     }
 

@@ -6,12 +6,12 @@
 namespace MachGL {
 	namespace Graphics{
 
-		Image::Image(const std::string& fileName) : m_fileName(fileName) {
+		Image::Image(const std::string& fileName, const ImageType& imageType) : m_fileName(fileName), m_type(imageType) {
 
 			m_texture = load();
 		}
 
-		Image::Image(const std::string& fileName, const bool& mipmap) : m_fileName(fileName), m_mipmap(mipmap) {
+		Image::Image(const std::string& fileName, const ImageType& imageType, const bool& mipmap) : m_fileName(fileName), m_type(imageType), m_mipmap(mipmap) {
 
 			m_texture = load();
 		}
@@ -29,11 +29,21 @@ namespace MachGL {
 			glGenTextures(1, &result);
 			glBindTexture(GL_TEXTURE_2D, result);
 
-			unsigned char* data = stbi_load(m_fileName.c_str(), &m_width, &m_height, &m_channels, 0);
-			
+			unsigned char* data = nullptr;
+
+			if (m_type == ImageType::RGB)
+				data = stbi_load(m_fileName.c_str(), &m_width, &m_height, &m_channels, STBI_rgb);
+
+			if (m_type == ImageType::RGBA)
+				data = stbi_load(m_fileName.c_str(), &m_width, &m_height, &m_channels, STBI_rgb_alpha);
+
 			if (data) {
 
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+				if (m_type == ImageType::RGB)
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+				if (m_type == ImageType::RGBA)
+					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+
 				stbi_image_free(data);
 			}
 			else {
@@ -41,7 +51,7 @@ namespace MachGL {
 				std::cout << "Unable to load: " << m_fileName << std::endl;
 				stbi_image_free(data);
 			}
-
+			
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 			if (m_mipmap) {

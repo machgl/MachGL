@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../Headers/Core/Includes.h"
-#include "../../Headers/Object/Object.h"
+#include "../Core/Includes.h"
+#include "../Object/Object.h"
 #include "Shader.h"
-#include "../../Headers/Maths/Vector.h"
-#include "../../Headers/Object/Camera.h"
+#include "../Maths/Vector.h"
+#include "../Object/Camera.h"
 
 namespace MachGL {
     namespace Graphics {

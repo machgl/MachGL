@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../../Headers/Core/Includes.h"
-#include "../../Headers/Core/DataStructures.h"
-#include "../../Headers/Utilities/FileUtilities.h"
+#include "../Core/Includes.h"
+#include "../Core/DataStructures.h"
+#include "../Utilities/FileUtilities.h"
 
 namespace MachGL {
     namespace Graphics {
