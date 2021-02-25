@@ -1,4 +1,4 @@
-//#define FULLSCREEN
+#define FULLSCREEN
 
 #if defined(FULLSCREEN)
 
@@ -35,7 +35,7 @@ int main() {
     Graphics::Image dirtTexture("Sandbox/Textures/dirtTexture.jpg", Graphics::ImageType::RGB);
     Graphics::Image aTexture("Sandbox/Textures/a.png", Graphics::ImageType::RGB);
     
-    Plane::SimpleRect crosshair(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), crosshairTexture.ref(), WIDTH, HEIGHT);
+    Plane::SimpleRect crosshair(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), crosshairTexture.ref(), window.getWindowDimension());
 
     std::vector<std::string> fileNames{
 
@@ -96,7 +96,6 @@ int main() {
 
     Object::Object scene(terrain.getModel(), float3(-200, 0, -200), dirtTexture.ref(), nullptr, Object::ObjectType::TERRAIN);
     Object::Object sun_object(sphereModel.ref(), sun.getPosition(), nullptr);
-    Object::Object sphere(sphereModel.ref(), light2.getPosition(), deathstarTexture.ref());
     Object::Object suzanne(suzanneModel.ref(), light.getPosition(), deathstarTexture.ref());
     Object::Object cube(cubeModel.ref(), float3(0, 5, 10), grassTexture.ref());
     Object::Object ship(shipModel.ref(), float3(0, 10, 0), nullptr);
@@ -108,9 +107,9 @@ int main() {
     scene.setTextureScale(40);
     scene.setScale(float3(2));
     
-    sphere.setColor(light.getColor());
-    sphere.setShineDamper(5);
-    sphere.setReflectivity(0.4f);
+    //sphere.setColor(light.getColor());
+    //sphere.setShineDamper(5);
+    //sphere.setReflectivity(0.4f);
     
     suzanne.setColor(light2.getColor());
     suzanne.setShineDamper(5);
@@ -120,29 +119,50 @@ int main() {
 
     std::vector<Object::Object> objects;
     
+    for (uint32_t x = 0; x < 8; x++) {
+        for (uint32_t y = 0; y < 8; y++) {
+            for (uint32_t z = 0; z < 8; z++) {
+
+                Object::Object sphere(cubeModel.ref(), float3(x * 10, y * 10, z * 10), grassTexture.ref());
+                sphere.create();
+                objects.push_back(sphere);
+            }
+        }
+    }
+
+
+    scene.create();
+    sun_object.create();
+    //sphere.create();
+    suzanne.create();
+    cube.create();
+    ship.create();
+
     objects.push_back(scene);
     objects.push_back(sun_object);
-    objects.push_back(sphere); 
+    //objects.push_back(sphere); 
     objects.push_back(suzanne);
     objects.push_back(cube);
     objects.push_back(ship);
     
     Graphics::Renderer3D renderer3D;
     Graphics::Renderer3D renderer3D_2;
-    matrix4x4 projection = Maths::Matrix::projection(90, WIDTH, HEIGHT, 0.1f, 1000);
-    matrix4x4 simpleProject = Maths::Matrix::simpleOrthographic(WIDTH, HEIGHT);
+    matrix4x4 projection = Maths::Matrix::projection(90, window.getWindowDimension(), 0.1f, 1000);
+    matrix4x4 simpleProject = Maths::Matrix::simpleOrthographic(window.getWindowDimension());
 
     Timer fpsTimer;
 
     float angle = 0;
-    double lastTime = 0;
+    float lastTime = 0;
 
-    int framebufferScale = 1;
+    uint32_t framebufferScale = 1;
 
     Graphics::Framebuffer fb(WIDTH / framebufferScale, HEIGHT / framebufferScale);
 
-    Plane::SimpleRect framebufferQuad(float2(0, 0), float2(WIDTH / 2, HEIGHT / 2), fb.getColorTexture(), WIDTH, HEIGHT);
-    
+    Graphics::Image fbTexture(fb.getColorTexture());
+
+    Plane::SimpleRect framebufferQuad(float2(0, 0), float2(WIDTH / 2, HEIGHT / 2), fbTexture.ref(), window.getWindowDimension());
+
     while (!window.closed()) {
         
         Timer time;
@@ -152,15 +172,15 @@ int main() {
         if (window.isWindowLoaded()) {
 
             fb.capture();
-
-            float velocity = 0.5 * lastTime;
+            
+            float velocity = 0.5f * lastTime;
             camera2.mouseMovement(0.3f);
             
             time.reset();
-
+            
             matrix4x4 transform = matrix4x4(1.0);
-
-            if (window.isKeyPressed(GLFW_KEY_ESCAPE)) MachGLClose();
+            
+            if (window.isKeyPressed(GLFW_KEY_ESCAPE)) MACH_CLOSE();
             if (window.isKeyPressed(GLFW_KEY_W)) camera2.moveX(velocity);
             if (window.isKeyPressed(GLFW_KEY_S)) camera2.moveX(-velocity);
             if (window.isKeyPressed(GLFW_KEY_D)) camera2.moveZ(velocity);
@@ -168,7 +188,7 @@ int main() {
             if (window.isKeyPressed(GLFW_KEY_SPACE)) camera2.moveY(velocity);
             if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) camera2.moveY(-velocity);
             if (window.isKeyPressed(GLFW_KEY_P)) camera2.reset();
-    
+            
             shader.enable();
             
             for (int i = 0; i < MAX_LIGHTS; i++) {
@@ -198,21 +218,21 @@ int main() {
             shader.setUniformMatrix4fv("_pr_matrix", projection);
             shader.setUniformMatrix4fv("_tr_matrix", transform);
             shader.setUniformMatrix4fv("_vw_matrix", camera2.getViewMatrix());
-
+            
             renderer3D_2.submit(objects);
-
+            
             shader.disable();
-
+            
             skybox.render(projection, camera2.getViewMatrix());
             crosshair.render();
-
+            
             fb.stop();
 
             window.clear();
 
             camera.mouseMovement(0.3f);
 
-            if (window.isKeyPressed(GLFW_KEY_ESCAPE)) MachGLClose();
+            if (window.isKeyPressed(GLFW_KEY_ESCAPE)) MACH_CLOSE();
             if (window.isKeyPressed(GLFW_KEY_W)) camera.moveX(velocity);
             if (window.isKeyPressed(GLFW_KEY_S)) camera.moveX(-velocity);
             if (window.isKeyPressed(GLFW_KEY_D)) camera.moveZ(velocity);
@@ -223,7 +243,7 @@ int main() {
 
             shader.enable();
 
-            for (int i = 0; i < MAX_LIGHTS; i++) {
+            for (uint32_t i = 0; i < MAX_LIGHTS; i++) {
 
                 std::string lightColor = "_light_color[" + std::to_string(i) + "]";
                 std::string lightPos = "_light_position[" + std::to_string(i) + "]";
@@ -267,6 +287,13 @@ int main() {
         time.~Timer();
         lastTime = time.elapsedTimeMilliseconds() / 50;
     }
+
+    scene.destroy();
+    sun_object.destroy();
+    //sphere.destroy();
+    suzanne.destroy();
+    cube.destroy();
+    ship.destroy();
 
     window.~Window();
 

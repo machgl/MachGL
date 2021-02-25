@@ -9,13 +9,13 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 	
-		Terrain::Terrain(const int& size, const int& vertexCount) : m_size(size), m_vertexCount(vertexCount) {
+		Terrain::Terrain(const uint32_t& size, const uint32_t& vertexCount) : m_size(size), m_vertexCount(vertexCount) {
 
 			m_model = generateTerrain();
 		}
 
-		Terrain::Terrain(const int& size, const int& vertexCount, const float& amplitude, 
-					const int& octaves, const float& roughness, const int& seed)
+		Terrain::Terrain(const uint32_t& size, const uint32_t& vertexCount, const float& amplitude,
+					const uint32_t& octaves, const float& roughness, const long& seed)
 					: m_size(size), m_vertexCount(vertexCount), m_amplitude(amplitude), m_octaves(octaves), m_roughness(roughness), m_seed(seed) {
 
 			m_noise = Noise(seed);
@@ -24,23 +24,23 @@ namespace MachGL {
 
 		sPoint<Model> Terrain::generateTerrain() {
 
-			const int count = m_vertexCount * m_vertexCount;
+			const uint32_t count = m_vertexCount * m_vertexCount;
 			std::vector<float3> vertices(count);
 			std::vector<float3> normals(count);
 			std::vector<float2> textureCoords(count);
-			std::vector<GLushort> indices(6 * (m_vertexCount - 1) * (m_vertexCount - 1));
+			std::vector<GLushort> indices(6 * static_cast<uint64_t>(m_vertexCount - 1) * static_cast<uint64_t>(m_vertexCount - 1));
 			int vertexPointer = 0;
 
-			for (int i = 0; i < m_vertexCount; i++) {
-				for (int j = 0; j < m_vertexCount; j++) {
+			for (uint32_t i = 0; i < m_vertexCount; i++) {
+				for (uint32_t j = 0; j < m_vertexCount; j++) {
 
-					float height = generateHeight(j, i);
+					float height = generateHeight((float)j, (float)i);
 
 					vertices[vertexPointer].x = (float) j / ((float) m_vertexCount - 1) * m_size;
 					vertices[vertexPointer].y = height;
 					vertices[vertexPointer].z = (float) i / ((float) m_vertexCount - 1) * m_size;
 
-					float3 normal = calculateNormal(j, i);
+					float3 normal = calculateNormal((float)j, (float)i);
 					normals[vertexPointer].x = normal.x;
 					normals[vertexPointer].y = normal.y;
 					normals[vertexPointer].z = normal.z;
@@ -51,15 +51,15 @@ namespace MachGL {
 				}
 			}
 
-			int pointer = 0;
+			uint32_t pointer = 0;
 
-			for (int gz = 0; gz < m_vertexCount - 1; gz++) {
-				for (int gx = 0; gx < m_vertexCount - 1; gx++) {
+			for (uint32_t gz = 0; gz < m_vertexCount - 1; gz++) {
+				for (uint32_t gx = 0; gx < m_vertexCount - 1; gx++) {
 
-					int topLeft = (gz * m_vertexCount) + gx;
-					int topRight = topLeft + 1;
-					int bottomLeft = ((gz + 1) * m_vertexCount) + gx;
-					int bottomRight = bottomLeft + 1;
+					uint32_t topLeft = (gz * m_vertexCount) + gx;
+					uint32_t topRight = topLeft + 1;
+					uint32_t bottomLeft = ((gz + 1) * m_vertexCount) + gx;
+					uint32_t bottomRight = bottomLeft + 1;
 					indices[pointer++] = topLeft;
 					indices[pointer++] = bottomLeft;
 					indices[pointer++] = topRight;
@@ -79,7 +79,7 @@ namespace MachGL {
 				float total = 0;
 				float d = (float) pow(2, m_octaves - 1);
 
-				for (int i = 0; i < m_octaves; i++) {
+				for (uint32_t i = 0; i < m_octaves; i++) {
 
 					float frequency = (float) (pow(2, i) / d);
 					float amplitude = (float) pow(m_roughness, i) * m_amplitude;

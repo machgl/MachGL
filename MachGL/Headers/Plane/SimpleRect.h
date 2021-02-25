@@ -30,8 +30,7 @@ namespace MachGL {
 				Graphics::Shader* m_dynamicShader = nullptr;
 				sPoint<Plane> m_plane = nullptr;
 				std::vector<Plane> m_planes;
-				float m_windowWidth;
-				float m_windowHeight;
+				WindowDimension m_windowDimension;
 				GLuint m_texture;
 				Graphics::Renderer2D* m_renderer = nullptr;
 				float m_alpha = 1.0f;
@@ -43,9 +42,8 @@ namespace MachGL {
 				};
 				
 			public:
-				SimpleRect(const float2& position, const float2& size, const sPoint<Graphics::Image>& image, const float& windowWidth, const float& windowHeight);
-				SimpleRect(const float2& position, const float2& size, const float4& color, const float& windowWidth, const float& windowHeight);
-				SimpleRect(const float2& position, const float2& size, const GLuint& texture, const float& windowWidth, const float& windowHeight);
+				SimpleRect(const float2& position, const float2& size, const sPoint<Graphics::Image>& image, const WindowDimension& windowDimension);
+				SimpleRect(const float2& position, const float2& size, const float4& color, const WindowDimension& windowDimension);
 				void render();
 				~SimpleRect();
 

@@ -58,12 +58,16 @@ namespace MachGL {
                 void loadToVAO();
                 ObjectType m_type;
                 bool m_dynamicSkybox = false;
-
+                Vertex* m_vertexBuffer = nullptr;
+                Index* m_indexBuffer = nullptr;
+                
             public:
                 Object();
                 Object(const sPoint<Model>& model, const float3& position, const sPoint<Graphics::Image>& image);
                 Object(const sPoint<Model>& model, const float3& position, const sPoint<Graphics::Image>& image, const sPoint<Graphics::Image>& image2, const ObjectType& type);
                 ~Object() = default;
+                void create();
+                void destroy();
 
                 inline void setShineDamper(const float& shineDamper) { m_shineDamper = shineDamper; }
                 inline void setReflectivity(const float& reflectivity) { m_reflectivity = reflectivity; }
@@ -89,6 +93,7 @@ namespace MachGL {
                 
             private:
                 void generateCubeBounds();
+                void loadToBuffers();
 		};
 	}
 }

@@ -14,9 +14,9 @@ namespace MachGL {
     class Window {
 
     private:
-        const char* m_title;
-        int m_width, m_height;
-        int m_aa = 0;
+        std::string m_title;
+        uint32_t m_width, m_height;
+        uint32_t m_aa = 0;
         GLFWwindow* m_window = nullptr;
         sPoint<Splash> m_splashScreen = nullptr;
         Graphics::Image m_splashImage;
@@ -43,7 +43,7 @@ namespace MachGL {
         /// <param name="width">Horizonal resolution</param>
         /// <param name="height">Vertical resolution</param>
         /// <param name="vsync">V-Sync on (true) or off (false)</param>
-        Window(const char* title, const float& width, const float& height);
+        Window(const std::string& title, const float& width, const float& height);
 
         ~Window();
 
@@ -56,7 +56,7 @@ namespace MachGL {
         /// Enables MSAA
         /// </summary>
         /// <param name="aa">MSAA multiplier</param>
-        void MSAA(const int& aa) { m_aa = aa; }
+        void MSAA(const uint32_t& aa) { m_aa = aa; }
 
         /// <summary>
         /// Enables fullscreen mode
@@ -146,25 +146,31 @@ namespace MachGL {
         /// Returns the horizontal resolution of the window (int).
         /// </summary>
         /// <returns>True or false</returns>
-        inline const int& getWidth() const { return m_width; }
+        inline const uint32_t& getWidth() const { return m_width; }
 
         /// <summary>
         /// Returns the vertical resolution of the window (int).
         /// </summary>
         /// <returns>True or false</returns>
-        inline const int& getHeight() const { return m_height; }
+        inline const uint32_t& getHeight() const { return m_height; }
 
         /// <summary>
         /// Sets the icon for the window, defaults to the Mach::GL logo.
         /// </summary>
         /// <param name="file">Filepath of the icon</param>
-        inline void setIcon(const char* file) { m_iconPath = file; };
+        inline void setIcon(const std::string& file) { m_iconPath = file; };
 
         /// <summary>
         /// Returns a shared pointer of the window object
         /// </summary>
         /// <returns>Reference to the window</returns>
         inline sPoint<Window> ref() { return make_sPoint<Window>(*this); }
+
+        /// <summary>
+        /// Gets the dimensions of the window as a WindowDimension struct.
+        /// </summary>
+        /// <returns>WindowDimension struct of the window dimensions.</returns>
+        const WindowDimension getWindowDimension() const;
     };
 }
 

@@ -45,7 +45,7 @@ namespace MachGL {
 				m_startTime = std::chrono::high_resolution_clock::now();
 			}
 
-			const double& elapsedTime() const {
+			float elapsedTime() {
 
 				std::chrono::time_point<std::chrono::high_resolution_clock> endTime;
 
@@ -54,16 +54,15 @@ namespace MachGL {
 				else
 					endTime = m_endTime;
 
-				return std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - m_startTime).count();
+				return (float)std::chrono::duration_cast<std::chrono::nanoseconds>(endTime - m_startTime).count();
 			}
 
-			const double& elapsedTimeMilliseconds() const {
+			float elapsedTimeMilliseconds() {
 
 				return elapsedTime() / 1000000;
 			}
 
-			const double& elapsedTimeSeconds() const {
-
+			float elapsedTimeSeconds() {
 				return elapsedTime() / 1000000000;
 			}
 

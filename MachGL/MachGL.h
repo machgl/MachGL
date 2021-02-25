@@ -1,5 +1,5 @@
 /*
-*   **********************************************************************
+*   *****************************************************************************
 *
 *   Mach::GL Alpha - mach-gl.com
 *   
@@ -7,7 +7,7 @@
 *   mixes the simplicity of high level programming and the control of 
 *   low level access. 
 *
-*   **********************************************************************
+*   *****************************************************************************
 *
 *   Copyright (c) 2020 - 2021 James Kenny
 *
@@ -24,16 +24,22 @@
 *   You should have received a copy of the GNU General Public License
 *   along with this program.  If not, see <https://www.gnu.org/licenses/>.
 *
-*   **********************************************************************
+*   *****************************************************************************
 *
-*   Include this header file to start using the Mach::GL game engine.
+* 
+* 
+* 
+* 
+* 
+*   *****************************************************************************
+* 
+*   IMPORTANT: Include this header file to start using the Mach::GL game engine.
 *
-*   **********************************************************************  
+*   *****************************************************************************  
 */
 
 #pragma once
 
-#include "Headers/Core/CoreFunctions.h"
 #include "Headers/Core/Window.h"
 #include "Headers/Object/Camera.h"
 #include "Headers/Utilities/Timer.h"
@@ -55,3 +61,4 @@
 #include "Headers/Object/Terrain.h"
 #include "Headers/Object/Skybox.h"
 #include "Headers/Graphics/Framebuffer.h"
+#include "Headers/Particle/ParticleCluster.h"

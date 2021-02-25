@@ -11,25 +11,14 @@ namespace MachGL {
 
         class Renderer3D {
 
-            private:
-                std::vector<GLuint> m_textureSlots;
-                Vertex* m_buffer = nullptr;
-                Index* m_indexBuffer = nullptr;
-
             public:
                 void submit(const std::vector<Object::Object>& objects);
                 void submit(const std::vector<Object::Object>& objects, const Object::Camera& camera, const float& renderDistance);
                 Renderer3D() = default;
-                ~Renderer3D();
+                ~Renderer3D() = default;
             
             private:
-                void begin(const Object::Object& object);
-                void end(const Object::Object& object);
                 void flush(const Object::Object& object);
-                void renderMesh(const Object::Object& object);
-                void renderSkybox(const Object::Object& object);
-                void renderDynamicSkybox(const Object::Object& object);
-                void renderTerrain(const Object::Object& object);
         };
     }
 }

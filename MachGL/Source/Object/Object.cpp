@@ -51,7 +51,7 @@ namespace MachGL {
             minY = maxY = m_model->getVertices()[0].y;
             minZ = maxZ = m_model->getVertices()[0].z;
 
-            for (int i = 0; i < m_model->getVertexSize(); i++) {
+            for (uint32_t i = 0; i < m_model->getVertexSize(); i++) {
 
                 if (m_model->getVertices()[i].x < minX) minX = m_model->getVertices()[i].x;
                 if (m_model->getVertices()[i].x > maxX) maxX = m_model->getVertices()[i].x;
@@ -66,7 +66,7 @@ namespace MachGL {
             size *= m_scale;
             center += m_position;
 
-            for (int i = 0; i < 8; i++) {
+            for (uint32_t i = 0; i < 8; i++) {
 
                 cube[i] *= size;
                 cube[i] += center;
@@ -77,18 +77,18 @@ namespace MachGL {
 
         void Object::loadToVAO() {
 
-            int vertex_index = 0;
-            int uv_index = 1;
-            int tid_index = 2;
-            int normal_index = 3;
-            int color_index = 4;
-            int shine_index = 5;
-            int reflectivity_index = 6;
-            int texture_scale_index = 7;
+            uint32_t vertex_index = 0;
+            uint32_t uv_index = 1;
+            uint32_t tid_index = 2;
+            uint32_t normal_index = 3;
+            uint32_t color_index = 4;
+            uint32_t shine_index = 5;
+            uint32_t reflectivity_index = 6;
+            uint32_t texture_scale_index = 7;
 
-            int vertexSize = sizeof(Vertex);
-            int vertexBufferSize = m_model->getVertexSize() * vertexSize;
-            int indexBufferSize = m_model->getIndexSize() * sizeof(Index);
+            uint32_t vertexSize = sizeof(Vertex);
+            uint32_t vertexBufferSize = (uint32_t)m_model->getVertexSize() * vertexSize;
+            uint32_t indexBufferSize = (uint32_t)m_model->getIndexSize() * sizeof(Index);
 
             glGenVertexArrays(1, &m_VAO);
             glGenBuffers(1, &m_VBO);
@@ -124,6 +124,94 @@ namespace MachGL {
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
             glBindVertexArray(0);
+        }
+
+        void Object::loadToBuffers() {
+
+            glBindBuffer(GL_ARRAY_BUFFER, getVBO());
+            m_vertexBuffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+            const std::vector<float3>& vertices = this->getModel()->getVertices();
+            const float3& scale = this->getScale();
+            const std::vector<float2>& UVs = this->getModel()->getUVs();
+            const std::vector<float3>& normals = this->getModel()->getNormals();
+            const float3& position = this->getPosition();
+            const std::vector<GLushort>& indices = this->getModel()->getIndices();
+            const float& shineDamper = this->getShineDamper();
+            const float& reflectivity = this->getReflectivity();
+            const float4& color = this->getColor();
+            const float& textureScale = this->getTextureScale();
+            const GLuint tid = this->getTID();
+
+            float r = color.x * 255.0f;
+            float g = color.y * 255.0f;
+            float b = color.z * 255.0f;
+            float a = color.w * 255.0f;
+
+            uint32_t c = (uint32_t)a << 24 | (uint32_t)b << 16 | (uint32_t)g << 8 | (uint32_t)r;
+
+            if (m_type == ObjectType::SKYBOX) {
+
+                for (uint32_t i = 0; i < vertices.size(); i++) {
+
+                    m_vertexBuffer->vertex = (vertices[i] * scale) + position;
+                    m_vertexBuffer++;
+                }
+            }
+            else {
+
+                for (uint32_t i = 0; i < vertices.size(); i++) {
+
+                    m_vertexBuffer->vertex = (vertices[i] * scale) + position;
+
+                    if (UVs.size() > 0) {
+
+                        m_vertexBuffer->uv = UVs[i];
+                    }
+
+                    m_vertexBuffer->normal = normals[i];
+                    if (tid != 0) m_vertexBuffer->tid = (float)tid + 1;
+                    m_vertexBuffer->color = c;
+                    m_vertexBuffer->shine = shineDamper;
+                    m_vertexBuffer->reflectivity = reflectivity;
+                    m_vertexBuffer->textureScale = textureScale;
+                    m_vertexBuffer++;
+                }
+            }
+
+            glUnmapBuffer(GL_ARRAY_BUFFER);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+            if (m_type != ObjectType::SKYBOX) {
+
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getIBO());
+                m_indexBuffer = (Index*)glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+                for (uint32_t i = 0; i < indices.size(); i++) {
+
+                    m_indexBuffer->index = indices[i];
+                    m_indexBuffer++;
+                }
+
+                glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+                glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+            }
+
+        }
+
+        void Object::create() { loadToBuffers(); }
+
+        void Object::destroy() {
+
+            if (this->getType() != ObjectType::SKYBOX)
+                glDeleteBuffers(GL_ELEMENT_ARRAY_BUFFER, &m_IBO);
+
+            glDeleteBuffers(GL_ARRAY_BUFFER, &m_VBO);
+            glDeleteVertexArrays(GL_VERTEX_ARRAY, &m_VAO);
+
+            delete m_vertexBuffer;
+            delete m_indexBuffer;
+            delete m_bounds;
         }
 	}
 }

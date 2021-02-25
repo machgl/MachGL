@@ -38,8 +38,8 @@ namespace MachGL {
 				inline const std::vector<float3>& getNormals() const { return m_vertexNormals; }
 				inline const std::vector<float2>& getUVs() const { return m_vertexTextures; }
 
-				inline const int& getVertexSize() const { return m_vertices.size(); }
-				inline const int& getIndexSize() const { return m_indices.size(); }
+				inline const size_t getVertexSize() const { return m_vertices.size(); }
+				inline const size_t getIndexSize() const { return m_indices.size(); }
 				inline sPoint<Model> ref() { return make_sPoint<Model>(*this); }
 			};
 		

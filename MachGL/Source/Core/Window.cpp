@@ -7,7 +7,7 @@ namespace MachGL {
     double Window::mx;
     double Window::my;
 
-    #if defined(WINDOWS)
+    #if defined(MACH_PLATFORM_WINDOWS)
 
         void GLAPIENTRY MessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam) {
             fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
@@ -17,7 +17,7 @@ namespace MachGL {
 
     #endif
 
-    Window::Window(const char* title, const float& width, const float& height)
+    Window::Window(const std::string& title, const float& width, const float& height)
         : m_title(title), m_width((int)width), m_height((int)height) {
 
         m_icons[0] = GLFWimage();
@@ -43,28 +43,28 @@ namespace MachGL {
             i = false;
         }
 
-        if (!glfwInit()) {
+        #if defined(MACH_VALID_PLATFORM)
+            if (!glfwInit()) {
 
-            std::cout << "GLFW failed to initilize" << std::endl;
-            return;
-        }
+                std::cout << "GLFW failed to initilize" << std::endl;
+                return;
+            }
+        #endif
 
         glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
         glfwWindowHint(GLFW_CONTEXT_CREATION_API, GLFW_NATIVE_CONTEXT_API);
 
-        #if defined(__APPLE__)
+        #if defined(MACH_PLATFORM_MAC)
 
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
             glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-        #else
-
+        #elif defined(MACH_PLATFORM_WINDOWS)
             glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
-
+            glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
         #endif
 
-        #if  defined(__APPLE__) 
+        #if defined(MACH_PLATFORM_MAC) 
             glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         #endif
 
@@ -75,9 +75,9 @@ namespace MachGL {
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
 
         if (m_fullscreen)
-            m_window = glfwCreateWindow(m_width, m_height, m_title, glfwGetPrimaryMonitor(), NULL);
+            m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), glfwGetPrimaryMonitor(), NULL);
         else
-            m_window = glfwCreateWindow(m_width, m_height, m_title, NULL, NULL);
+            m_window = glfwCreateWindow(m_width, m_height, m_title.c_str(), NULL, NULL);
 
         if (!m_window) {
 
@@ -97,31 +97,29 @@ namespace MachGL {
 
         glfwMakeContextCurrent(m_window);
 
-        #if defined(WINDOWS)
+        #if defined(MACH_PLATFORM_WINDOWS)
+            if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 
-        if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+                glfwTerminate();
+                std::cout << "Could not initilize OpenGL" << std::endl;
+                return;
+            }
 
-            glfwTerminate();
-            std::cout << "Could not initilize OpenGL" << std::endl;
-            return;
-        }
+            if (m_debug) {
 
-        if (m_debug) {
-
-            glEnable(GL_DEBUG_OUTPUT);
-            glDebugMessageCallback(MessageCallback, 0);
-        }
-
+                glEnable(GL_DEBUG_OUTPUT);
+                glDebugMessageCallback(MessageCallback, 0);
+            }
         #endif
 
-        glfwGetFramebufferSize(m_window, &m_width, &m_height);
+        glfwGetFramebufferSize(m_window, (int*)&m_width, (int*)&m_height);
         glViewport(0, 0, m_width, m_height);
         glfwSetWindowUserPointer(m_window, this);
         glfwSetWindowUserPointer(m_window, this);
         glfwSetKeyCallback(m_window, key_callback);
         glfwSetMouseButtonCallback(m_window, mouseButton_callback);
         glfwSetCursorPosCallback(m_window, cursor_position_callback);
-        std::cout << "Mach::GL Version: " << MACH_GL_VERSION << " | OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
+        std::cout << "Mach::GL Version: " << MACH_GET_VERSION() << " | OpenGL Version: " << glGetString(GL_VERSION) << " | Graphics Card: " << glGetString(GL_RENDERER)<< std::endl;
 
         if (m_vsync)
             glfwSwapInterval(1);
@@ -130,7 +128,7 @@ namespace MachGL {
 
 
         m_splashImage = Graphics::Image("MachGL/CoreAssets/CoreTextures/splash.png", Graphics::ImageType::RGBA);
-        m_splashScreen = make_sPoint<Splash>(Splash((float)m_width, (float)m_height, m_splashImage.ref()));
+        m_splashScreen = make_sPoint<Splash>(Splash(this->getWindowDimension(), m_splashImage.ref()));
     }
 
     void Window::clear() {
@@ -167,7 +165,7 @@ namespace MachGL {
         if (!m_isLoaded) {
             if (m_timer.elapsedTimeSeconds() > 2) {
 
-                m_splashScreen->setAlpha(3 - m_timer.elapsedTimeSeconds());
+                m_splashScreen->setAlpha(3 - (float)m_timer.elapsedTimeSeconds());
             }
 
             m_splashScreen->render();
@@ -218,7 +216,16 @@ namespace MachGL {
 
     void Window::getMousePosition(float2& position) {
 
-        position.x = mx;
-        position.y = my;
+        position.x = (float)mx;
+        position.y = (float)my;
     }
+    
+    const WindowDimension Window::getWindowDimension() const {
+
+        WindowDimension dimension;
+        dimension.width = m_width;
+        dimension.height = m_height;
+        return dimension;
+    }
+
 }

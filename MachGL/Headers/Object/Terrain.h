@@ -19,10 +19,10 @@ namespace MachGL {
 
 			private:
 				sPoint<Model> m_model;
-				int m_size;
-				int m_vertexCount;
+				uint32_t m_size;
+				uint32_t m_vertexCount;
 				float m_amplitude;
-				int m_octaves;
+				uint32_t m_octaves;
 				float m_roughness;
 				long m_seed;
 				sPoint<Model> generateTerrain();
@@ -31,9 +31,9 @@ namespace MachGL {
 				float3 calculateNormal(const float&x, const float& z);
 			public:
 				Terrain() = default;
-				Terrain(const int& size, const int& vertexCount);
-				Terrain(const int& size, const int& vertexCount, const float& amplitude, 
-					const int& octaves, const float& roughness, const int& seed);
+				Terrain(const uint32_t& size, const uint32_t& vertexCount);
+				Terrain(const uint32_t& size, const uint32_t& vertexCount, const float& amplitude,
+					const uint32_t& octaves, const float& roughness, const long& seed);
 				const sPoint<Model>& getModel() const { return m_model; }
 		};
 	}

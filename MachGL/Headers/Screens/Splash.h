@@ -9,12 +9,12 @@ namespace MachGL {
 	class Splash {
 
 		private:
-			float m_width, m_height;
+			WindowDimension m_windowDimension;
 			sPoint<Graphics::Image> m_image;
 			Plane::SimpleRect* m_splash;
 			
 		public:
-			Splash(const float& width, const float& height, const sPoint<Graphics::Image>& image);
+			Splash(const WindowDimension& windowDimension, const sPoint<Graphics::Image>& image);
 			void render();
 
 			inline void setAlpha(const float& alpha) { m_splash->setAlpha(alpha); }

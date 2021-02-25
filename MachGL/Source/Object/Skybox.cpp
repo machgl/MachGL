@@ -13,6 +13,7 @@ namespace MachGL {
         : m_image(image) {
 		    
             m_object = new Object(make_sPoint<Model>(Model(makeVertices())), float3(0), m_image, nullptr, ObjectType::SKYBOX);
+            m_object->create();
             m_objects.push_back(*m_object);
             m_shader = new Graphics::Shader("MachGL/CoreAssets/CoreShaders/skybox.vert", "MachGL/CoreAssets/CoreShaders/skybox.frag");
             m_type = SkyboxType::STATIC;
@@ -22,6 +23,7 @@ namespace MachGL {
             : m_image(image), m_image2(image2) {
 
             m_object = new Object(make_sPoint<Model>(Model(makeVertices())), float3(0), m_image, m_image2, ObjectType::SKYBOX);
+            m_object->create();
             m_objects.push_back(*m_object);
             m_shader = new Graphics::Shader("MachGL/CoreAssets/CoreShaders/skybox.vert", "MachGL/CoreAssets/CoreShaders/skybox.frag");
             m_type = SkyboxType::DYNAMIC;
@@ -76,7 +78,7 @@ namespace MachGL {
 
         void Skybox::cycle() {
             
-            float time = m_timer.elapsedTimeSeconds();
+            float time = (float)m_timer.elapsedTimeSeconds();
 
             if (time < m_tenPercent) 
                 m_blendFactor = 1- (time / m_tenPercent);

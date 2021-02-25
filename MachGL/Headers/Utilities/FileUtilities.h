@@ -7,35 +7,27 @@ namespace MachGL {
 
         static std::string readFromFile(const std::string& filePath) {
 
-            FILE* file;
+            std::string result;
+            std::ifstream in(filePath, std::ios::in | std::ios::binary);
 
-            #if defined(WINDOWS)
-                errno_t error;
-                if ((error = fopen_s(&file, filePath.c_str(), "rt")) != 0) 
-                    std::cout << "Failed to open file" << std::endl;
-            #else
-                file = fopen(filePath, "rt");
-            #endif
+            if (in) {
+                in.seekg(0, std::ios::end);
+                size_t size = in.tellg();
+                if (size != -1) {
 
-            if (file == NULL) {
-
-                std::cout << "Failed to open file" << std::endl;
+                    result.resize(size);
+                    in.seekg(0, std::ios::beg);
+                    in.read(&result[0], size);
+                }
+                else {
+                    MACH_ERROR_MSG("Failed to read from the file");
+                }
             }
             else {
-
-                fseek(file, 0, SEEK_END);
-                unsigned long length = ftell(file);
-                char* data = new char[length + 1];
-                memset(data, 0, length + 1);
-                fseek(file, 0, SEEK_SET);
-                fread(data, 1, length, file);
-                fclose(file);
-                std::string result(data);
-                delete[] data;
-                return result;
+                MACH_ERROR_MSG("Could not open the file");
             }
 
-            delete file;
+            return result;
         }
 	}
 }

@@ -21,6 +21,8 @@ namespace MachGL {
 			m_texture = loadCube();
 		}
 
+		Image::Image(const GLuint& tid) { m_texture = tid; }
+
 		GLuint Image::load() {
 
 			stbi_set_flip_vertically_on_load(1);
@@ -65,22 +67,19 @@ namespace MachGL {
 				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			}
 
-			#if defined(WINDOWS)
-				GLfloat value, maxAnisotropy = 8.0f;
-				if (glfwExtensionSupported("GL_ARB_texture_filter_anisotropic")) {
-				
-					glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
-					value = (value > maxAnisotropy) ? maxAnisotropy : value;
-					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, value);
-				}
-			#endif
+			GLfloat value, maxAnisotropy = 8.0f;
+			if (glfwExtensionSupported("GL_ARB_texture_filter_anisotropic")) {
+			
+				glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
+				value = (value > maxAnisotropy) ? maxAnisotropy : value;
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, value);
+			}
 		
 			glBindTexture(GL_TEXTURE_2D, 0);
 			return result;
 		}
 
 		GLuint Image::loadCube() {
-
 
 			GLuint result;
 			glGenTextures(1, &result);
@@ -91,7 +90,7 @@ namespace MachGL {
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	
-			for (int i = 0; i < m_fileNames.size(); i++) {
+			for (uint32_t i = 0; i < m_fileNames.size(); i++) {
 
 				unsigned char* data = stbi_load(m_fileNames[i].c_str(), &m_width, &m_height, &m_channels, 0);
 

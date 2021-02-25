@@ -45,7 +45,7 @@ namespace MachGL {
                 return;
             }
 
-            int vtCount = 0;
+            uint32_t vtCount = 0;
 
             while (!file.eof()) {
 
@@ -149,7 +149,7 @@ namespace MachGL {
                     m_vertexNormals[f[1] - 1] = m_normals[ni[1] - 1];
                     m_vertexNormals[f[2] - 1] = m_normals[ni[2] - 1];
 
-                    for (int i = 0; i < 3; i++) {
+                    for (uint32_t i = 0; i < 3; i++) {
 
                         m_indices.push_back(f[i] - 1);
                     }

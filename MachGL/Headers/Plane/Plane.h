@@ -14,6 +14,7 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Plane {
 
+
 		enum class PlaneType {
 
 			STATIC, DYNAMIC
@@ -22,6 +23,16 @@ namespace MachGL {
 		enum class PlaneShape {
 
 			QUAD, TRIANGLE, CUSTOM
+		};
+
+		struct PlaneProperties {
+
+			float3 position = float3(0);
+			float2 size = float2(1);
+			float4 color = float4(0);
+			PlaneShape shape = PlaneShape::QUAD;
+			sPoint<Graphics::Image> image = nullptr;
+			PlaneType type = PlaneType::STATIC;
 		};
 
 		class Plane{
@@ -41,6 +52,8 @@ namespace MachGL {
 				GLuint m_VAO;
 				GLuint m_VBO;
 				GLuint m_IBO;
+				Vertex* m_vertexBuffer = nullptr;
+				Index* m_indexBuffer = nullptr;
 
 				std::vector<float3> m_triVertices = {
 
@@ -84,16 +97,13 @@ namespace MachGL {
 
 			public:
 				Plane() = default;
-				Plane(const float3& position, const float2& size, const float4& color);
-				Plane(const float3& position, const float2& size, const sPoint<Graphics::Image>& image);
-				Plane(const float3& position, const float2& size, const float4& color, const PlaneShape& shape);
-				Plane(const float3& position, const float2& size, const sPoint<Graphics::Image>& image, const PlaneShape& shape);
-				Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs,
-					const float3& position, const float3& size, const float4& color, const PlaneShape& shape);
-				Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs,
-					const float3& position, const float3& size, const sPoint<Graphics::Image>& image, const PlaneShape& shape);
+				Plane(const PlaneProperties& properties);
+				Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs, const PlaneProperties& properties);
 				Plane(const float3& position, const float2& size, const GLuint& texture);
 				~Plane() = default;
+				
+				void create();
+				void destroy();
 
 				inline const float3& getPosition() const { return m_position; }
 				inline const float2& getSize() const { return m_size; }
@@ -111,7 +121,8 @@ namespace MachGL {
 				inline const std::vector<float2>& getUVs() const { return m_UVs; }
 
 			private:
-				void init();
+				void loadToVAO();
+				void loadToBuffers();
 		};
 	}
 }

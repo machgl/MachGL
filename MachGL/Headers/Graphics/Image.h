@@ -22,7 +22,7 @@ namespace MachGL {
 				std::vector<std::string> m_fileNames;
 				GLuint m_texture = 0;
 				bool m_mipmap = true;
-				ImageType m_type;
+				ImageType m_type = ImageType::RGB;
 				
 			public:
 
@@ -30,6 +30,7 @@ namespace MachGL {
 				Image(const std::string& fileName, const ImageType& imageType);
 				Image(const std::string& fileName, const ImageType& imageType, const bool& mipmap);
 				Image(const std::vector<std::string>& fileNames);
+				Image(const GLuint& tid);
 				GLuint load();
 				GLuint loadCube();
 				const GLsizei& getWidth() const { return m_width; }

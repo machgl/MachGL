@@ -3,7 +3,7 @@
 namespace MachGL {
     namespace Graphics {
 
-        Shader::Shader(const char* vertexPath, const char* fragmentPath) {
+        Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath) {
 
             m_vertPath = vertexPath;
             m_fragPath = fragmentPath;
@@ -82,40 +82,40 @@ namespace MachGL {
             glUseProgram(0);
         }
 
-        void Shader::setUniform1i(const char* name, const int& num) {
-            glUniform1i(glGetUniformLocation(m_shaderID, name), num);
+        void Shader::setUniform1i(const std::string& name, const int& num) {
+            glUniform1i(glGetUniformLocation(m_shaderID, name.c_str()), num);
         }
 
-        void Shader::setUniform1iv(const char* name, int* num, const int& count) {
-            glUniform1iv(glGetUniformLocation(m_shaderID, name), count, num);
+        void Shader::setUniform1iv(const std::string& name, int* num, const int& count) {
+            glUniform1iv(glGetUniformLocation(m_shaderID, name.c_str()), count, num);
         }
 
-        void Shader::setUniform1f(const char* name, const float& num) {
-            glUniform1f(glGetUniformLocation(m_shaderID, name), num);
+        void Shader::setUniform1f(const std::string& name, const float& num) {
+            glUniform1f(glGetUniformLocation(m_shaderID, name.c_str()), num);
         }
 
-        void Shader::setUniform2f(const char* name, const float2& vec) {
-            glUniform2f(glGetUniformLocation(m_shaderID, name), vec.x, vec.y);
+        void Shader::setUniform2f(const std::string& name, const float2& vec) {
+            glUniform2f(glGetUniformLocation(m_shaderID, name.c_str()), vec.x, vec.y);
         }
 
-        void Shader::setUniform3f(const char* name, const float3& vec) {
-            glUniform3f(glGetUniformLocation(m_shaderID, name), vec.x, vec.y, vec.z);
+        void Shader::setUniform3f(const std::string& name, const float3& vec) {
+            glUniform3f(glGetUniformLocation(m_shaderID, name.c_str()), vec.x, vec.y, vec.z);
         }
 
-        void Shader::setUniform3fv(const char* name, float3* vecs, const int& count) {
-            glUniform3fv(glGetUniformLocation(m_shaderID, name), count, glm::value_ptr(vecs[0]));
+        void Shader::setUniform3fv(const std::string& name, float3* vecs, const int& count) {
+            glUniform3fv(glGetUniformLocation(m_shaderID, name.c_str()), count, glm::value_ptr(vecs[0]));
         }
 
-        void Shader::setUniform4f(const char* name, const float4& vec) {
-            glUniform4f(glGetUniformLocation(m_shaderID, name), vec.x, vec.y, vec.z, vec.w);
+        void Shader::setUniform4f(const std::string& name, const float4& vec) {
+            glUniform4f(glGetUniformLocation(m_shaderID, name.c_str()), vec.x, vec.y, vec.z, vec.w);
         }
 
-        void Shader::setUniform4fv(const char* name, float4* vecs, const int& count) {
-            glUniform3fv(glGetUniformLocation(m_shaderID, name), count, glm::value_ptr(vecs[0]));
+        void Shader::setUniform4fv(const std::string& name, float4* vecs, const int& count) {
+            glUniform3fv(glGetUniformLocation(m_shaderID, name.c_str()), count, glm::value_ptr(vecs[0]));
         }
 
-        void Shader::setUniformMatrix4fv(const char* name, const matrix4x4& matrix) {
-            glUniformMatrix4fv(glGetUniformLocation(m_shaderID, name), 1, GL_FALSE, &matrix[0][0]);
+        void Shader::setUniformMatrix4fv(const std::string& name, const matrix4x4& matrix) {
+            glUniformMatrix4fv(glGetUniformLocation(m_shaderID, name.c_str()), 1, GL_FALSE, &matrix[0][0]);
         }
     }
 }

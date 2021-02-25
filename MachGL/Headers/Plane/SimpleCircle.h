@@ -17,15 +17,15 @@ namespace MachGL {
 			SimpleRect* m_rect;
 
 			public:
-				SimpleCircle(const float2& position, const float2& size, const sPoint<Graphics::Image>& image, const float& windowWidth, const float& windowHeight) {
+				SimpleCircle(const float2& position, const float2& size, const sPoint<Graphics::Image>& image, const WindowDimension& windowDimension) {
 
-					m_rect = new SimpleRect(position, size, image, windowWidth, windowHeight);
+					m_rect = new SimpleRect(position, size, image, windowDimension);
 					m_rect->setRadius(size.x / 2);
 				}
 
-				SimpleCircle(const float2& position, const float2& size, const float4& color, const float& windowWidth, const float& windowHeight) {
+				SimpleCircle(const float2& position, const float2& size, const float4& color, const WindowDimension& windowDimension) {
 
-					m_rect = new SimpleRect(position, size, color, windowWidth, windowHeight);
+					m_rect = new SimpleRect(position, size, color, windowDimension);
 					m_rect->setRadius(size.x / 2);
 				}
 

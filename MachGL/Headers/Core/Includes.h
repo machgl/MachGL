@@ -2,19 +2,41 @@
 
 #define MACH_GL_VERSION "1 (ALPHA)"
 
-#if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
-    #define WINDOWS
-#endif
-
-#if defined(WINDOWS) 
+//Platform detection
+#if defined(_WIN64) || defined(_WIN32)
+    #define MACH_PLATFORM_WINDOWS
     #include "../../Vendor/glad.h"
+#elif defined(__APPLE__) || defined(__MACH__) 
+    #include <TargetConditionals.h>
+    #if TARGET_IPHONE_SIMULATOR == 1
+        #error "ERROR: iOS simulator not supported"
+    #elif TARGET_OS_IPHONE
+        #define MACH_PLATFORM_IOS
+        #error "ERROR: iOS not supported"
+    #elif TARGET_OS_MAC == 1
+        #define MACH_PLATFORM_MAC
+        #define GLFW_INCLUDE_GLCOREARB
+        #include <OpenGL/gl3.h>
+    #else
+        #error "ERROR: Unknown/unsupported Apple platform"
+    #endif
+#elif defined(__ANDROID__)
+    #define MACH_PLATFORM_ANDROID
+    #error "ERROR: Android not supported"
+#elif defined(__LINUX__)
+    #define MACH_PLATFORM_LINUX
+    #error "ERROR: Linux not supported"
+#else
+    #define MACH_PLATFORM_UNKNOWN
+    #error "Unknown platform"
 #endif
 
-#if defined(__APPLE__)
-    #define GLFW_INCLUDE_GLCOREARB
-    #include <OpenGL/gl3.h>
+//Checks if the platform is valid
+#if defined(MACH_PLATFORM_WINDOWS) || defined(MACH_PLATFORM_MAC)
+    #define MACH_VALID_PLATFORM
 #endif
 
+//Core includes for the engine
 #include "../../Vendor/glfw/include/GLFW/glfw3.h"
 #include "../../Vendor/glm/glm/glm.hpp"
 #include "../../Vendor/glm/glm/gtc/matrix_transform.hpp"

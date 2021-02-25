@@ -9,32 +9,16 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Plane {
 
-		Plane::Plane(const float3& position, const float2& size, const float4& color)
-			: m_position(position), m_size(size), m_color(color) { 
+		Plane::Plane(const PlaneProperties& properties) { 
 
-			m_shape = PlaneShape::QUAD;
-			init();
-		}
+			m_position = properties.position;
+			m_size = properties.size;
+			m_color = properties.color;
+			m_image = properties.image;
+			m_shape = properties.shape;
+			m_type = properties.type;
 
-		Plane::Plane(const float3& position, const float2& size, const sPoint<Graphics::Image>& image)
-			: m_position(position), m_size(size), m_image(image) { 
-		
-			m_shape = PlaneShape::QUAD;
-			m_color = float4();
-			init();
-		}
-
-		Plane::Plane(const float3& position, const float2& size, const float4& color, const PlaneShape& shape)
-			: m_position(position), m_size(size), m_color(color), m_shape(shape) {
-
-			init();
-		}
-
-		Plane::Plane(const float3& position, const float2& size, const sPoint<Graphics::Image>& image, const PlaneShape& shape)
-			: m_position(position), m_size(size), m_image(image), m_shape(shape) {
-
-			m_color = float4();
-			init();
+			loadToVAO();
 		}
 
 		Plane::Plane(const float3& position, const float2& size, const GLuint& texture) 
@@ -43,25 +27,23 @@ namespace MachGL {
 			m_shape = PlaneShape::QUAD;
 			m_color = float4();
 			m_type = PlaneType::DYNAMIC;
-			init();
+			loadToVAO();
 		}
 
-		Plane::Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs,
-			const float3& position, const float3& size, const float4& color, const PlaneShape& shape)
-			: m_vertices(vertices), m_indices(indices), m_UVs(uvs), m_color(color), m_shape(shape), m_position(position), m_size(size) {
-			
-			init();
+		Plane::Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs, const PlaneProperties& properties) 
+			: m_vertices(vertices), m_indices(indices), m_UVs(uvs) {
+
+			m_position = properties.position;
+			m_size = properties.size;
+			m_color = properties.color;
+			m_image = properties.image;
+			m_shape = properties.shape;
+			m_type = properties.type;
+
+			loadToVAO();
 		}
 
-		Plane::Plane(const std::vector<float3>& vertices, const std::vector<GLushort>& indices, const std::vector<float2>& uvs,
-			const float3& position, const float3& size, const sPoint<Graphics::Image>& image, const PlaneShape& shape)
-			: m_vertices(vertices), m_indices(indices), m_UVs(uvs), m_image(image), m_shape(shape), m_position(position), m_size(size) {
-
-			m_size = float3(1);
-			init();
-		}
-
-		void Plane::init() {
+		void Plane::loadToVAO() {
 
 			switch (m_shape) {
 
@@ -80,14 +62,14 @@ namespace MachGL {
 					break;
 			}
 
-			int vertex_index = 0;
-			int UV_index = 1;
-			int TID_index = 2;
-			int color_index = 3;
-
-			int vertexSize = sizeof(Vertex);
-			int vertexBufferSize = m_vertices.size() * vertexSize;
-			int indexBufferSize = m_indices.size() * sizeof(Index);
+			uint32_t vertex_index = 0;
+			uint32_t UV_index = 1;
+			uint32_t TID_index = 2;
+			uint32_t color_index = 3;
+			
+			uint32_t vertexSize = sizeof(Vertex);
+			uint32_t vertexBufferSize = (uint32_t)m_vertices.size() * vertexSize;
+			uint32_t indexBufferSize = (uint32_t)m_indices.size() * sizeof(Index);
 
 			glGenVertexArrays(1, &m_VAO);
 			glGenBuffers(1, &m_VBO);
@@ -115,6 +97,65 @@ namespace MachGL {
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 			glBindVertexArray(0);
+		}
+
+		void Plane::loadToBuffers() {
+
+			glBindBuffer(GL_ARRAY_BUFFER, getVBO());
+			m_vertexBuffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+			const std::vector<float3>& vertices = this->getVertices();
+			const std::vector<GLushort>& indices = this->getIndices();
+			const std::vector<float2>& uvs = this->getUVs();
+			const float3& position = this->getPosition();
+			const float2& size = this->getSize();
+			const float4& color = this->getColor();
+			const GLuint tid = this->getTID();
+
+			uint32_t c = 0;
+
+			float r = color.x * 255.0f;
+			float g = color.y * 255.0f;
+			float b = color.z * 255.0f;
+			float a = color.x * 255.0f;
+
+			c = (uint32_t)a << 24 | (uint32_t)b << 16 | (uint32_t)g << 8 | (uint32_t)r;
+
+			for (uint32_t i = 0; i < vertices.size(); i++) {
+
+				m_vertexBuffer->vertex = (vertices[i] * float3(size.x, size.y, 0)) + position;
+				m_vertexBuffer->uv = uvs[i];
+				if (tid != 0)m_vertexBuffer->tid = (float)tid + 1;
+				m_vertexBuffer->color = c;
+				m_vertexBuffer++;
+			}
+
+			glUnmapBuffer(GL_ARRAY_BUFFER);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, getIBO());
+			m_indexBuffer = (Index*)glMapBuffer(GL_ELEMENT_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+			for (uint32_t i = 0; i < indices.size(); i++) {
+
+				m_indexBuffer->index = indices[i];
+				m_indexBuffer++;
+			}
+
+			glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		}
+
+		void Plane::create() { loadToBuffers(); }
+
+		void Plane::destroy() {
+
+			glDeleteBuffers(GL_ARRAY_BUFFER, &m_VBO);
+			glDeleteBuffers(GL_ELEMENT_ARRAY_BUFFER, &m_IBO);
+			glDeleteVertexArrays(GL_VERTEX_ARRAY, &m_VBO);
+
+			delete m_vertexBuffer;
+			delete m_indexBuffer;
 		}
 	}
 }
