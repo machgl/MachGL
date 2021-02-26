@@ -7,7 +7,6 @@
 namespace MachGL {
     namespace Graphics {
 
-
         class Shader {
 
         private:
@@ -31,6 +30,7 @@ namespace MachGL {
             void setUniform4f(const std::string& name, const float4& vec);
             void setUniform4fv(const std::string& name, float4* vecs, const int& count);
             void setUniformMatrix4fv(const std::string& name, const matrix4x4& matrix);
+
         private:
             GLuint load();
         };

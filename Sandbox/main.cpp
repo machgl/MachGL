@@ -130,7 +130,6 @@ int main() {
         }
     }
 
-
     scene.create();
     sun_object.create();
     //sphere.create();

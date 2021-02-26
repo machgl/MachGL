@@ -196,7 +196,6 @@ namespace MachGL {
                 glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);
                 glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
             }
-
         }
 
         void Object::create() { loadToBuffers(); }
@@ -204,10 +203,10 @@ namespace MachGL {
         void Object::destroy() {
 
             if (this->getType() != ObjectType::SKYBOX)
-                glDeleteBuffers(GL_ELEMENT_ARRAY_BUFFER, &m_IBO);
+                glDeleteBuffers(1, &m_IBO);
 
-            glDeleteBuffers(GL_ARRAY_BUFFER, &m_VBO);
-            glDeleteVertexArrays(GL_VERTEX_ARRAY, &m_VAO);
+            glDeleteBuffers(1, &m_VBO);
+            glDeleteVertexArrays(1, &m_VAO);
 
             delete m_vertexBuffer;
             delete m_indexBuffer;

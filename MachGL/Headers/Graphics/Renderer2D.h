@@ -14,6 +14,11 @@ namespace MachGL {
 			public:
 				Renderer2D() = default;
 				~Renderer2D() = default;
+
+				/// <summary>
+				/// Submits a list of planes for rendering and renders them. 
+				///	<param name="planes">List of planes to send to renderer.</param>
+				/// </summary>
 				void submit(const std::vector<Plane::Plane>& planes);
 
 			private:

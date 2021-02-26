@@ -150,9 +150,9 @@ namespace MachGL {
 
 		void Plane::destroy() {
 
-			glDeleteBuffers(GL_ARRAY_BUFFER, &m_VBO);
-			glDeleteBuffers(GL_ELEMENT_ARRAY_BUFFER, &m_IBO);
-			glDeleteVertexArrays(GL_VERTEX_ARRAY, &m_VBO);
+			glDeleteBuffers(1, &m_VBO);
+			glDeleteBuffers(1, &m_IBO);
+			glDeleteVertexArrays(1, &m_VBO);
 
 			delete m_vertexBuffer;
 			delete m_indexBuffer;

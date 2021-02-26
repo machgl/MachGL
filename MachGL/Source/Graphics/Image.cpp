@@ -68,12 +68,15 @@ namespace MachGL {
 			}
 
 			GLfloat value, maxAnisotropy = 8.0f;
-			if (glfwExtensionSupported("GL_ARB_texture_filter_anisotropic")) {
 			
-				glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
-				value = (value > maxAnisotropy) ? maxAnisotropy : value;
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, value);
-			}
+			#if defined(MACH_PLATFORM_WINDOWS)
+				if (glfwExtensionSupported("GL_ARB_texture_filter_anisotropic")) {
+				
+					glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
+					value = (value > maxAnisotropy) ? maxAnisotropy : value;
+					glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY, value);
+				}
+			#endif
 		
 			glBindTexture(GL_TEXTURE_2D, 0);
 			return result;
