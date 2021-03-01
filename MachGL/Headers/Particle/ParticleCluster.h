@@ -17,6 +17,11 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Particle {
 
+		enum class ParticleType {
+
+			CUBE, QUAD
+		};
+
 		struct ParticleProperties {
 
 			float3 position = float3(0);

@@ -1,4 +1,4 @@
-#define FULLSCREEN
+//#define FULLSCREEN
 
 #if defined(FULLSCREEN)
 
@@ -37,7 +37,7 @@ int main() {
     
     Plane::SimpleRect crosshair(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), crosshairTexture.ref(), window.getWindowDimension());
 
-    std::vector<std::string> fileNames{
+    std::vector<std::string> fileNames {
 
         "Sandbox/Textures/Skybox/right.jpg",
         "Sandbox/Textures/Skybox/left.jpg",
@@ -47,7 +47,7 @@ int main() {
         "Sandbox/Textures/Skybox/back.jpg"
     };
 
-    std::vector<std::string> nightFileNames{
+    std::vector<std::string> nightFileNames {
 
         "Sandbox/Textures/Skybox/nightRight.png",
         "Sandbox/Textures/Skybox/nightLeft.png",
@@ -71,22 +71,18 @@ int main() {
 
     Object::Camera camera(float3(0, 5, 10), Object::CameraType::FPS, window.ref());
     Object::Camera camera2(float3(0, 5, 10), Object::CameraType::FPS, window.ref());
-    //camera2.setYaw(180);
-
+    
     Object::Light light(float3(10, 10, 10), float4(0, 0, 1, 1));
-    Object::Light light2(float3(-10, 5, 10), float4(1, 1, 1, 1));
     Object::Light sun(float3(0, 70, 0), float4(1, 1, 0.8f, 1));
 
     light.setAttenuation(float3(1, 0.001f, 0.002f));
-    light2.setAttenuation(float3(1, 0.003f, 0.002f));
     sun.setBrightness(1.0f);
     
     std::vector<Object::Light> lights;
 
     lights.push_back(light);
     lights.push_back(sun);
-    lights.push_back(light2);
-
+    
     Object::Model sphereModel("Sandbox/Models/sphere.obj");
     Object::Model suzanneModel("Sandbox/Models/suzanne.obj");
     Object::Model cubeModel("Sandbox/Models/cube.obj");
@@ -107,11 +103,7 @@ int main() {
     scene.setTextureScale(40);
     scene.setScale(float3(2));
     
-    //sphere.setColor(light.getColor());
-    //sphere.setShineDamper(5);
-    //sphere.setReflectivity(0.4f);
-    
-    suzanne.setColor(light2.getColor());
+    suzanne.setColor(light.getColor());
     suzanne.setShineDamper(5);
     suzanne.setReflectivity(0.4f);
 
@@ -119,9 +111,11 @@ int main() {
 
     std::vector<Object::Object> objects;
     
-    for (uint32_t x = 0; x < 8; x++) {
-        for (uint32_t y = 0; y < 8; y++) {
-            for (uint32_t z = 0; z < 8; z++) {
+    uint32_t cubes = 10;
+
+    for (uint32_t x = 0; x < cubes; x++) {
+        for (uint32_t y = 0; y < cubes; y++) {
+            for (uint32_t z = 0; z < cubes; z++) {
 
                 Object::Object sphere(cubeModel.ref(), float3(x * 10, y * 10, z * 10), grassTexture.ref());
                 sphere.create();
@@ -132,14 +126,12 @@ int main() {
 
     scene.create();
     sun_object.create();
-    //sphere.create();
     suzanne.create();
     cube.create();
     ship.create();
 
     objects.push_back(scene);
     objects.push_back(sun_object);
-    //objects.push_back(sphere); 
     objects.push_back(suzanne);
     objects.push_back(cube);
     objects.push_back(ship);
@@ -271,7 +263,7 @@ int main() {
             shader.setUniformMatrix4fv("_tr_matrix", transform);
             shader.setUniformMatrix4fv("_vw_matrix", camera.getViewMatrix());
 
-            renderer3D.submit(objects, camera, 50);
+            renderer3D.submit(objects);
 
             shader.disable();
 
@@ -289,7 +281,6 @@ int main() {
 
     scene.destroy();
     sun_object.destroy();
-    //sphere.destroy();
     suzanne.destroy();
     cube.destroy();
     ship.destroy();
