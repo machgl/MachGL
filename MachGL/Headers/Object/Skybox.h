@@ -28,7 +28,7 @@ namespace MachGL {
 				std::vector<float3> m_vertices;
 				Graphics::Renderer3D m_renderer;
 				std::vector<Object> m_objects;
-				Object* m_object;
+				sPoint<Object> m_object;
 				Graphics::Shader* m_shader;
 				std::vector<float3> makeVertices();
 				SkyboxType m_type = SkyboxType::STATIC;
@@ -40,13 +40,13 @@ namespace MachGL {
 				float m_half = m_cycleTime / 2.0f;
 				Timer m_timer;
 
-				GLint m_TIDs[2] = { 0, 1 };
-
 			public:
 				Skybox(const sPoint<Graphics::Image>& image);
 				Skybox(const sPoint<Graphics::Image>& image, const sPoint<Graphics::Image>& image2);
 				void render(const matrix4x4& projection, const matrix4x4& view);	
 				inline void cycleTime(const float& time) { m_cycleTime = time; }
+				inline const GLuint& getTexture() const { return m_image->getTID(); }
+				inline const sPoint<Object>& getObject() const { return m_object; }
 
 			private:
 				void cycle();

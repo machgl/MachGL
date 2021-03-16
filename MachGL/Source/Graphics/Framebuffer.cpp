@@ -11,7 +11,7 @@ namespace MachGL {
 
 		Framebuffer::Framebuffer(const float& width, const float& height)
 			:m_width(width), m_height(height) {
-
+			
 			init();
 		}
 
@@ -45,7 +45,7 @@ namespace MachGL {
 			glBindTexture(GL_TEXTURE_2D, 0);
 
 			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-				std::cout << "Error: Framebuffer is not complete" << std::endl;
+				MACH_ERROR_MSG("Framebuffer is not complete");
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}

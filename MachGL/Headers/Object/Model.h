@@ -37,6 +37,7 @@ namespace MachGL {
 				inline const std::vector<GLushort>& getIndices() const { return m_indices; }
 				inline const std::vector<float3>& getNormals() const { return m_vertexNormals; }
 				inline const std::vector<float2>& getUVs() const { return m_vertexTextures; }
+				inline const bool hasTexture() const { return m_hasTexture; }
 
 				inline const size_t getVertexSize() const { return m_vertices.size(); }
 				inline const size_t getIndexSize() const { return m_indices.size(); }

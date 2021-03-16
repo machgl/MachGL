@@ -5,6 +5,7 @@ Mach::GL (Alpha)
 */
 
 #include "../../Headers/Object/Model.h"
+#include "../../Headers/Maths/Vector.h"
 
 namespace MachGL {
 	namespace Object {
@@ -19,9 +20,7 @@ namespace MachGL {
 
         Model::Model(const std::vector<float3>& vertices, const std::vector<float3>& normals, const std::vector<float2>& UVs, 
             const std::vector<GLushort>& indices)
-            : m_vertices(vertices), m_vertexNormals(normals), m_vertexTextures(UVs), m_indices(indices) {
-
-        }
+            : m_vertices(vertices), m_vertexNormals(normals), m_vertexTextures(UVs), m_indices(indices) { }
 		
         void Model::tokenise(std::string const& str, const char& delim, std::vector<std::string>& out) {
 
@@ -80,13 +79,9 @@ namespace MachGL {
 
                 if (line[0] == 'f') {
 
-                    if (m_vertices.size() != m_UVs.size() && m_UVs.size() > 0)
-                        m_vertices.resize(m_UVs.size());
-
+                    if (m_vertices.size() != m_UVs.size() && m_UVs.size() > 0) m_vertices.resize(m_UVs.size());
                     if (m_UVs.size() < 1) m_hasTexture = false;
-
-                    if (m_hasTexture)
-                        m_vertexTextures = std::vector<float2>(m_UVs.size());
+                    if (m_hasTexture) m_vertexTextures = std::vector<float2>(m_UVs.size());
 
                     m_vertexNormals = std::vector<float3>(m_vertices.size());
                     break;
@@ -137,17 +132,21 @@ namespace MachGL {
                         m_vertexTextures[f[0] - 1] = m_UVs[ti[0] - 1];
                         m_vertexTextures[f[1] - 1] = m_UVs[ti[1] - 1];
                         m_vertexTextures[f[2] - 1] = m_UVs[ti[2] - 1];
+
+                        m_vertexNormals[f[0] - 1] = m_normals[ni[0] - 1];
+                        m_vertexNormals[f[1] - 1] = m_normals[ni[1] - 1];
+                        m_vertexNormals[f[2] - 1] = m_normals[ni[2] - 1];
                     }
                     else {
 
                         ni[0] = std::stoi(face1[1]);
                         ni[1] = std::stoi(face2[1]);
                         ni[2] = std::stoi(face3[1]);
-                    }
 
-                    m_vertexNormals[f[0] - 1] = m_normals[ni[0] - 1];
-                    m_vertexNormals[f[1] - 1] = m_normals[ni[1] - 1];
-                    m_vertexNormals[f[2] - 1] = m_normals[ni[2] - 1];
+                        m_vertexNormals[f[0] - 1] = m_normals[ni[0] - 1];
+                        m_vertexNormals[f[1] - 1] = m_normals[ni[1] - 1];
+                        m_vertexNormals[f[2] - 1] = m_normals[ni[2] - 1];
+                    }
 
                     for (uint32_t i = 0; i < 3; i++) {
 

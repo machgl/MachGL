@@ -9,6 +9,7 @@ uniform vec3 _light_attenuation[MAX_LIGHTS];
 uniform float _light_brightness[MAX_LIGHTS];
 
 uniform sampler2D _TIDs[32];
+uniform samplerCube _environmentMap;
 
 in DATA {
 
@@ -21,6 +22,7 @@ in DATA {
     vec3 toCameraVector;
     float shine;
     float reflectivity;
+    vec3 reflectedVector;
 
 } fs_in;
 
@@ -63,5 +65,7 @@ void main() {
 
     totalDiffuse = max(totalDiffuse, 0.2);
 
-    color = (totalDiffuse * texColor + totalSpecular);
+    vec4 reflectedColor = texture(_environmentMap, fs_in.reflectedVector);
+    vec4 outColor = totalDiffuse * texColor + totalSpecular;
+    color = mix(outColor, reflectedColor, fs_in.reflectivity);
 }

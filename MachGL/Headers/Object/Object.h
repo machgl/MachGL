@@ -60,6 +60,7 @@ namespace MachGL {
                 bool m_dynamicSkybox = false;
                 Vertex* m_vertexBuffer = nullptr;
                 Index* m_indexBuffer = nullptr;
+                GLuint m_enviromap = 0;
                 
             public:
                 Object();
@@ -90,6 +91,8 @@ namespace MachGL {
                 inline const float3& getScale() const { return m_scale; }
                 inline const ObjectType& getType() const { return m_type; }
                 inline const bool& isDynamicSkybox() const { return m_dynamicSkybox; }
+                inline void setEnviromentMap(const GLuint& environmentMap) { m_enviromap = environmentMap; }
+                inline const GLuint& getEnvironmentMap() const { return m_enviromap; }
                 
             private:
                 void generateCubeBounds();

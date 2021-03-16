@@ -15,6 +15,7 @@ uniform mat4 _pr_matrix = mat4(1.0);
 uniform mat4 _tr_matrix = mat4(1.0);
 uniform mat4 _vw_matrix = mat4(1.0);
 uniform vec3 _light_position[MAX_LIGHTS];
+uniform vec3 _camera_position;
 
 out DATA {
 
@@ -27,6 +28,7 @@ out DATA {
     vec3 toCameraVector;
     float shine;
     float reflectivity;
+    vec3 reflectedVector;
 
 } vs_out;
 
@@ -45,7 +47,10 @@ void main () {
     vs_out.toCameraVector = (inverse(_vw_matrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - worldPosition.xyz;
     vs_out.shine = shine;
     vs_out.reflectivity = reflectivity;
-    
+
+    vec3 viewVector = normalize(worldPosition.xyz - _camera_position);
+    vs_out.reflectedVector = reflect(viewVector, normalize(normal.xyz));
+
     for (int i = 0; i < MAX_LIGHTS; i++) {
 
         vs_out.toLightVector[i] = _light_position[i] - worldPosition.xyz;

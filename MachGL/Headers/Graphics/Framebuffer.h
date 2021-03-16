@@ -9,7 +9,6 @@ Mach::GL (Alpha)
 
 #include "../Core/Includes.h"
 #include "../Core/DataStructures.h"
-#include "Renderer2D.h"
 
 namespace MachGL {
 	namespace Graphics {
@@ -17,12 +16,12 @@ namespace MachGL {
 		class Framebuffer {
 
 			private:
-				GLuint m_fbo;
-				GLuint m_textureColorBuffer;
-				GLuint m_textureDepthBuffer;
-				GLuint m_rbo;
-				float m_width;
-				float m_height;
+				GLuint m_fbo = 0;
+				GLuint m_textureColorBuffer = 0;
+				GLuint m_textureDepthBuffer = 0;
+				GLuint m_rbo = 0;
+				float m_width = 0;
+				float m_height = 0;
 
 			public:
 				/// <summary>
@@ -40,12 +39,12 @@ namespace MachGL {
 				/// <summary>
 				/// Starts the Framebuffer capture, this function should be called in the render loop before rendering the Framebuffer content.
 				/// </summary>
-				void capture();
+				virtual void capture();
 
 				/// <summary>
 				/// Stops the capture of the Framebuffer, this function should be called at the end of the render loop after rendering the Framebuffer content.
 				/// </summary>
-				void stop();
+				virtual void stop();
 
 				/// <summary>
 				/// Gets the textureID for the Framebuffer RGB texture.
@@ -58,6 +57,7 @@ namespace MachGL {
 				/// </summary>
 				/// <returns>Depth textureID.</returns>
 				inline const GLuint& getDepthTexture() const { return m_textureDepthBuffer; }
+				
 			private:
 				void init();
 		};

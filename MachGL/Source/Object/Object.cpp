@@ -164,11 +164,9 @@ namespace MachGL {
 
                     m_vertexBuffer->vertex = (vertices[i] * scale) + position;
 
-                    if (UVs.size() > 0) {
-
+                    if (this->getModel()->hasTexture())
                         m_vertexBuffer->uv = UVs[i];
-                    }
-
+                    
                     m_vertexBuffer->normal = normals[i];
                     if (tid != 0) m_vertexBuffer->tid = (float)tid + 1;
                     m_vertexBuffer->color = c;

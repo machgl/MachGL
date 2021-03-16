@@ -50,7 +50,7 @@ namespace MachGL {
 			}
 			else {
 
-				std::cout << "Unable to load: " << m_fileName << std::endl;
+				MACH_ERROR_MSG("Unable to load: " + m_fileName);
 				stbi_image_free(data);
 			}
 			
@@ -105,7 +105,7 @@ namespace MachGL {
 				}
 				else {
 
-					std::cout << "Unable to load: " << m_fileNames[i] << std::endl;
+					MACH_ERROR_MSG("Unable to load: " + m_fileNames[i]);
 					stbi_image_free(data);
 				}
 			}

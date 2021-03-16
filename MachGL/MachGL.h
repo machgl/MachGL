@@ -62,3 +62,5 @@
 #include "Headers/Object/Skybox.h"
 #include "Headers/Graphics/Framebuffer.h"
 #include "Headers/Particle/ParticleCluster.h"
+#include "Headers/Graphics/EnvironmentMap.h"
+#include "Headers/Graphics/SoftwareRender.h"

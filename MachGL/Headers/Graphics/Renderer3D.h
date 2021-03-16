@@ -29,6 +29,10 @@ namespace MachGL {
                 ///	<param name="renderDistance">Defines the distance from the camera that the objects will render.</param>
 				/// </summary>
                 void submit(const std::vector<Object::Object>& objects, const Object::Camera& camera, const float& renderDistance);
+
+                void submit(const Object::Object& object);
+
+                void submit(const Object::Object& object, const Object::Camera& camera, const float& renderDistance);
             
             private:
                 void flush(const Object::Object& object);

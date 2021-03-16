@@ -98,6 +98,10 @@ namespace MachGL {
             glUniform2f(glGetUniformLocation(m_shaderID, name.c_str()), vec.x, vec.y);
         }
 
+        void Shader::setUniform2fv(const std::string& name, float2* vecs, const int& count) {
+            glUniform2fv(glGetUniformLocation(m_shaderID, name.c_str()), count, glm::value_ptr(vecs[0]));
+        }
+
         void Shader::setUniform3f(const std::string& name, const float3& vec) {
             glUniform3f(glGetUniformLocation(m_shaderID, name.c_str()), vec.x, vec.y, vec.z);
         }
