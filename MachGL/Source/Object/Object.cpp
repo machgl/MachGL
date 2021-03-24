@@ -196,7 +196,11 @@ namespace MachGL {
             }
         }
 
-        void Object::create() { loadToBuffers(); }
+        void Object::create() { 
+            
+            loadToBuffers(); 
+            m_objectID = rand() % 0xffffffff;
+        }
 
         void Object::destroy() {
 

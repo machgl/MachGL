@@ -1,4 +1,4 @@
-#define FULLSCREEN
+//#define FULLSCREEN
 
 #if defined(FULLSCREEN)
 

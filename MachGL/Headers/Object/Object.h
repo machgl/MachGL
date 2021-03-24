@@ -39,7 +39,6 @@ namespace MachGL {
         class Object {
 
             private:
-
                 sPoint<Model> m_model = nullptr;
                 Bound* m_bounds = nullptr;
                 float3 m_position;
@@ -61,6 +60,7 @@ namespace MachGL {
                 Vertex* m_vertexBuffer = nullptr;
                 Index* m_indexBuffer = nullptr;
                 GLuint m_enviromap = 0;
+                uint32_t m_objectID;
                 
             public:
                 Object();
@@ -93,6 +93,7 @@ namespace MachGL {
                 inline const bool& isDynamicSkybox() const { return m_dynamicSkybox; }
                 inline void setEnviromentMap(const GLuint& environmentMap) { m_enviromap = environmentMap; }
                 inline const GLuint& getEnvironmentMap() const { return m_enviromap; }
+                inline const uint32_t& getObjectID() const { return m_objectID; }
                 
             private:
                 void generateCubeBounds();
