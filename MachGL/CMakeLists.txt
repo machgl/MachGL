@@ -9,6 +9,7 @@ add_library(MachGL
 			"Source/Graphics/Image.cpp"
 			"Source/Graphics/Renderer2D.cpp"
 			"Source/Graphics/Renderer3D.cpp"
+			"Source/Graphics/Shader.cpp"
 			"Source/Graphics/SoftwareRender.cpp"
 			"Source/Object/Camera.cpp"
 			"Source/Object/Model.cpp"
