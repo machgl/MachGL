@@ -12,22 +12,27 @@ Current features:
   - Random terrain generation
   - Keyboard & mouse input
   - GLSL shader loaders
+  - HDR
+  - Static environment maps for objects (from loaded cubemap)
+  - Dynamic skyboxes 
   
  Currently working on: 
   - Particle system
   - Texture atlases 
   - Documenting code
+  - Dynamic enviornment maps for objects
+  - Post-processing effects (bloom effects etc.)
+  - Scene file saving/loading (using YAML)
   
  Features I want to add soon:
-  - Post-processing effects
+  - Scene editor
   - Mesh simplifier 
   - Normal maps
   - Shadows
-  - Lua scripting 
-  - Scene file saving/loading
+  - Lua scripting
   - FBX file loading (for faster 3D object loading)
   - OpenAL support 
   - 3D physics using PhysX (including a non-nVidia alternative) 
   - Vulkan support
-
-If you have any questions or issues feel free to file an issue on this GitHub page or email me at: jamesjkkenny@gmail.com 
+ 
+If you have any questions or issues feel free to file an issue on this GitHub page or email me at: james@mach-gl.com 
