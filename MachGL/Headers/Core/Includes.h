@@ -1,6 +1,6 @@
 #pragma once
 
-#define MACH_GL_VERSION "1 (ALPHA)"
+#define MACH_GL_VERSION "0.2 (ALPHA)"
 
 //Platform detection
 #if defined(_WIN64) || defined(_WIN32)
@@ -42,6 +42,7 @@
 #include "../../Vendor/glm/glm/gtc/matrix_transform.hpp"
 #include "../../Vendor/glm/glm/gtc/type_ptr.hpp"
 #include "../../Vendor/SimplexNoise.h"
+#include "../../Vendor/yaml-cpp/include/yaml-cpp/yaml.h"
 #include <math.h>
 #include <iostream>
 #include <list>
@@ -60,4 +61,5 @@
 #include <random>
 #include <numeric>
 #include <memory>
+#include <unordered_map>
 

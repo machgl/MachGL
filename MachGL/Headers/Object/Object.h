@@ -86,7 +86,7 @@ namespace MachGL {
                 inline const GLuint& getIBO() const { return m_IBO; }
                 inline const GLuint getTID() const { return m_image == nullptr ? 0 : m_image->getTID(); }
                 inline const GLuint getTID2() const { return m_image2 == nullptr ? 0 : m_image2->getTID(); }
-                inline const sPoint<Model>& getModel() const { return m_model; }
+                inline const auto& getModel() const { return m_model; }
                 inline const Bound* getBounds() const { return m_bounds; }
                 inline const float3& getScale() const { return m_scale; }
                 inline const ObjectType& getType() const { return m_type; }

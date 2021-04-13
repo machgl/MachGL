@@ -50,9 +50,9 @@ namespace MachGL {
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			m_shader->enable();
-			m_shader->setUniform1iv("_simple_TIDs", m_TIDs, 32);
-			m_shader->setUniformMatrix4fv("_simple_pr_matrix", m_projection);
-			m_shader->setUniform1f("_simple_alpha", m_alpha);
+			m_shader->setUniform("_simple_texture", m_plane->getTID());
+			m_shader->setUniform("_simple_pr_matrix", m_projection);
+			m_shader->setUniform("_simple_alpha", m_alpha);
 			m_renderer->submit(m_planes);
 			m_shader->disable();
 

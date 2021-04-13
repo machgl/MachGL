@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 add_subdirectory("Vendor/glfw")
+add_subdirectory("Vendor/yaml-cpp")
 
 add_library(MachGL
 			"Source/Core/Window.cpp"
@@ -9,6 +10,7 @@ add_library(MachGL
 			"Source/Graphics/Image.cpp"
 			"Source/Graphics/Renderer2D.cpp"
 			"Source/Graphics/Renderer3D.cpp"
+			"Source/Graphics/Shader.cpp"
 			"Source/Graphics/SoftwareRender.cpp"
 			"Source/Object/Camera.cpp"
 			"Source/Object/Model.cpp"

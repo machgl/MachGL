@@ -32,7 +32,7 @@ struct Index {
 
 struct WindowDimension {
 
-    uint32_t width, height;
+    uint32_t width = 0, height = 0;
 };
 
 namespace MachGL {

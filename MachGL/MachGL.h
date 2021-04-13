@@ -1,7 +1,7 @@
 /*
 *   *****************************************************************************
 *
-*   Mach::GL Alpha - mach-gl.com
+*   Mach::GL 0.2 (Alpha) - mach-gl.com
 *   
 *   A game engine for beginners and experts - an OpenGL game engine that 
 *   mixes the simplicity of high level programming and the control of 
@@ -41,26 +41,28 @@
 #pragma once
 
 #include "Headers/Core/Window.h"
-#include "Headers/Object/Camera.h"
-#include "Headers/Utilities/Timer.h"
-#include "Headers/Object/Object.h"
-#include "Headers/Screens/Splash.h"
-#include "Headers/Graphics/Shader.h"
+#include "Headers/Graphics/EnvironmentMap.h"
+#include "Headers/Graphics/Framebuffer.h"
+#include "Headers/Graphics/Image.h"
+#include "Headers/Graphics/PostEffect.h"
 #include "Headers/Graphics/Renderer2D.h"
 #include "Headers/Graphics/Renderer3D.h"
-#include "Headers/Object/Light.h"
-#include "Headers/Maths/Vector.h"
-#include "Headers/Maths/Matrix.h"
+#include "Headers/Graphics/Shader.h"
+#include "Headers/Graphics/SoftwareRender.h"
+#include "Headers/Graphics/Submittable3D.h"
 #include "Headers/Maths/Constants.h"
-#include "Headers/Graphics/Image.h"
+#include "Headers/Maths/Matrix.h"
+#include "Headers/Maths/Vector.h"
+#include "Headers/Object/Camera.h"
+#include "Headers/Object/Light.h"
+#include "Headers/Object/Model.h"
+#include "Headers/Object/Object.h"
+#include "Headers/Object/Skybox.h"
+#include "Headers/Object/Terrain.h"
+#include "Headers/Particle/ParticleCluster.h"
 #include "Headers/Plane/Plane.h"
+#include "Headers/Plane/SimpleCircle.h"
 #include "Headers/Plane/SimpleRect.h"
 #include "Headers/Plane/SimpleTriangle.h"
-#include "Headers/Plane/SimpleCircle.h"
-#include "Headers/Object/Model.h"
-#include "Headers/Object/Terrain.h"
-#include "Headers/Object/Skybox.h"
-#include "Headers/Graphics/Framebuffer.h"
-#include "Headers/Particle/ParticleCluster.h"
-#include "Headers/Graphics/EnvironmentMap.h"
-#include "Headers/Graphics/SoftwareRender.h"
+#include "Headers/Screens/Splash.h"
+#include "Headers/Utilities/Timer.h"

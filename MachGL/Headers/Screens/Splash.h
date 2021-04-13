@@ -11,9 +11,11 @@ namespace MachGL {
 		private:
 			WindowDimension m_windowDimension;
 			sPoint<Graphics::Image> m_image;
-			Plane::SimpleRect* m_splash;
+			uPoint<Plane::SimpleRect> m_splash;
 			
 		public:
+			Splash() = default;
+			~Splash() = default;
 			Splash(const WindowDimension& windowDimension, const sPoint<Graphics::Image>& image);
 			void render();
 

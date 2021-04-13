@@ -31,6 +31,23 @@ namespace MachGL {
             else flush(object);
         }
 
+        void Renderer3D::submit(const Submittable3D& submittable) {
+
+            submittable.shader->enable();
+            flush(*submittable.object);
+            submittable.shader->disable();
+        }
+
+        void Renderer3D::submit(const Submittable3D& submittable, const Object::Camera& camera, const float& renderDistance) {
+
+            if (submittable.object->getType() != type::TERRAIN) {
+                if (Maths::Vector::distance(camera.getPosition(), submittable.object->getPosition()) <= renderDistance)submit(submittable);
+            }
+            else {
+                submit(submittable);
+            }
+        }
+
         void Renderer3D::flush(const Object::Object& object) {
 
             glBindVertexArray(object.getVAO());

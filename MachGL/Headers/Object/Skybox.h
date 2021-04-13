@@ -29,7 +29,7 @@ namespace MachGL {
 				Graphics::Renderer3D m_renderer;
 				std::vector<Object> m_objects;
 				sPoint<Object> m_object;
-				Graphics::Shader* m_shader;
+				uPoint<Graphics::Shader> m_shader;
 				std::vector<float3> makeVertices();
 				SkyboxType m_type = SkyboxType::STATIC;
 				sPoint<Graphics::Image> m_image;

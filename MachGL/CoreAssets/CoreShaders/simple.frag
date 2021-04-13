@@ -13,7 +13,7 @@ in DATA {
 
 } fs_in;
 
-uniform sampler2D _simple_TIDs[32];
+uniform sampler2D _simple_texture;
 uniform float _simple_alpha;
 
 void main() {
@@ -30,14 +30,10 @@ void main() {
 
 	vec4 texColor = fs_in.color;
 
-	if (fs_in.tid > 0.0) {
-			
-		int tid = int(fs_in.tid - 0.5);
-		texColor = texture(_simple_TIDs[tid], fs_in.uv);
+	texColor = texture(_simple_texture, fs_in.uv);
 		
-		if (texColor.a < 0.1f) {
-			discard;	
-		}
+	if (texColor.a < 0.1f) {
+		discard;	
 	}
 
 	color = vec4(texColor.x, texColor.y, texColor.z, _simple_alpha);	

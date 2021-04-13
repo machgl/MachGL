@@ -7,6 +7,7 @@ Mach::GL (Alpha)
 #pragma once
 
 #include "../Core/Includes.h"
+#include "../Utilities/Serializer.h"
 #include "../Core/DataStructures.h"
 #include "../Object/Object.h"
 #include "../Graphics/Renderer3D.h"

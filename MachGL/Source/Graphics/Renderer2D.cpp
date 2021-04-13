@@ -11,6 +11,8 @@ namespace MachGL {
             }
         }
 
+        void Renderer2D::submit(const Plane::Plane& plane) { flush(plane); }
+
         void Renderer2D::flush(const Plane::Plane& plane) {
 
             glBindVertexArray(plane.getVAO());

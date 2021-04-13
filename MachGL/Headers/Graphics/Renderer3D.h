@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "../Maths/Vector.h"
 #include "../Object/Camera.h"
+#include "Submittable3D.h"
 
 namespace MachGL {
     namespace Graphics {
@@ -33,6 +34,10 @@ namespace MachGL {
                 void submit(const Object::Object& object);
 
                 void submit(const Object::Object& object, const Object::Camera& camera, const float& renderDistance);
+
+                void submit(const Submittable3D& submittable);
+
+                void submit(const Submittable3D& submittable, const Object::Camera& camera, const float& renderDistance);
             
             private:
                 void flush(const Object::Object& object);

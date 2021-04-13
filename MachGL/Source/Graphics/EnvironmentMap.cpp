@@ -45,18 +45,29 @@ namespace MachGL {
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		}
 
-		void EnvironmentMap::reflectedObjects(const std::vector<Object::Object>& objects) {
+		void EnvironmentMap::capture() {
 
-			glViewport(0, 0, m_size, m_size);
+			glViewport(0, 0, (GLsizei)m_size, (GLsizei)m_size);
 			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 			glEnable(GL_DEPTH_TEST);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
 
+		void EnvironmentMap::reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera) {
+
+			glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureColorBuffer);
+			
 			for (int i = 0; i < 6; i++) {
-
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_textureColorBuffer, 0);
+				camera.switchToFace(i);
+				
 				m_renderer.submit(objects);
 			}
+
+			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+		}
+
+		void EnvironmentMap::stop() {
 
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 			glDisable(GL_DEPTH_TEST);

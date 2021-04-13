@@ -104,13 +104,13 @@ namespace MachGL {
 			glBindBuffer(GL_ARRAY_BUFFER, getVBO());
 			m_vertexBuffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 
-			const std::vector<float3>& vertices = this->getVertices();
-			const std::vector<GLushort>& indices = this->getIndices();
-			const std::vector<float2>& uvs = this->getUVs();
-			const float3& position = this->getPosition();
-			const float2& size = this->getSize();
-			const float4& color = this->getColor();
-			const GLuint tid = this->getTID();
+			auto& vertices = this->getVertices();
+			auto& indices = this->getIndices();
+			auto& uvs = this->getUVs();
+			auto& position = this->getPosition();
+			auto& size = this->getSize();
+			auto& color = this->getColor();
+			auto tid = this->getTID();
 
 			uint32_t c = 0;
 

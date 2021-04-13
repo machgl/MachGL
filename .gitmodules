@@ -4,3 +4,6 @@
 [submodule "MachGL/Vendor/include/glm"]
 	path = MachGL/Vendor/glm
 	url = https://github.com/g-truc/glm
+[submodule "MachGL/Vendor/yaml-cpp"]
+	path = MachGL/Vendor/yaml-cpp
+	url = https://github.com/jbeder/yaml-cpp

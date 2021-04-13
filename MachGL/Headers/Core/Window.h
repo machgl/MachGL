@@ -33,6 +33,8 @@ namespace MachGL {
         Timer m_timer;
         std::string m_iconPath = "MachGL/CoreAssets/CoreTextures/defaultIcon.png";
         GLFWimage m_icons[1];
+        float m_xScale = 1;
+        float m_yScale = 1;
 
     public:
 

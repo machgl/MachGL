@@ -14,7 +14,7 @@ namespace MachGL {
 
 			if (!m_properties.object) std::cout << "ERROR: Please define an object for the particle system" << std::endl;
 			
-			m_shader = make_uPoint<Graphics::Shader>(Graphics::Shader("CoreAssets/CoreShaders/particle.vert", "CoreAssets/CoreShaders/particle.frag"));
+			m_shader = make_uPoint<Graphics::Shader>("CoreAssets/CoreShaders/particle.vert", "CoreAssets/CoreShaders/particle.frag");
 			m_particle = CubeParticle();
 		}
 
