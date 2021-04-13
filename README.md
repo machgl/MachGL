@@ -30,4 +30,4 @@ Current features:
   - 3D physics using PhysX (including a non-nVidia alternative) 
   - Vulkan support
 
-If you have any questions or issues feel free to file an issue on this GitHub page or email me at: jamesjkkenny@gmail.com 
+If you have any questions or issues feel free to file an issue on this GitHub page or email me at: james@mach-gl.com 
