@@ -44,5 +44,27 @@ namespace MachGL {
 			m_renderer.submit(*m_plane);
 			m_shader->disable();
 		}
+
+		GaussianBlur::GaussianBlur(const WindowDimension& windowDimension) : PostEffect(windowDimension) {
+
+			m_framebuffer2 = make_sPoint<Framebuffer>((const float)m_width, (const float)m_height);
+			m_framebuffer2->setColorDepth(ColorDepth::MACH_32_BIT);
+			m_framebuffer2->init();
+
+			m_image2 = make_uPoint<Image>(m_framebuffer2->getColorTexture());
+			m_shader = make_uPoint<Shader>("MachGL/CoreAssets/CoreShaders/HDR.vert", "MachGL/CoreAssets/CoreShaders/HDR.frag");
+		}
+
+		void GaussianBlur::blur() {
+
+			m_shader->enable();
+			m_shader->setUniform("_pr_matrix", m_projection);
+			m_shader->setUniform("_texture_to_blur", m_gaussianPasses % 2 == 0 ? m_image2->getTID() : m_image->getTID());
+			
+		}
+
+		void GaussianBlur::render() {
+
+		}
 	}
 }

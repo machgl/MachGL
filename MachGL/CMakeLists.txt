@@ -8,6 +8,7 @@ add_library(MachGL
 			"Source/Graphics/EnvironmentMap.cpp"
 			"Source/Graphics/Framebuffer.cpp"
 			"Source/Graphics/Image.cpp"
+			"Source/Graphics/PostEffect.cpp"
 			"Source/Graphics/Renderer2D.cpp"
 			"Source/Graphics/Renderer3D.cpp"
 			"Source/Graphics/Shader.cpp"
@@ -24,5 +25,7 @@ add_library(MachGL
 			"Source/Plane/SimpleTriangle.cpp"
 			"Source/Screens/Splash.cpp"
 			"Vendor/SimplexNoise.cpp")
+
+include_directories(${YAML_CPP_SOURCE_DIR}/include)
 
 target_include_directories(MachGL PUBLIC $(CMAKE_INCLUDE_CURRENT_DIR))

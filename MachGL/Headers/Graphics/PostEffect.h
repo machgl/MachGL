@@ -45,7 +45,6 @@ namespace MachGL {
 				float m_exposure = 1.0f;
 				float m_gamma = 2.2f;
 				bool m_bloom = false;
-				uint32_t m_gaussianPasses = 5;
 
 			public:
 				HDR(const WindowDimension& windowDimension);
@@ -53,7 +52,23 @@ namespace MachGL {
 				inline void setExposure(const float& exposure) { m_exposure = exposure; }
 				inline void setGamma(const float& gamma) { m_gamma = gamma; }
 				inline void bloom() { m_bloom = true; }
+		};
+
+		class GaussianBlur : public PostEffect {
+
+			private:
+				bool m_horizontal = true;
+				uint32_t m_gaussianPasses = 5;
+				sPoint<Framebuffer> m_framebuffer2;
+				uPoint<Image> m_image2;
+
+			public:
+				GaussianBlur(const WindowDimension& windowDimension);
+				virtual void render() override;
 				inline void setGausianPasses(const uint32_t& passes) { m_gaussianPasses = passes; }
+			
+			private:
+				void blur();
 		};
 	}
 }

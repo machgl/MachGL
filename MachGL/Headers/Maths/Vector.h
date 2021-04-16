@@ -28,7 +28,7 @@ namespace MachGL {
 				}
 
 				static float2 normalize(const float2& v) {
-					glm::normalize(v);
+					return glm::normalize(v);
 				}
 
 				static void printVector(const float2& v) {

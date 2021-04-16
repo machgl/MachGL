@@ -24,7 +24,6 @@ namespace MachGL {
 				std::vector<float2> m_UVs;
 				std::vector<GLushort> m_indices;
 				void load();
-				void tokenise(std::string const& str, const char& delim, std::vector<std::string>& out);
 				bool m_hasTexture = true;
 			public:
 				Model() = default;

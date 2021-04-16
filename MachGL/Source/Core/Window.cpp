@@ -21,26 +21,16 @@ namespace MachGL {
         m_icons[0] = GLFWimage();
     }
 
-    Window::~Window() {
-
-        glfwTerminate();
-    }
+    Window::~Window() { glfwTerminate(); }
 
     void Window::init() {
 
         previousTime = glfwGetTime();
         frameCount = 0;
 
-        for (auto i : m_keys) {
-
-            i = false;
-        }
-
-        for (auto i : m_mouseButtons) {
-
-            i = false;
-        }
-
+        for (auto i : m_keys) i = false;
+        for (auto i : m_mouseButtons) i = false;
+        
         #if defined(MACH_VALID_PLATFORM)
             if (!glfwInit()) {
 
@@ -115,7 +105,6 @@ namespace MachGL {
         if (m_vsync) glfwSwapInterval(1);
         else glfwSwapInterval(0);
 
-
         m_splashImage = Graphics::Image("MachGL/CoreAssets/CoreTextures/splash.png", Graphics::ImageType::RGBA);
         m_splashScreen = make_sPoint<Splash>(this->getWindowDimension(), m_splashImage.ref());
     }
@@ -136,6 +125,32 @@ namespace MachGL {
 
     bool Window::closed() const {  return glfwWindowShouldClose(m_window) == 1; }
 
+    void Window::checkOpenGLError() {
+
+        GLenum errorCode;
+
+        while ((errorCode = glGetError()) != GL_NO_ERROR) {
+
+            std::string error;
+
+            switch (errorCode) {
+
+                case GL_INVALID_ENUM: error = "INVALID ENUM"; break;
+                case GL_INVALID_VALUE: error = "INVALID VALUE"; break;
+                case GL_INVALID_OPERATION: error = "INVALID OPERATION"; break;
+                case GL_STACK_OVERFLOW: error = "STACK OVERFLOW"; break;
+                case GL_STACK_UNDERFLOW: error = "STACK UNDERFLOW"; break;
+                case GL_OUT_OF_MEMORY: error = "OUT OF MEMORY"; break;
+                case GL_INVALID_FRAMEBUFFER_OPERATION: error = "INVALID FRAMEBUFFER OPERATION"; break;
+                #if defined(MACH_PLATFORM_WINDOWS)
+                    case GL_CONTEXT_LOST: error = "CONTEXT LOST"; break;
+                #endif
+            }
+
+            MACH_ERROR_MSG("OpenGL Error: " + error + " (" + std::to_string(errorCode) + ")");
+        }
+    }
+
     void Window::update() {
 
         if (m_window == nullptr) {
@@ -144,9 +159,7 @@ namespace MachGL {
             return;
         }
 
-        GLenum error = glGetError();
-
-        if (error != GL_NO_ERROR) std::cout << "OpenGL error: " << error << std::endl;
+        checkOpenGLError();
 
         if (m_aa) glEnable(GL_MULTISAMPLE);
 
