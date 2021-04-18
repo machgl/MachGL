@@ -34,6 +34,7 @@ namespace MachGL {
 
                 return false;
             }
+            return false;
         }
 
         class Object {

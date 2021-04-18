@@ -26,7 +26,7 @@ namespace MachGL {
         void Model::load() {
 
             std::ifstream file(m_filepath);
-            uint32_t faces = 0;
+            bool firstFace = true;
 
             if (!file.is_open()) {
 
@@ -66,12 +66,12 @@ namespace MachGL {
                 }
             
                 if (line[0] == 'f') {
-                    if (faces <= 1) faces++;
-                    if (faces == 1) {
+                    if (firstFace) {
 
                         if (m_UVs.size() < 1) m_hasTexture = false;
-                        if (m_hasTexture)  m_vertexTextures = std::vector<float2>(m_vertices.size());
+                        if (m_hasTexture) m_vertexTextures = std::vector<float2>(m_vertices.size());
                         m_vertexNormals = std::vector<float3>(m_vertices.size());
+                        firstFace = false;
                     }
 
                     std::string faces[3];

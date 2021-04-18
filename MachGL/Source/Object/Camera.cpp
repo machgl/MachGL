@@ -89,7 +89,7 @@ namespace MachGL {
 					m_yaw = 180;
 					break;
 				case 3:
-					m_pitch: 90;
+					m_pitch =  90;
 					m_yaw = 180;
 					break;
 				case 4:
