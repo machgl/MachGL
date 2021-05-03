@@ -19,14 +19,14 @@ namespace MachGL {
 		class EnvironmentMap {
 
 			private:
-				Renderer3D m_renderer;
-				GLuint m_fbo;
-				GLuint m_rbo;
-				GLuint m_textureColorBuffer;
-				float m_size;
+				Renderer3D		m_renderer;
+				GLuint			m_fbo;
+				GLuint			m_rbo;
+				GLuint			m_textureColorBuffer;
+				float			m_size;
 				WindowDimension m_windowDimension;
-				matrix4x4 m_projection;
-				float3 m_position;
+				matrix4x4		m_projection;
+				float3			m_position;
 
 			public:
 				EnvironmentMap(const float& size, const WindowDimension& windowDimension);

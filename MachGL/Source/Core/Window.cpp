@@ -25,8 +25,8 @@ namespace MachGL {
 
     void Window::init() {
 
-        previousTime = glfwGetTime();
-        frameCount = 0;
+        m_previousTime = glfwGetTime();
+        m_frameCount = 0;
 
         for (auto i : m_keys) i = false;
         for (auto i : m_mouseButtons) i = false;

@@ -11,7 +11,7 @@ uniform float _blendFactor = 0.5;
 
 void main() {
 	
-	vec3 uv = vec3(texCoords.x, -texCoords.y, texCoords.z);
+	vec3 uv = vec3(texCoords.x, texCoords.y, texCoords.z);
 
 	if (_skyboxes == 2) {
 

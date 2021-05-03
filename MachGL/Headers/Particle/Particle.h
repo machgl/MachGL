@@ -17,12 +17,12 @@ namespace MachGL {
 
 			public:
 				float m_lifetime = 3;
-				float m_time = 0;
+				float m_time     = 0;
 
 			protected:
-				std::vector<float3> m_vertices;
+				std::vector<float3>	  m_vertices;
 				std::vector<GLushort> m_indices;
-				std::vector<float3> m_normals;
+				std::vector<float3>   m_normals;
 
 			public:
 				inline const std::vector<float3>& getVertices() const { return m_vertices; }

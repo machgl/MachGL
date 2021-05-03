@@ -10,9 +10,9 @@ namespace MachGL {
         class Shader {
 
             private:
-                GLuint m_shaderID;
-                std::string m_vertPath;
-                std::string m_fragPath;
+                GLuint                                 m_shaderID;
+                std::string                            m_vertPath;
+                std::string                            m_fragPath;
                 std::unordered_map<std::string, GLint> m_uniformLocations;
                 
             public:

@@ -43,6 +43,7 @@
 #include "../../Vendor/glm/glm/gtc/type_ptr.hpp"
 #include "../../Vendor/SimplexNoise.h"
 #include "../../Vendor/yaml-cpp/include/yaml-cpp/yaml.h"
+#include "../../Vendor/fast_obj.h"
 #include <math.h>
 #include <iostream>
 #include <list>
@@ -62,4 +63,6 @@
 #include <numeric>
 #include <memory>
 #include <unordered_map>
+#include <future>
+#include <mutex>
 

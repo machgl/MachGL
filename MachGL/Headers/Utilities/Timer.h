@@ -9,12 +9,12 @@ namespace MachGL {
 		private:
 			std::chrono::time_point<std::chrono::high_resolution_clock> m_startTime;
 			std::chrono::time_point<std::chrono::high_resolution_clock> m_endTime;
-			bool m_running = false;
-			double m_lastTime;
-			double m_timer;
-			double m_nowTime = 0;
-			int m_frameCount = 0;
-			double m_frameTimeCount = 0;
+			bool														m_running		 = false;
+			double														m_lastTime;
+			double														m_timer;
+			double														m_nowTime		 = 0;
+			int															m_frameCount	 = 0;
+			double														m_frameTimeCount = 0;
 
 			void start() {
 

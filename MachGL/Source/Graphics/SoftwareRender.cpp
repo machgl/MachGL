@@ -17,7 +17,7 @@ namespace MachGL {
 
 		void SoftwareRender::init() {
 
-			m_pixels = new uint32_t[static_cast<uint64_t>(m_width) * static_cast<uint64_t>(m_height)];
+			pixels = new uint32_t[static_cast<uint64_t>(m_width) * static_cast<uint64_t>(m_height)];
 	
 			glGenTextures(1, &m_TID);
 			glBindTexture(GL_TEXTURE_2D, m_TID);
@@ -40,7 +40,7 @@ namespace MachGL {
 
 		void SoftwareRender::clear(const uint32_t& color) {
 
-			for (uint32_t i = 0; i < m_width * m_height; i++) m_pixels[i] = color;
+			for (uint32_t i = 0; i < m_width * m_height; i++) pixels[i] = color;
 		}
 
 		void SoftwareRender::flush() {
@@ -48,19 +48,18 @@ namespace MachGL {
 			m_rect->render();
 
 			glBindTexture(GL_TEXTURE_2D, m_TID);
-			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_height, GL_BGRA, GL_UNSIGNED_BYTE, m_pixels);
+			glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, m_width, m_height, GL_BGRA, GL_UNSIGNED_BYTE, pixels);
 			glBindTexture(GL_TEXTURE_2D, 0);
 		}
 
 		void SoftwareRender::render() {
 
-			clear(0);
 			flush();
 		}
 
 		SoftwareRender::~SoftwareRender() {
 
-			delete[] m_pixels;
+			delete[] pixels;
 		}
 	}
 }

@@ -11,89 +11,53 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
-        Model::Model(const std::string& filepath)
-			: m_filepath(filepath) {
-
-			load();
-		}
-
+        Model::Model(const std::string& filepath) : m_filepath(filepath) { load(); }
         Model::Model(const std::vector<float3>& vertices) : m_vertices(vertices) { }
-
         Model::Model(const std::vector<float3>& vertices, const std::vector<float3>& normals, const std::vector<float2>& UVs, 
-            const std::vector<GLushort>& indices)
+            const std::vector<unsigned int>& indices)
             : m_vertices(vertices), m_vertexNormals(normals), m_vertexTextures(UVs), m_indices(indices) { }
 		
         void Model::load() {
 
-            std::ifstream file(m_filepath);
-            bool firstFace = true;
+            auto*    mesh        = fast_obj_read(m_filepath.c_str());
+            uint32_t vertexCount = mesh->position_count;
 
-            if (!file.is_open()) {
+            m_indices = std::vector<unsigned int>((uint64_t)mesh->face_count * 3);
+          
+            for (uint32_t i = 0; i < mesh->group_count; i++) {
 
-                MACH_ERROR_MSG("Could not load: " + m_filepath);
-                return;
-            }
+                auto& group = mesh->groups[i];
+                uint32_t   index = 0;
+                
+                for (uint32_t j = 0; j < group.face_count; j++) {
 
-            while (!file.eof()) {
+                    uint32_t face_vertices = mesh->face_vertices[group.face_offset + j];
 
-                char line[128];
-                file.getline(line, 128);
-                std::strstream s;
-                s << line;
-                char junk;
+                    for (uint32_t k = 0; k < face_vertices; k++) {
 
-                if (line[0] == 'v') {
+                        auto mesh_index = mesh->indices[group.index_offset + index];
 
-                    if (line[1] == 'n') {
+                        m_vertices.push_back(float3(mesh->positions[3 * mesh_index.p + 0],
+                                                    mesh->positions[3 * mesh_index.p + 1],
+                                                    mesh->positions[3 * mesh_index.p + 2]));
 
-                        float3 vn;
-                        s >> junk >> junk >> vn.x >> vn.y >> vn.z;
-                        m_normals.push_back(vn);
+                        m_vertexNormals.push_back(float3(mesh->normals[3 * mesh_index.n + 0],
+                                                         mesh->normals[3 * mesh_index.n + 1],
+                                                         mesh->normals[3 * mesh_index.n + 2]));
 
-                    }
-                    if (line[1] == 't') {
+                        m_vertexTextures.push_back(float2(mesh->texcoords[2 * mesh_index.t + 0],
+                                                          mesh->texcoords[2 * mesh_index.t + 1]));
 
-                        float2 vt;
-                        s >> junk >> junk >> vt.x >> vt.y;
-                        m_UVs.push_back(vt);
-                    }
-                    else {
-
-                        float3 v;
-                        s >> junk >> v.x >> v.y >> v.z;
-                        m_vertices.push_back(v);
-                    }
-                }
-            
-                if (line[0] == 'f') {
-                    if (firstFace) {
-
-                        if (m_UVs.size() < 1) m_hasTexture = false;
-                        if (m_hasTexture) m_vertexTextures = std::vector<float2>(m_vertices.size());
-                        m_vertexNormals = std::vector<float3>(m_vertices.size());
-                        firstFace = false;
-                    }
-
-                    std::string faces[3];
-                    s >> junk >> faces[0] >> faces[1] >> faces[2];
-
-                    for (uint32_t i = 0; i < 3; i++) {
-
-                        std::vector<std::string> face;
-                        Utilities::tokenize(faces[i], (char)12079, face);
-
-                        if (m_hasTexture) {
-
-                            m_vertexTextures[static_cast<uint64_t>(std::stoi(face[0])) - 1] = m_UVs[static_cast<uint64_t>(std::stoi(face[1])) - 1];
-                            m_vertexNormals[static_cast<uint64_t>(std::stoi(face[0])) - 1] = m_normals[static_cast<uint64_t>(std::stoi(face[2])) - 1];
-                        }
-                        else  m_vertexNormals[static_cast<uint64_t>(std::stoi(face[0])) - 1] = m_normals[static_cast<uint64_t>(std::stoi(face[1])) - 1];
-                        m_indices.push_back(std::stoi(face[0]) - 1);
+                        m_indices.push_back(index);
+                        index++;
                     }
                 }
             }
 
-            file.close();
+            if (m_vertexTextures.size() > 0) m_hasTexture = true;
+
+            fast_obj_destroy(mesh);
+            MACH_MSG("Loaded: " + m_filepath);
         }
 	}
 }

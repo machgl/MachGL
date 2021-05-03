@@ -1,9 +1,16 @@
+################################################################################
+
+# NO NEED TO EDIT
+
 cmake_minimum_required(VERSION 3.4)
 project(TestCompile)
 set(CMAKE_CXX_STANDARD 17)
-
 add_subdirectory("MachGL")
 find_package(OpenGL REQUIRED)
+
+################################################################################
+
+# ADD ANY CUSTOM CMAKE COMMANDS/FUNCTIONS HERE 
 
 ################################################################################
 

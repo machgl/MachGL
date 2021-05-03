@@ -22,10 +22,10 @@ namespace MachGL {
 		class Bound {
 
 			private:
-				float3 m_size;
-				float3 m_center;
+				float3              m_size;
+				float3              m_center;
 				std::vector<float3> m_vertices;
-				BoundType m_type = BoundType::CUBE;
+				BoundType           m_type = BoundType::CUBE;
 
 			public:
 				Bound(const float3& size, const float3& center, const std::vector<float3>& vertices) : m_size(size), m_center(center), m_vertices(vertices) {}

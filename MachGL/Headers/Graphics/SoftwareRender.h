@@ -18,13 +18,15 @@ namespace MachGL {
 		class SoftwareRender {
 			
 			private: 
-				float2 m_position;
-				uint32_t m_width, m_height;
-				WindowDimension m_windowDimension;
-				uint32_t* m_pixels;
-				GLuint m_TID;
+				float2					  m_position;
+				uint32_t                  m_width, m_height;
+				WindowDimension           m_windowDimension;
+				GLuint					  m_TID;
 				uPoint<Plane::SimpleRect> m_rect;
-				uPoint<Graphics::Image> m_image;
+				uPoint<Graphics::Image>   m_image;
+
+			public:
+				uint32_t*                 pixels;
 
 			public:
 				SoftwareRender() = default;

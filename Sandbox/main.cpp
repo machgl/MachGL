@@ -6,8 +6,8 @@
     #define HEIGHT (float) 2160
 
 #else
-    #define WIDTH (float) 1280
-    #define HEIGHT (float) 720
+    #define WIDTH (float) 1920
+    #define HEIGHT (float) 1080
 #endif
 
 #define MAX_LIGHTS 12
@@ -19,30 +19,30 @@ using namespace MachGL;
 int main() {
 
     Window window("Mach::GL Game Engine Sandbox", WIDTH, HEIGHT);
-    window.vsync();
+    //window.vsync();
 
 #if defined(FULLSCREEN)
     window.disableCursor();
     window.fullscreen();
 #endif
     //window.debug();
-    //window.MSAA(2);
+    window.MSAA(8);
     window.init();
-
+    
     Graphics::Image crosshairTexture("Sandbox/Textures/crosshair.png", Graphics::ImageType::RGBA, false);
     Graphics::Image grassTexture("Sandbox/Textures/grassBlock.jpg", Graphics::ImageType::RGB);
     Graphics::Image deathstarTexture("Sandbox/Textures/deathstar.png", Graphics::ImageType::RGB);
     Graphics::Image dirtTexture("Sandbox/Textures/dirtTexture.jpg", Graphics::ImageType::RGB);
     Graphics::Image aTexture("Sandbox/Textures/a.png", Graphics::ImageType::RGB);
-    
+        
     Plane::SimpleRect crosshair(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), crosshairTexture.ref(), window.getWindowDimension());
 
     std::vector<std::string> fileNames {
 
         "Sandbox/Textures/Skybox/right.jpg",
         "Sandbox/Textures/Skybox/left.jpg",
-        "Sandbox/Textures/Skybox/bottom.jpg",
         "Sandbox/Textures/Skybox/top.jpg",
+        "Sandbox/Textures/Skybox/bottom.jpg",
         "Sandbox/Textures/Skybox/front.jpg",
         "Sandbox/Textures/Skybox/back.jpg"
     };
@@ -51,8 +51,8 @@ int main() {
 
         "Sandbox/Textures/Skybox/nightRight.png",
         "Sandbox/Textures/Skybox/nightLeft.png",
-        "Sandbox/Textures/Skybox/nightBottom.png",
         "Sandbox/Textures/Skybox/nightTop.png",
+        "Sandbox/Textures/Skybox/nightBottom.png",
         "Sandbox/Textures/Skybox/nightFront.png",
         "Sandbox/Textures/Skybox/nightBack.png"
     };
@@ -87,22 +87,30 @@ int main() {
     Object::Object scene(terrain.getModel(), float3(-200, 0, -200), dirtTexture.ref(), nullptr, Object::ObjectType::TERRAIN);
     Object::Object sun_object(sphereModel.ref(), sun.getPosition(), deathstarTexture.ref());
     Object::Object suzanne(suzanneModel.ref(), light.getPosition(), deathstarTexture.ref());
-    Object::Object cube(cubeModel.ref(), float3(0, 5, 10), grassTexture.ref());
     Object::Object ship(shipModel.ref(), float3(-10, 10, -10), nullptr);
-    sun_object.setColor(sun.getColor());
-    
-    scene.setShineDamper(20);
-    scene.setReflectivity(0.01f);
-    scene.setTextureScale(40);
-    scene.setScale(float3(2));
-    
-    suzanne.setColor(light.getColor());
-    suzanne.setShineDamper(5);
-    suzanne.setReflectivity(0.4f);
 
-    suzanne.setScale(float3(5, 5, 5));
-    ship.setReflectivity(0.4f);
-    ship.setShineDamper(5);
+    Object::ObjectProperties sunProperties;
+    sunProperties.color = sun.getColor();
+
+    Object::ObjectProperties sceneProperties;
+    sceneProperties.shineDamper = 20;
+    sceneProperties.reflectivity = 0.01f;
+    sceneProperties.textureScale = 40;
+    sceneProperties.scale = float3(2);
+
+    Object::ObjectProperties suzanneProperties;
+    suzanneProperties.color = light.getColor();
+    suzanneProperties.shineDamper = 5;
+    suzanneProperties.reflectivity = 0.4f;
+    suzanneProperties.scale = float3(5);
+
+    Object::ObjectProperties shipProperties;
+    shipProperties.reflectivity = 0.4f;
+    shipProperties.shineDamper = 5;
+    
+    Object::ObjectProperties cubeProperties;
+    cubeProperties.shineDamper = 10;
+    cubeProperties.reflectivity = 0.01f;
 
     std::vector<Object::Object> objects;
     std::vector<Object::Object> cubeList;
@@ -114,23 +122,20 @@ int main() {
             for (uint32_t z = 0; z < cubes; z++) {
 
                 Object::Object cube(cubeModel.ref(), float3(x * 10, y * 10, z * 10), grassTexture.ref());
-                cube.setShineDamper(10);
-                cube.setReflectivity(0.01f);
-                cube.create();
+                cube.create(cubeProperties);
                 cubeList.push_back(cube);
             }
         }
     }
 
-    scene.create();
-    sun_object.create();
-    suzanne.create();
-    ship.create();
+    scene.create(sceneProperties);
+    sun_object.create(sunProperties);
+    suzanne.create(suzanneProperties);
+    ship.create(shipProperties);
 
     objects.push_back(scene);
     objects.push_back(ship);
     objects.push_back(sun_object);
-    objects.push_back(cube);
     objects.push_back(suzanne);
     
     Graphics::Renderer3D renderer3D;
@@ -171,11 +176,11 @@ int main() {
             
             time.reset();
 
-//            ****************************************************************************************
+            //****************************************************************************************
             
             enviroMap.capture();
             shader.enable();
-            
+
             for (uint32_t i = 0; i < MAX_LIGHTS; i++) {
             
                 std::string lightColor = "_light_color[" + std::to_string(i) + "]";
@@ -208,16 +213,16 @@ int main() {
             
             shader.disable();
             enviroMap.stop();
-
+            
             //**************************************************************************************
             
             // Things for HDR 
-
+            
             //****************************************************************************************************
             window.clear();
-
+            
             hdr.capture();
-
+            
             camera.mouseMovement(0.3f);
             
             ship.setEnviromentMap(skybox.getObject()->getTID());
@@ -317,6 +322,7 @@ int main() {
             skybox.render(projection, camera.getViewMatrix());
             //framebufferQuad.render();
             crosshair.render();
+            
             hdr.stop();
 
             window.clear();
@@ -333,10 +339,13 @@ int main() {
         lastTime = time.elapsedTimeMilliseconds() / 50;
     }
 
+    for (int i = 0; i < cubeList.size(); i++) {
+        cubeList[i].destroy();
+    }
+
     scene.destroy();
     sun_object.destroy();
     suzanne.destroy();
-    cube.destroy();
     ship.destroy();
 
     window.~Window();

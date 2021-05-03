@@ -20,14 +20,14 @@ namespace MachGL {
 		class Image {
 
 			private:
-				GLsizei m_width = 0;
-				GLsizei m_height = 0;
-				GLsizei m_channels = 0;
-				std::string m_fileName;
+				GLsizei					 m_width	= 0;
+				GLsizei					 m_height	= 0;
+				GLsizei					 m_channels = 0;
+				std::string				 m_fileName;
 				std::vector<std::string> m_fileNames;
-				GLuint m_texture = 0;
-				bool m_mipmap = true;
-				ImageType m_type = ImageType::RGB;
+				GLuint					 m_texture	= 0;
+				bool					 m_mipmap	= true;
+				ImageType				 m_type		= ImageType::RGB;
 				
 			public:
 

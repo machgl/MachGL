@@ -21,15 +21,15 @@ namespace MachGL {
 		class PostEffect {
 
 			protected:
-				WindowDimension m_windowDimension;
-				sPoint<Framebuffer> m_framebuffer;
-				sPoint<Image> m_image;
-				uPoint<Shader> m_shader;
-				uPoint<Plane::Plane> m_plane;
-				Renderer2D m_renderer;
-				uint32_t m_width = 0, m_height = 0;
-				matrix4x4 m_projection;
-				Plane::PlaneProperties m_planeProperties;
+				WindowDimension			m_windowDimension;
+				sPoint<Framebuffer>		m_framebuffer;
+				sPoint<Image>			m_image;
+				uPoint<Shader>			m_shader;
+				uPoint<Plane::Plane>    m_plane;
+				Renderer2D				m_renderer;
+				uint32_t				m_width = 0, m_height = 0;
+				matrix4x4				m_projection;
+				Plane::PlaneProperties	m_planeProperties;
 
 			public:
 				PostEffect(const WindowDimension& windowDimension);
@@ -57,10 +57,10 @@ namespace MachGL {
 		class GaussianBlur : public PostEffect {
 
 			private:
-				bool m_horizontal = true;
-				uint32_t m_gaussianPasses = 5;
+				bool				m_horizontal     = true;
+				uint32_t			m_gaussianPasses = 5;
 				sPoint<Framebuffer> m_framebuffer2;
-				uPoint<Image> m_image2;
+				uPoint<Image>		m_image2;
 
 			public:
 				GaussianBlur(const WindowDimension& windowDimension);

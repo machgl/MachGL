@@ -12,7 +12,7 @@ namespace MachGL {
             float3 m_position;
             float4 m_color;
             float3 m_attenuation = float3(1, 0, 0);
-            float m_brightness = 1.0f;
+            float  m_brightness  = 1.0f;
 
         public:
             Light(const float3& position, const float4& color) : m_position(position), m_color(color) { }

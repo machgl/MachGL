@@ -12,7 +12,7 @@ namespace MachGL {
 		class Renderer2D {
 
 			public:
-				Renderer2D() = default;
+				Renderer2D()  = default;
 				~Renderer2D() = default;
 
 				/// <summary>

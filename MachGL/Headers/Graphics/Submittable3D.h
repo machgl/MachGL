@@ -18,7 +18,7 @@ namespace MachGL {
 		struct Submittable3D {
 
 			sPoint<Object::Object> object;
-			sPoint<Shader> shader;
+			sPoint<Shader>		   shader;
 		};
 	}
 }

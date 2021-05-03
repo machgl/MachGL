@@ -25,20 +25,19 @@ namespace MachGL {
 		class Skybox {
 
 			private:
-				std::vector<float3> m_vertices;
-				Graphics::Renderer3D m_renderer;
-				std::vector<Object> m_objects;
-				sPoint<Object> m_object;
+				std::vector<float3>      m_vertices;
+				Graphics::Renderer3D     m_renderer;
+				std::vector<Object>      m_objects;
+				sPoint<Object>			 m_object;
 				uPoint<Graphics::Shader> m_shader;
-				std::vector<float3> makeVertices();
-				SkyboxType m_type = SkyboxType::STATIC;
-				sPoint<Graphics::Image> m_image;
-				sPoint<Graphics::Image> m_image2;
-				float m_blendFactor = 0.5f;
-				float m_cycleTime = 60.0f;
-				float m_tenPercent = m_cycleTime / 10.f;
-				float m_half = m_cycleTime / 2.0f;
-				Timer m_timer;
+				SkyboxType				 m_type		   = SkyboxType::STATIC;
+				sPoint<Graphics::Image>	 m_image;
+				sPoint<Graphics::Image>	 m_image2;
+				float					 m_blendFactor = 0.5f;
+				float					 m_cycleTime   = 60.0f;
+				float					 m_tenPercent  = m_cycleTime / 10.f;
+				float					 m_half        = m_cycleTime / 2.0f;
+				Timer					 m_timer;
 
 			public:
 				Skybox(const sPoint<Graphics::Image>& image);
@@ -50,6 +49,7 @@ namespace MachGL {
 
 			private:
 				void cycle();
+				std::vector<float3>	makeVertices();
 		};
 	}
 }

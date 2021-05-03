@@ -12,13 +12,13 @@ namespace MachGL {
 
         GLuint Shader::load() {
 
-            GLuint program = glCreateProgram();
-            GLuint vertex = glCreateShader(GL_VERTEX_SHADER);
+            GLuint program  = glCreateProgram();
+            GLuint vertex   = glCreateShader(GL_VERTEX_SHADER);
             GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
-            GLint result;
+            GLint  result;
 
-            std::string vertSourceString = Utilities::readFromFile(m_vertPath);
-            std::string fragSourceString = Utilities::readFromFile(m_fragPath);
+            std::string vertSourceString = Utilities::FileUtilities::fileToString(m_vertPath);
+            std::string fragSourceString = Utilities::FileUtilities::fileToString(m_fragPath);
 
             const char* vertSource = vertSourceString.c_str();
             const char* fragSource = fragSourceString.c_str();

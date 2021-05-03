@@ -14,12 +14,12 @@ namespace MachGL {
 
 		void Framebuffer::init() {
 
-			for (int i = 0; i < m_attachments; i++) m_textureColorBuffers.push_back(0);
+			for (uint32_t i = 0; i < m_attachments; i++) m_textureColorBuffers.push_back(0);
 
 			glGenFramebuffers(1, &m_fbo);
 			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 					
-			for (int i = 0; i < m_attachments; i++) {
+			for (uint32_t i = 0; i < m_attachments; i++) {
 
 				glGenTextures(m_attachments, &m_textureColorBuffers[i]);
 				glBindTexture(GL_TEXTURE_2D, m_textureColorBuffers[i]);
@@ -96,7 +96,6 @@ namespace MachGL {
 		void Framebuffer::capture() {
 
 			glViewport(0, 0, (GLsizei)m_width, (GLsizei)m_height);
-
 			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
 			glEnable(GL_DEPTH_TEST);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

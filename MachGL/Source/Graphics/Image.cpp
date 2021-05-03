@@ -46,6 +46,7 @@ namespace MachGL {
 				if (m_type == ImageType::RGBA)
 					glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
+				MACH_MSG("Loaded: " + m_fileName);
 				stbi_image_free(data);
 			}
 			else {
@@ -79,6 +80,7 @@ namespace MachGL {
 			#endif
 		
 			glBindTexture(GL_TEXTURE_2D, 0);
+			stbi_set_flip_vertically_on_load(0);
 			return result;
 		}
 

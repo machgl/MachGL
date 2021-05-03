@@ -22,17 +22,17 @@ namespace MachGL {
 		class SimpleTriangle {
 
 			private:
-				float2 m_position;
-				float2 m_size;
-				float4 m_color = float4(1);
-				sPoint<Graphics::Image> m_image = nullptr;
-				matrix4x4 m_projection;
-				Graphics::Shader* m_shader = nullptr;
-				sPoint<Plane> m_plane = nullptr;
-				std::vector<Plane> m_planes;
-				WindowDimension m_windowDimension;
-				Graphics::Renderer2D* m_renderer = nullptr;
-				float m_alpha = 1.0f;
+				float2                  m_position;
+				float2                  m_size;
+				float4                  m_color    = float4(1);
+				sPoint<Graphics::Image> m_image    = nullptr;
+				matrix4x4               m_projection;
+				Graphics::Shader*       m_shader   = nullptr;
+				sPoint<Plane>           m_plane	   = nullptr;
+				std::vector<Plane>      m_planes;
+				WindowDimension         m_windowDimension;
+				Graphics::Renderer2D*   m_renderer = nullptr;
+				float					m_alpha    = 1.0f;
 
 			public:
 

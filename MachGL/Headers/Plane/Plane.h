@@ -27,33 +27,33 @@ namespace MachGL {
 
 		struct PlaneProperties {
 
-			float3 position = float3(0);
-			float2 size = float2(1);
-			float4 color = float4(0);
-			PlaneShape shape = PlaneShape::QUAD;
-			sPoint<Graphics::Image> image = nullptr;
-			PlaneType type = PlaneType::STATIC;
+			float3					position = float3(0);
+			float2					size	 = float2(1);
+			float4					color	 = float4(0);
+			PlaneShape				shape	 = PlaneShape::QUAD;
+			sPoint<Graphics::Image> image	 = nullptr;
+			PlaneType				type	 = PlaneType::STATIC;
 		};
 
 		class Plane{
 
 			private:
-				float3 m_position;
-				float2 m_size;
-				float m_TID;
-				float4 m_color;
-				sPoint<Graphics::Image> m_image = nullptr;
-				GLuint m_texture;
-				PlaneType m_type = PlaneType::STATIC;
-				PlaneShape m_shape = PlaneShape::QUAD;
-				std::vector<float3> m_vertices;
-				std::vector<GLushort> m_indices;
-				std::vector<float2> m_UVs;
-				GLuint m_VAO;
-				GLuint m_VBO;
-				GLuint m_IBO;
-				Vertex* m_vertexBuffer = nullptr;
-				Index* m_indexBuffer = nullptr;
+				float3					m_position;
+				float2					m_size;
+				float					m_TID;
+				float4					m_color;
+				sPoint<Graphics::Image> m_image		   = nullptr;
+				GLuint				    m_texture;
+				PlaneShape				m_shape		   = PlaneShape::QUAD;
+				PlaneType				m_type		   = PlaneType::STATIC;
+				std::vector<float3>		m_vertices;
+				std::vector<GLushort>	m_indices;
+				std::vector<float2>		m_UVs;
+				GLuint					m_VAO;
+				GLuint					m_VBO;
+				GLuint					m_IBO;
+				Vertex*					m_vertexBuffer = nullptr;
+				Index*					m_indexBuffer  = nullptr;
 
 				std::vector<float3> m_triVertices = {
 

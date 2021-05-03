@@ -28,7 +28,7 @@ namespace MachGL {
 			std::vector<float3> vertices(count);
 			std::vector<float3> normals(count);
 			std::vector<float2> textureCoords(count);
-			std::vector<GLushort> indices(6 * static_cast<uint64_t>(m_vertexCount - 1) * static_cast<uint64_t>(m_vertexCount - 1));
+			std::vector<unsigned int> indices(6 * (uint64_t)(m_vertexCount - 1) * (uint64_t)(m_vertexCount - 1));
 			int vertexPointer = 0;
 
 			for (uint32_t i = 0; i < m_vertexCount; i++) {

@@ -12,22 +12,22 @@ namespace MachGL {
 		class Camera {
 
 			private:
-				float3 m_pos = float3(0, 0, 0);
-				float3 m_originalPos = m_pos;
-				float3 m_cameraFront = float3(0, 0, -1);
-				float3 m_cameraUp = float3(0, 1, 0);
-				CameraType m_cameraType = CameraType::FPS;
-				sPoint<Window> m_window = nullptr;
-				float m_yaw = 0.0f;
-				float m_pitch = 0.0f;
-				float m_cameraY = m_pos.y;
-				float m_originalY = m_originalPos.y;
-				float m_lastX = (float)m_window->getWidth() / 2.0f;
-				float m_lastY = (float)m_window->getHeight() / 2.0f;
-				bool m_firstMouse = true;
-				bool m_defaults = true;
-				matrix4x4 m_projectionMatrix = matrix4x4(1.0);
-				matrix4x4 m_viewMatrix = matrix4x4(1.0);
+				float3			m_pos				= float3(0, 0, 0);
+				float3			m_originalPos		= m_pos;
+				float3			m_cameraFront		= float3(0, 0, -1);
+				float3			m_cameraUp			= float3(0, 1, 0);
+				CameraType		m_cameraType		= CameraType::FPS;
+				sPoint<Window>  m_window			= nullptr;
+				float			m_yaw				= 0.0f;
+				float			m_pitch				= 0.0f;
+				float			m_cameraY			= m_pos.y;
+				float			m_originalY			= m_originalPos.y;
+				float			m_lastX				= (float)m_window->getWidth() / 2.0f;
+				float			m_lastY				= (float)m_window->getHeight() / 2.0f;
+				bool			m_firstMouse		= true;
+				bool			m_defaults			= true;
+				matrix4x4		m_projectionMatrix	= matrix4x4(1.0);
+				matrix4x4		m_viewMatrix		= matrix4x4(1.0);
 
 			public:
 				Camera(const float3& position, const CameraType& cameraType, const sPoint<Window>& window);

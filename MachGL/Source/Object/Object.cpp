@@ -63,7 +63,7 @@ namespace MachGL {
 
             float3 size(maxX - minX, maxY - minY, maxZ - minZ);
             float3 center((minX + maxX) / 2.0f, (minY + maxY) / 2.0f, (minZ + maxZ) / 2.0f);
-            size *= m_scale;
+            size *= m_properties.scale;
             center += m_position;
 
             for (uint32_t i = 0; i < 8; i++) {
@@ -196,16 +196,22 @@ namespace MachGL {
             }
         }
 
-        void Object::create() { 
+        void Object::create() {
+
+            loadToBuffers();
+            m_objectID = rand() % 0xffffffff;
+        }
+
+        void Object::create(const ObjectProperties& properties) { 
             
+            m_properties = properties;
             loadToBuffers(); 
             m_objectID = rand() % 0xffffffff;
         }
 
         void Object::destroy() {
 
-            if (this->getType() != ObjectType::SKYBOX)
-                glDeleteBuffers(1, &m_IBO);
+            if (this->getType() != ObjectType::SKYBOX) glDeleteBuffers(1, &m_IBO);
 
             glDeleteBuffers(1, &m_VBO);
             glDeleteVertexArrays(1, &m_VAO);

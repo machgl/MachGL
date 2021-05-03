@@ -21,15 +21,15 @@ namespace MachGL {
 		class Framebuffer {
 
 			private:
-				GLuint m_fbo = 0;
+				GLuint				m_fbo = 0;
 				std::vector<GLuint> m_textureColorBuffers;
-				GLuint m_textureDepthbuffer = 0;
-				GLuint m_rbo = 0;
-				float m_width = 0;
-				float m_height = 0;
-				ColorDepth m_colorDepth = ColorDepth::MACH_8_BIT;
-				uint32_t m_attachments = 1;
-				uint32_t m_framebuffers = 1;
+				GLuint				m_textureDepthbuffer = 0;
+				GLuint				m_rbo = 0;
+				float				m_width = 0;
+				float				m_height = 0;
+				ColorDepth			m_colorDepth = ColorDepth::MACH_8_BIT;
+				uint32_t			m_attachments = 1;
+				uint32_t			m_framebuffers = 1;
 
 			public:
 				/// <summary>

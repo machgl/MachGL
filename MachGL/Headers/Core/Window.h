@@ -14,27 +14,27 @@ namespace MachGL {
     class Window {
 
         private:
-            std::string m_title;
-            uint32_t m_width, m_height;
-            uint32_t m_aa = 0;
-            GLFWwindow* m_window = nullptr;
-            sPoint<Splash> m_splashScreen = nullptr;
+            std::string     m_title;
+            uint32_t        m_width, m_height;
+            uint32_t        m_aa            = 0;
+            GLFWwindow*     m_window        = nullptr;
+            sPoint<Splash>  m_splashScreen  = nullptr;
             Graphics::Image m_splashImage;
-            bool m_vsync = false;
-            bool m_fullscreen = false;
-            double previousTime = 0;
-            int frameCount = 0;
-            static bool m_keys[MAX_KEYS];
-            static bool m_mouseButtons[MAX_BUTTONS];
-            static double mx, my;
-            bool m_isLoaded = false;
-            bool m_cursor = true;
-            bool m_debug = false;
-            Timer m_timer;
-            std::string m_iconPath = "MachGL/CoreAssets/CoreTextures/defaultIcon.png";
-            GLFWimage m_icons[1];
-            float m_xScale = 1;
-            float m_yScale = 1;
+            bool            m_vsync         = false;
+            bool            m_fullscreen    = false;
+            double          m_previousTime  = 0;
+            int             m_frameCount    = 0;
+            static bool     m_keys[MAX_KEYS];
+            static bool     m_mouseButtons[MAX_BUTTONS];
+            static double   mx, my;
+            bool            m_isLoaded      = false;
+            bool            m_cursor        = true;
+            bool            m_debug         = false;
+            Timer           m_timer;
+            std::string     m_iconPath      = "MachGL/CoreAssets/CoreTextures/defaultIcon.png";
+            GLFWimage       m_icons[1];
+            float           m_xScale        = 1;
+            float           m_yScale        = 1;
 
         public:
 
