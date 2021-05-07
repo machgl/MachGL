@@ -35,6 +35,7 @@ bld/
 [Xx]64/
 .vscode
 [Bb]uild/
+!Vendor/premake/bin/
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
