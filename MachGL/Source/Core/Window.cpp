@@ -105,7 +105,7 @@ namespace MachGL {
         if (m_vsync) glfwSwapInterval(1);
         else glfwSwapInterval(0);
 
-        m_splashImage = Graphics::Image("MachGL/CoreAssets/CoreTextures/splash.png", Graphics::ImageType::RGBA);
+        m_splashImage = Graphics::Image("../MachGL/CoreAssets/CoreTextures/splash.png", Graphics::ImageType::RGBA);
         m_splashScreen = make_sPoint<Splash>(this->getWindowDimension(), m_splashImage.ref());
     }
 

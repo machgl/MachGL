@@ -15,7 +15,7 @@ namespace MachGL {
             m_object = make_sPoint<Object>(make_sPoint<Model>(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
             m_object->create();
             m_objects.push_back(*m_object);
-            m_shader = make_uPoint<Graphics::Shader>("MachGL/CoreAssets/CoreShaders/skybox.vert", "MachGL/CoreAssets/CoreShaders/skybox.frag");
+            m_shader = make_uPoint<Graphics::Shader>("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
             m_type = SkyboxType::STATIC;
 		}
 
@@ -25,7 +25,7 @@ namespace MachGL {
             m_object = make_sPoint<Object>(make_sPoint<Model>(makeVertices()), float3(0), m_image, m_image2, ObjectType::SKYBOX);
             m_object->create();
             m_objects.push_back(*m_object);
-            m_shader = make_uPoint<Graphics::Shader>("MachGL/CoreAssets/CoreShaders/skybox.vert", "MachGL/CoreAssets/CoreShaders/skybox.frag");
+            m_shader = make_uPoint<Graphics::Shader>("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
             m_type = SkyboxType::DYNAMIC;
         }
 

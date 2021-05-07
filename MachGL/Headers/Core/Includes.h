@@ -5,7 +5,7 @@
 //Platform detection
 #if defined(_WIN64) || defined(_WIN32)
     #define MACH_PLATFORM_WINDOWS
-    #include "../../Vendor/glad.h"
+    #include "../../Vendor/Glad/include/glad/glad.h"
 #elif defined(__APPLE__) || defined(__MACH__) 
     #include <TargetConditionals.h>
     #if TARGET_IPHONE_SIMULATOR == 1
@@ -41,7 +41,7 @@
 #include "../../Vendor/glm/glm/glm.hpp"
 #include "../../Vendor/glm/glm/gtc/matrix_transform.hpp"
 #include "../../Vendor/glm/glm/gtc/type_ptr.hpp"
-#include "../../Vendor/SimplexNoise.h"
+#include "../../Vendor/SimplexNoise/include/SimplexNoise.h"
 #include "../../Vendor/yaml-cpp/include/yaml-cpp/yaml.h"
 #include "../../Vendor/fast_obj.h"
 #include <math.h>

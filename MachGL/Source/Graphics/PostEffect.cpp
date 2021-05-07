@@ -31,7 +31,7 @@ namespace MachGL {
 
 		HDR::HDR(const WindowDimension& windowDimension) : PostEffect(windowDimension) {
 
-			m_shader = make_uPoint<Shader>("MachGL/CoreAssets/CoreShaders/HDR.vert", "MachGL/CoreAssets/CoreShaders/HDR.frag");
+			m_shader = make_uPoint<Shader>("../MachGL/CoreAssets/CoreShaders/HDR.vert", "../MachGL/CoreAssets/CoreShaders/HDR.frag");
 		}
 		
 		void HDR::render() {
@@ -52,7 +52,7 @@ namespace MachGL {
 			m_framebuffer2->init();
 
 			m_image2 = make_uPoint<Image>(m_framebuffer2->getColorTexture());
-			m_shader = make_uPoint<Shader>("MachGL/CoreAssets/CoreShaders/HDR.vert", "MachGL/CoreAssets/CoreShaders/HDR.frag");
+			m_shader = make_uPoint<Shader>("../MachGL/CoreAssets/CoreShaders/HDR.vert", "../MachGL/CoreAssets/CoreShaders/HDR.frag");
 		}
 
 		void GaussianBlur::blur() {

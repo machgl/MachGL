@@ -24,9 +24,9 @@ namespace MachGL {
 
                             MACH_MSG("Loaded: " + filePath);
                         }
-                        else MACH_ERROR_MSG("Failed to read from the file");
+                        else MACH_ERROR_MSG("Failed to read from the file: " + filePath);
                     }
-                    else MACH_ERROR_MSG("Could not open the file");
+                    else MACH_ERROR_MSG("Could not open the file: " + filePath);
                     return result;
                 }
 

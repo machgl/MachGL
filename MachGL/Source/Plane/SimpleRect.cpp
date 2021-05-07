@@ -13,7 +13,7 @@ namespace MachGL {
 			: m_position(position), m_size(size), m_image(image), m_windowDimension(windowDimension) {
 
 			m_projection = Maths::Matrix::simpleOrthographic(m_windowDimension);
-			m_shader = make_uPoint<Graphics::Shader>("MachGL/CoreAssets/CoreShaders/simple.vert", "MachGL/CoreAssets/CoreShaders/simple.frag");
+			m_shader = make_uPoint<Graphics::Shader>("../MachGL/CoreAssets/CoreShaders/simple.vert", "../MachGL/CoreAssets/CoreShaders/simple.frag");
 			
 			PlaneProperties planeProperties;
 			planeProperties.position = float3(m_position, 0);
@@ -29,7 +29,7 @@ namespace MachGL {
 			: m_position(position), m_size(size), m_color(color), m_windowDimension(windowDimension) {
 
 			m_projection = Maths::Matrix::simpleOrthographic(m_windowDimension);
-			m_shader = make_uPoint<Graphics::Shader>("MachGL/CoreAssets/CoreShaders/simple.vert", "MachGL/CoreAssets/CoreShaders/simple.frag");
+			m_shader = make_uPoint<Graphics::Shader>("../MachGL/CoreAssets/CoreShaders/simple.vert", "../MachGL/CoreAssets/CoreShaders/simple.frag");
 
 			PlaneProperties planeProperties;
 			planeProperties.position = float3(m_position, 0);

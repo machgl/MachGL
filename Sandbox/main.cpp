@@ -29,32 +29,32 @@ int main() {
     window.MSAA(8);
     window.init();
     
-    Graphics::Image crosshairTexture("Sandbox/Textures/crosshair.png", Graphics::ImageType::RGBA, false);
-    Graphics::Image grassTexture("Sandbox/Textures/grassBlock.jpg", Graphics::ImageType::RGB);
-    Graphics::Image deathstarTexture("Sandbox/Textures/deathstar.png", Graphics::ImageType::RGB);
-    Graphics::Image dirtTexture("Sandbox/Textures/dirtTexture.jpg", Graphics::ImageType::RGB);
-    Graphics::Image aTexture("Sandbox/Textures/a.png", Graphics::ImageType::RGB);
+    Graphics::Image crosshairTexture("Textures/crosshair.png", Graphics::ImageType::RGBA, false);
+    Graphics::Image grassTexture("Textures/grassBlock.jpg", Graphics::ImageType::RGB);
+    Graphics::Image deathstarTexture("Textures/deathstar.png", Graphics::ImageType::RGB);
+    Graphics::Image dirtTexture("Textures/dirtTexture.jpg", Graphics::ImageType::RGB);
+    Graphics::Image aTexture("Textures/a.png", Graphics::ImageType::RGB);
         
     Plane::SimpleRect crosshair(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), crosshairTexture.ref(), window.getWindowDimension());
 
     std::vector<std::string> fileNames {
 
-        "Sandbox/Textures/Skybox/right.jpg",
-        "Sandbox/Textures/Skybox/left.jpg",
-        "Sandbox/Textures/Skybox/top.jpg",
-        "Sandbox/Textures/Skybox/bottom.jpg",
-        "Sandbox/Textures/Skybox/front.jpg",
-        "Sandbox/Textures/Skybox/back.jpg"
+        "Textures/Skybox/right.jpg",
+        "Textures/Skybox/left.jpg",
+        "Textures/Skybox/top.jpg",
+        "Textures/Skybox/bottom.jpg",
+        "Textures/Skybox/front.jpg",
+        "Textures/Skybox/back.jpg"
     };
 
     std::vector<std::string> nightFileNames {
 
-        "Sandbox/Textures/Skybox/nightRight.png",
-        "Sandbox/Textures/Skybox/nightLeft.png",
-        "Sandbox/Textures/Skybox/nightTop.png",
-        "Sandbox/Textures/Skybox/nightBottom.png",
-        "Sandbox/Textures/Skybox/nightFront.png",
-        "Sandbox/Textures/Skybox/nightBack.png"
+        "Textures/Skybox/nightRight.png",
+        "Textures/Skybox/nightLeft.png",
+        "Textures/Skybox/nightTop.png",
+        "Textures/Skybox/nightBottom.png",
+        "Textures/Skybox/nightFront.png",
+        "Textures/Skybox/nightBack.png"
     };
 
     Graphics::Image skyboxTexture(fileNames);
@@ -62,7 +62,7 @@ int main() {
 
     Object::Skybox skybox(skyboxTexture.ref(), nightSkyboxTexture.ref());
     
-    Graphics::Shader shader("Sandbox/Shaders/test.vert", "Sandbox/Shaders/test.frag");
+    Graphics::Shader shader("Shaders/test.vert", "Shaders/test.frag");
 
     Object::Camera camera(float3(0, 5, 10), Object::CameraType::FPS, window.ref());
     
@@ -77,10 +77,10 @@ int main() {
     //lights.push_back(light);
     lights.push_back(sun);
     
-    Object::Model sphereModel("Sandbox/Models/sphere.obj");
-    Object::Model suzanneModel("Sandbox/Models/suzanne.obj");
-    Object::Model cubeModel("Sandbox/Models/cube.obj");
-    Object::Model shipModel("Sandbox/Models/ship.obj");
+    Object::Model sphereModel("Models/sphere.obj");
+    Object::Model suzanneModel("Models/suzanne.obj");
+    Object::Model cubeModel("Models/cube.obj");
+    Object::Model shipModel("Models/ship.obj");
     
     Object::Terrain terrain(800, 50, 2.5f, 1, 1.5f, 1);
 
