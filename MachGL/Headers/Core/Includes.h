@@ -6,7 +6,8 @@
 #if defined(_WIN64) || defined(_WIN32)
     #define MACH_PLATFORM_WINDOWS
     #include "../../Vendor/Glad/include/glad/glad.h"
-#elif defined(__APPLE__) || defined(__MACH__) 
+#elif defined(__APPLE__) || defined(__MACH__)
+    #define GL_SILENCE_DEPRECATION
     #include <TargetConditionals.h>
     #if TARGET_IPHONE_SIMULATOR == 1
         #error "ERROR: iOS simulator not supported"

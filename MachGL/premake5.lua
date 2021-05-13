@@ -52,13 +52,6 @@ project "MachGL"
         staticruntime "On"
         systemversion "latest"
 
-        links
-        {
-            "OpenGL.framework",
-            "Cocoa.framework",
-            "IOKit.framework"
-        }
-
     filter "configurations:Debug"
         defines "MACH_DEBUG"
         runtime "Debug"

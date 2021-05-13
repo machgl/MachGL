@@ -26,6 +26,17 @@ project "Sandbox"
         cppdialect "C++17"
         systemversion "latest"
 
+    filter "system:macosx"
+        cppdialect "C++17"
+
+        links
+        {
+            "OpenGL.framework",
+            "Cocoa.framework",
+            "IOKit.framework",
+            "CoreVideo.framework"
+        }
+
     filter "configurations:Debug"
         defines "MACH_DEBUG"
         runtime "Debug"
