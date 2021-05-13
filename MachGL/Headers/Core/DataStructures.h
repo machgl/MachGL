@@ -61,10 +61,6 @@ namespace MachGL {
         return std::make_shared<T>(std::forward<Args>(args)...);
     }
 
-    template<typename T, typename ... Args > constexpr size_t arraySize(Args&& ... args) {
-        return sizeof(std::forward<Args>(args...)) / sizeof(T);
-    }
-
     /// <summary>
     /// Gets the version of the Mach::GL engine as an std::string.
     /// </summary>

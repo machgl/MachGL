@@ -29,14 +29,35 @@ project "MachGL"
         "GLFW",
         "Glad",
         "yaml-cpp",
-        "SimplexNoise",
-        "opengl32.lib"
+        "SimplexNoise"
     }
 
     filter "system:windows"
         cppdialect "C++17"
         staticruntime "On"
         systemversion "latest"
+
+        links
+        {
+            "opengl32.lib"
+        }
+
+    filter "system:linux"
+        cppdialect "C++17"
+        staticruntime "On"
+        systemversion "latest"
+
+    filter "system:macosx"
+        cppdialect "C++17"
+        staticruntime "On"
+        systemversion "latest"
+
+        links
+        {
+            "OpenGL.framework",
+            "Cocoa.framework",
+            "IOKit.framework"
+        }
 
     filter "configurations:Debug"
         defines "MACH_DEBUG"

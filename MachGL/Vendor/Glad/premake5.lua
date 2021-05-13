@@ -20,6 +20,9 @@ project "Glad"
     
     filter "system:windows"
         systemversion "latest"
+    
+    filter "system:macosx"
+        systemversion "latest"
 
     filter "configurations:Debug"
         runtime "Debug"
