@@ -15,6 +15,8 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
+		enum class ModelType { MESH, SKYBOX, TERRAIN };
+
 		class Model {
 
 			private:
@@ -25,8 +27,8 @@ namespace MachGL {
 				std::vector<float3>   m_vertexNormals;
 				std::vector<float2>   m_UVs;
 				std::vector<unsigned int> m_indices;
-				bool				  m_hasTexture = true;
-
+				bool				  m_hasTexture   = true;
+				
 			public:
 				Model() = default;
 				Model(const std::string& filepath);
@@ -43,6 +45,7 @@ namespace MachGL {
 				inline const size_t getVertexSize() const { return m_vertices.size(); }
 				inline const size_t getIndexSize() const { return m_indices.size(); }
 				inline sPoint<Model> ref() { return make_sPoint<Model>(*this); }
+
 
 			private:
 				void load();

@@ -29,7 +29,7 @@ namespace MachGL {
 				Graphics::Renderer3D     m_renderer;
 				std::vector<Object>      m_objects;
 				sPoint<Object>			 m_object;
-				uPoint<Graphics::Shader> m_shader;
+				sPoint<Graphics::Shader> m_shader;
 				SkyboxType				 m_type		   = SkyboxType::STATIC;
 				sPoint<Graphics::Image>	 m_image;
 				sPoint<Graphics::Image>	 m_image2;
@@ -40,12 +40,16 @@ namespace MachGL {
 				Timer					 m_timer;
 
 			public:
+				Skybox() = default;
+				~Skybox() = default;
 				Skybox(const sPoint<Graphics::Image>& image);
 				Skybox(const sPoint<Graphics::Image>& image, const sPoint<Graphics::Image>& image2);
+				Skybox(const GLuint& cubemapID);
 				void render(const matrix4x4& projection, const matrix4x4& view);	
 				inline void cycleTime(const float& time) { m_cycleTime = time; }
 				inline const GLuint& getTexture() const { return m_image->getTID(); }
 				inline const sPoint<Object>& getObject() const { return m_object; }
+				inline sPoint<Skybox> ref() { return make_sPoint<Skybox>(*this); }
 
 			private:
 				void cycle();

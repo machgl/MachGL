@@ -95,6 +95,8 @@ namespace MachGL {
                 inline void setEnviromentMap(const GLuint& environmentMap) { m_enviromap = environmentMap; }
                 inline const GLuint& getEnvironmentMap() const { return m_enviromap; }
                 inline const uint32_t& getObjectID() const { return m_objectID; }
+
+                inline sPoint<Object> ref() { return make_sPoint<Object>(*this); }
                 
             private:
                 void generateCubeBounds();

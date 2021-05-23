@@ -26,9 +26,7 @@ namespace MachGL {
 				float			m_lastY				= (float)m_window->getHeight() / 2.0f;
 				bool			m_firstMouse		= true;
 				bool			m_defaults			= true;
-				matrix4x4		m_projectionMatrix	= matrix4x4(1.0);
-				matrix4x4		m_viewMatrix		= matrix4x4(1.0);
-
+				
 			public:
 				Camera(const float3& position, const CameraType& cameraType, const sPoint<Window>& window);
 				inline const float3& getPosition() const { return m_pos; }
@@ -43,7 +41,6 @@ namespace MachGL {
 				void moveZ(const float& velocity);
 				void mouseMovement(const float& sensitivity);
 				void switchToFace(const uint32_t& face);
-				void createProjection();
 				void updateViewMatrix();
 				matrix4x4 getViewMatrix();
 		};

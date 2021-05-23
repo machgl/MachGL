@@ -132,16 +132,16 @@ namespace MachGL {
             m_vertexBuffer = (Vertex*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 
             auto& vertices = this->getModel()->getVertices();
-            auto& scale = this->getScale();
             auto& UVs = this->getModel()->getUVs();
             auto& normals = this->getModel()->getNormals();
-            auto& position = this->getPosition();
             auto& indices = this->getModel()->getIndices();
-            auto& shineDamper = this->getShineDamper();
             auto& reflectivity = this->getReflectivity();
             auto& color = this->getColor();
-            auto& textureScale = this->getTextureScale();
             auto tid = this->getTID();
+            auto& scale = this->getScale();
+            auto& position = this->getPosition();
+            auto& shineDamper = this->getShineDamper();
+            auto& textureScale = this->getTextureScale();
 
             float r = color.x * 255.0f;
             float g = color.y * 255.0f;

@@ -35,9 +35,7 @@ namespace MachGL {
 
                 void submit(const Object::Object& object, const Object::Camera& camera, const float& renderDistance);
 
-                void submit(const Submittable3D& submittable);
-
-                void submit(const Submittable3D& submittable, const Object::Camera& camera, const float& renderDistance);
+                void submit(const std::vector<Submittable3D>& submittables);
             
             private:
                 void flush(const Object::Object& object);

@@ -37,10 +37,10 @@ namespace MachGL {
 		void HDR::render() {
 			
 			m_shader->enable();
-			m_shader->setUniform("_pr_matrix", m_projection);
-			m_shader->setUniform("_exposure", m_exposure);
-			m_shader->setUniform("_gamma", m_gamma);
-			m_shader->setUniform("_texture", m_plane->getTID());
+			m_shader->setUniformMatrix4fv("_pr_matrix", m_projection);
+			m_shader->setUniform1f("_exposure", m_exposure);
+			m_shader->setUniform1f("_gamma", m_gamma);
+			m_shader->setUniform1i("_texture", m_plane->getTID());
 			m_renderer.submit(*m_plane);
 			m_shader->disable();
 		}
@@ -58,8 +58,8 @@ namespace MachGL {
 		void GaussianBlur::blur() {
 
 			m_shader->enable();
-			m_shader->setUniform("_pr_matrix", m_projection);
-			m_shader->setUniform("_texture_to_blur", m_gaussianPasses % 2 == 0 ? m_image2->getTID() : m_image->getTID());
+			m_shader->setUniformMatrix4fv("_pr_matrix", m_projection);
+			m_shader->setUniform1i("_texture_to_blur", m_gaussianPasses % 2 == 0 ? m_image2->getTID() : m_image->getTID());
 			
 		}
 

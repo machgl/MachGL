@@ -12,6 +12,7 @@ Mach::GL (Alpha)
 #include "Renderer3D.h"
 #include "../Object/Object.h"
 #include "../Object/Camera.h"
+#include "../Object/Skybox.h"
 
 namespace MachGL {
 	namespace Graphics {
@@ -32,9 +33,12 @@ namespace MachGL {
 				EnvironmentMap(const float& size, const WindowDimension& windowDimension);
 				void capture();
 				void stop();
-				void reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera);
-				void init();
+
+				void reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera, const sPoint<Shader>& shader);
+				void reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera, const sPoint<Shader>& shader, const sPoint<Object::Skybox>& skybox);
 				const GLuint& getEnvironmentMap() const { return m_textureColorBuffer; }
+			private:
+				void init();
 		};
 	}
 }

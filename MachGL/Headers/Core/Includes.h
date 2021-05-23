@@ -42,6 +42,7 @@
 #include "../../Vendor/glm/glm/glm.hpp"
 #include "../../Vendor/glm/glm/gtc/matrix_transform.hpp"
 #include "../../Vendor/glm/glm/gtc/type_ptr.hpp"
+#include "../../Vendor/glm/glm/gtx/rotate_vector.hpp"
 #include "../../Vendor/SimplexNoise/include/SimplexNoise.h"
 #include "../../Vendor/yaml-cpp/include/yaml-cpp/yaml.h"
 #include "../../Vendor/fast_obj.h"

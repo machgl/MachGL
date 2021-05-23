@@ -63,14 +63,33 @@ namespace MachGL {
             return program;
         }
 
+        bool Shader::inCache() const {
+
+            if (shaderCache.size() > 0)
+                for (uint32_t i = 0; i < shaderCache.size(); i++) if (shaderCache[i].id == m_shaderID) return true;
+
+            return false;
+        }
+
         void Shader::enable() const {
 
-            glUseProgram(m_shaderID);
+            if (!inCache()) {
+
+                glUseProgram(m_shaderID);
+                ShaderInstance instance;
+                instance.id = m_shaderID;
+                shaderCache.push_back(instance);
+            }
         }
 
         void Shader::disable() const {
 
-            glUseProgram(0);
+            if (inCache()) {
+                glUseProgram(0);
+                
+                for (uint32_t i = 0; i < shaderCache.size(); i++)
+                    if (shaderCache[i].id == m_shaderID) shaderCache.erase(shaderCache.begin() + i);
+            }
         }
 
         GLint Shader::getUniformLocation(const std::string& name) {
@@ -92,43 +111,47 @@ namespace MachGL {
             }
         }
 
-        void Shader::setUniform(const std::string& name, const GLuint& num) {
+        void Shader::setUniform1i(const std::string& name, const GLint& num) {
             glUniform1i(getUniformLocation(name), num);
         }
 
-        void Shader::setUniform(const std::string& name, GLint* num, const GLuint& count) {
+        void Shader::setUniform1iv(const std::string& name, GLint* num, const GLuint& count) {
             glUniform1iv(getUniformLocation(name), count, num);
         }
 
-        void Shader::setUniform(const std::string& name, const float& num) {
+        void Shader::setUniform1f(const std::string& name, const GLfloat& num) {
             glUniform1f(getUniformLocation(name), num);
         }
 
-        void Shader::setUniform(const std::string& name, const float2& vec) {
+        void Shader::setUniform1fv(const std::string& name, GLfloat* num, const GLuint& count) {
+            glUniform1fv(getUniformLocation(name), count, num);
+        }
+
+        void Shader::setUniform2f(const std::string& name, const float2& vec) {
             glUniform2f(getUniformLocation(name), vec.x, vec.y);
         }
 
-        void Shader::setUniform(const std::string& name, float2* vecs, const GLuint& count) {
+        void Shader::setUniform2fv(const std::string& name, float2* vecs, const GLuint& count) {
             glUniform2fv(getUniformLocation(name), count, glm::value_ptr(vecs[0]));
         }
 
-        void Shader::setUniform(const std::string& name, const float3& vec) {
+        void Shader::setUniform3f(const std::string& name, const float3& vec) {
             glUniform3f(getUniformLocation(name), vec.x, vec.y, vec.z);
         }
 
-        void Shader::setUniform(const std::string& name, float3* vecs, const GLuint& count) {
+        void Shader::setUniform3fv(const std::string& name, float3* vecs, const GLuint& count) {
             glUniform3fv(getUniformLocation(name), count, glm::value_ptr(vecs[0]));
         }
 
-        void Shader::setUniform(const std::string& name, const float4& vec) {
+        void Shader::setUniform4f(const std::string& name, const float4& vec) {
              glUniform4f(getUniformLocation(name), vec.x, vec.y, vec.z, vec.w);
         }
 
-        void Shader::setUniform(const std::string& name, float4* vecs, const GLuint& count) {
+        void Shader::setUniform4fv(const std::string& name, float4* vecs, const GLuint& count) {
             glUniform3fv(getUniformLocation(name), count, glm::value_ptr(vecs[0]));
         }
 
-        void Shader::setUniform(const std::string& name, const matrix4x4& matrix) {
+        void Shader::setUniformMatrix4fv(const std::string& name, const matrix4x4& matrix) {
             glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &matrix[0][0]);
         }
     }

@@ -90,6 +90,13 @@ namespace MachGL {
     static void MACH_MSG(const std::string & msg) {
         std::cout << "MACH::GL: " << msg << std::endl;
     }
+
+    struct ShaderInstance {
+
+        GLuint id = 0;
+    };
+
+    static std::vector<ShaderInstance> shaderCache;
 }
 
 //Fix compatability issues with YAML and custom data structures

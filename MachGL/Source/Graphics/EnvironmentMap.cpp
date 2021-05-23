@@ -12,14 +12,15 @@ namespace MachGL {
 		EnvironmentMap::EnvironmentMap(const float& size, const WindowDimension& windowDimension) 
 			: m_size(size), m_windowDimension(windowDimension) { 
 			
+			m_projection = Maths::Matrix::simplePerspective(90, WindowDimension{ (uint32_t)128, (uint32_t)128 });
 			init();
 		}
 
 		void EnvironmentMap::init() {
-
+			
 			glGenFramebuffers(1, &m_fbo);
 			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-
+			
 			glGenTextures(1, &m_textureColorBuffer);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureColorBuffer);
 
@@ -38,7 +39,7 @@ namespace MachGL {
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, (GLsizei)m_size, (GLsizei)m_size);
 			glBindRenderbuffer(GL_RENDERBUFFER, 0);
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_rbo);
-
+			glDrawBuffer(GL_COLOR_ATTACHMENT0);
 			if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 				MACH_ERROR_MSG("Framebuffer is not complete");
 
@@ -49,22 +50,48 @@ namespace MachGL {
 
 			glViewport(0, 0, (GLsizei)m_size, (GLsizei)m_size);
 			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-			glEnable(GL_DEPTH_TEST);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glEnable(GL_DEPTH_TEST);
 		}
 
-		void EnvironmentMap::reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera) {
+		void EnvironmentMap::reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera, const sPoint<Shader>& shader) {
 
-			glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureColorBuffer);
-			
 			for (int i = 0; i < 6; i++) {
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_textureColorBuffer, 0);
-				camera.switchToFace(i);
-				
-				m_renderer.submit(objects);
-			}
 
-			glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+				camera.switchToFace(i);
+				shader->setUniformMatrix4fv("_vw_matrix", camera.getViewMatrix());
+				shader->setUniformMatrix4fv("_pr_matrix", m_projection);
+
+				for (uint32_t i = 0; i < objects.size(); i++) {
+
+					shader->setUniform1i("_texture", objects[i].getTID());
+					m_renderer.submit(objects[i]);
+				}
+			}
+		}
+
+		void EnvironmentMap::reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera, const sPoint<Shader>& shader, const sPoint<Object::Skybox>& skybox) {
+
+			for (int i = 0; i < 6; i++) {
+				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_textureColorBuffer, 0);
+				
+				camera.switchToFace(i);
+				shader->enable();
+				shader->setUniformMatrix4fv("_vw_matrix", camera.getViewMatrix());
+				shader->setUniformMatrix4fv("_pr_matrix", m_projection);
+				shader->setUniform3f("_camera_position", camera.getPosition());
+
+				for (uint32_t i = 0; i < objects.size(); i++) {
+
+					shader->setUniform1i("_texture", objects[i].getTID());
+					m_renderer.submit(objects[i]);
+				}
+
+				shader->disable();
+
+				skybox->render(m_projection, camera.getViewMatrix());
+			}
 		}
 
 		void EnvironmentMap::stop() {

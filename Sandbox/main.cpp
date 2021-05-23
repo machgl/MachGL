@@ -87,7 +87,7 @@ int main() {
     Object::Object scene(terrain.getModel(), float3(-200, 0, -200), dirtTexture.ref(), nullptr, Object::ObjectType::TERRAIN);
     Object::Object sun_object(sphereModel.ref(), sun.getPosition(), deathstarTexture.ref());
     Object::Object suzanne(suzanneModel.ref(), light.getPosition(), deathstarTexture.ref());
-    Object::Object ship(shipModel.ref(), float3(-10, 10, -10), nullptr);
+    Object::Object ship(cubeModel.ref(), float3(-10, 10, 10), nullptr);
 
     Object::ObjectProperties sunProperties;
     sunProperties.color = sun.getColor();
@@ -113,8 +113,8 @@ int main() {
     cubeProperties.reflectivity = 0.01f;
 
     std::vector<Object::Object> objects;
-    std::vector<Object::Object> cubeList;
-    
+    std::vector<Object::Object> cubeObjects;
+
     uint32_t cubes = 8;
 
     for (uint32_t x = 0; x < cubes; x++) {
@@ -123,7 +123,7 @@ int main() {
 
                 Object::Object cube(cubeModel.ref(), float3(x * 10, y * 10, z * 10), grassTexture.ref());
                 cube.create(cubeProperties);
-                cubeList.push_back(cube);
+                cubeObjects.push_back(cube);
             }
         }
     }
@@ -133,6 +133,11 @@ int main() {
     suzanne.create(suzanneProperties);
     ship.create(shipProperties);
 
+    Graphics::EnvironmentMap enviroMap(1280, window.getWindowDimension());
+
+    suzanne.setEnviromentMap(skybox.getObject()->getTID());
+    ship.setEnviromentMap(enviroMap.getEnvironmentMap());
+    
     objects.push_back(scene);
     objects.push_back(ship);
     objects.push_back(sun_object);
@@ -150,19 +155,19 @@ int main() {
 
     uint32_t framebufferScale = 1;
 
-    //Graphics::Framebuffer fb(WIDTH / framebufferScale, HEIGHT / framebufferScale);
-    //Graphics::Image fbTexture(fb.getColorTexture());
-    //Plane::SimpleRect framebufferQuad(float2(0, 0), float2(WIDTH / 2, HEIGHT / 2), fbTexture.ref(), window.getWindowDimension());
-
-    Object::Camera enviroCamera(suzanne.getPosition(), Object::CameraType::CUBEMAP, window.ref());
-    Graphics::EnvironmentMap enviroMap(128, window.getWindowDimension());
+    Object::Camera enviroCamera(ship.getPosition(), Object::CameraType::CUBEMAP, window.ref());
+    
+    Object::Skybox enviroSkybox(enviroMap.getEnvironmentMap());
 
     std::vector<Object::Object> reflectedObjects;
     reflectedObjects.push_back(scene);
+    reflectedObjects.push_back(suzanne);
 
     Graphics::HDR hdr(window.getWindowDimension());
     hdr.setExposure(1.4f);
     hdr.setGamma(1.3f);
+
+    ship.setEnviromentMap(enviroMap.getEnvironmentMap());
 
     while (!window.closed()) {
         
@@ -173,46 +178,55 @@ int main() {
         if (window.isWindowLoaded()) {
 
             float velocity = 0.5f * lastTime;
+
+            camera.mouseMovement(0.3f);
+
+            if (window.isKeyPressed(GLFW_KEY_ESCAPE)) MACH_CLOSE();
+            if (window.isKeyPressed(GLFW_KEY_W)) camera.moveX(velocity);
+            if (window.isKeyPressed(GLFW_KEY_S)) camera.moveX(-velocity);
+            if (window.isKeyPressed(GLFW_KEY_D)) camera.moveZ(velocity);
+            if (window.isKeyPressed(GLFW_KEY_A)) camera.moveZ(-velocity);
+            if (window.isKeyPressed(GLFW_KEY_SPACE)) camera.moveY(velocity);
+            if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) camera.moveY(-velocity);
+            if (window.isKeyPressed(GLFW_KEY_P)) camera.reset();
             
             time.reset();
 
-            //****************************************************************************************
-            
             enviroMap.capture();
             shader.enable();
-
+    
             for (uint32_t i = 0; i < MAX_LIGHTS; i++) {
-            
+
                 std::string lightColor = "_light_color[" + std::to_string(i) + "]";
                 std::string lightPos = "_light_position[" + std::to_string(i) + "]";
                 std::string lightAttenuation = "_light_attenuation[" + std::to_string(i) + "]";
                 std::string lightBrightness = "_light_brightness[" + std::to_string(i) + "]";
-            
+
                 if (i < lights.size()) {
-            
-                    shader.setUniform(lightColor.c_str(), lights[i].getColor());
-                    shader.setUniform(lightPos.c_str(), lights[i].getPosition());
-                    shader.setUniform(lightAttenuation.c_str(), lights[i].getAttenuation());
-                    shader.setUniform(lightBrightness.c_str(), lights[i].getBrightness());
-            
+
+                    shader.setUniform4f(lightColor.c_str(), lights[i].getColor());
+                    shader.setUniform3f(lightPos.c_str(), lights[i].getPosition());
+                    shader.setUniform3f(lightAttenuation.c_str(), lights[i].getAttenuation());
+                    shader.setUniform1f(lightBrightness.c_str(), lights[i].getBrightness());
+
                 }
                 else {
-            
-                    shader.setUniform(lightColor.c_str(), float4(0, 0, 0, 0));
-                    shader.setUniform(lightPos.c_str(), float3(0, 0, 0));
-                    shader.setUniform(lightAttenuation.c_str(), float3(1, 0, 0));
-                    shader.setUniform(lightBrightness.c_str(), 0.0f);
+
+                    shader.setUniform4f(lightColor.c_str(), float4(0, 0, 0, 0));
+                    shader.setUniform3f(lightPos.c_str(), float3(0, 0, 0));
+                    shader.setUniform3f(lightAttenuation.c_str(), float3(1, 0, 0));
+                    shader.setUniform1f(lightBrightness.c_str(), 0.0f);
                 }
             }
-            
-            shader.setUniform("_texture", scene.getTID());
-            shader.setUniform("_pr_matrix", enviroCamera.getViewMatrix());
-            shader.setUniform("_camera_position", enviroCamera.getPosition());
-            
-            enviroMap.reflectedObjects(reflectedObjects, enviroCamera);
-            
+
+            enviroMap.reflectedObjects(reflectedObjects, enviroCamera, shader.ref());
+
             shader.disable();
             enviroMap.stop();
+
+            //****************************************************************************************
+            
+            
             
             //**************************************************************************************
             
@@ -223,18 +237,7 @@ int main() {
             
             hdr.capture();
             
-            camera.mouseMovement(0.3f);
             
-            ship.setEnviromentMap(skybox.getObject()->getTID());
-            
-            if (window.isKeyPressed(GLFW_KEY_ESCAPE)) MACH_CLOSE();
-            if (window.isKeyPressed(GLFW_KEY_W)) camera.moveX(velocity);
-            if (window.isKeyPressed(GLFW_KEY_S)) camera.moveX(-velocity);
-            if (window.isKeyPressed(GLFW_KEY_D)) camera.moveZ(velocity);
-            if (window.isKeyPressed(GLFW_KEY_A)) camera.moveZ(-velocity);
-            if (window.isKeyPressed(GLFW_KEY_SPACE)) camera.moveY(velocity);
-            if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) camera.moveY(-velocity);
-            if (window.isKeyPressed(GLFW_KEY_P)) camera.reset();
             
             shader.enable();
             
@@ -247,28 +250,27 @@ int main() {
             
                 if (i < lights.size()) {
             
-                    shader.setUniform(lightColor.c_str(), lights[i].getColor());
-                    shader.setUniform(lightPos.c_str(), lights[i].getPosition());
-                    shader.setUniform(lightAttenuation.c_str(), lights[i].getAttenuation());
-                    shader.setUniform(lightBrightness.c_str(), lights[i].getBrightness());
+                    shader.setUniform4f(lightColor.c_str(), lights[i].getColor());
+                    shader.setUniform3f(lightPos.c_str(), lights[i].getPosition());
+                    shader.setUniform3f(lightAttenuation.c_str(), lights[i].getAttenuation());
+                    shader.setUniform1f(lightBrightness.c_str(), lights[i].getBrightness());
             
                 }
                 else {
             
-                    shader.setUniform(lightColor.c_str(), float4(0, 0, 0, 0));
-                    shader.setUniform(lightPos.c_str(), float3(0, 0, 0));
-                    shader.setUniform(lightAttenuation.c_str(), float3(1, 0, 0));
-                    shader.setUniform(lightBrightness.c_str(), 0.0f);
+                    shader.setUniform4f(lightColor.c_str(), float4(0, 0, 0, 0));
+                    shader.setUniform3f(lightPos.c_str(), float3(0, 0, 0));
+                    shader.setUniform3f(lightAttenuation.c_str(), float3(1, 0, 0));
+                    shader.setUniform1f(lightBrightness.c_str(), 0.0f);
                 }
             }
             
-            shader.setUniform("_texture", cubeList[0].getTID());
-            shader.setUniform("_pr_matrix", projection);
-            shader.setUniform("_vw_matrix", camera.getViewMatrix());
-            shader.setUniform("_camera_position", camera.getPosition());
-            shader.setUniform("_environmentMap", (GLuint)ship.getEnvironmentMap());
+            shader.setUniform1i("_texture", cubeObjects[0].getTID());
+            shader.setUniformMatrix4fv("_pr_matrix", projection);
+            shader.setUniformMatrix4fv("_vw_matrix", camera.getViewMatrix());
+            shader.setUniform3f("_camera_position", camera.getPosition());
             
-            renderer3D.submit(cubeList);
+            renderer3D.submit(cubeObjects);
             
             shader.disable();
             
@@ -277,50 +279,43 @@ int main() {
                 shader.enable();
             
                 for (uint32_t i = 0; i < MAX_LIGHTS; i++) {
-            
+
                     std::string lightColor = "_light_color[" + std::to_string(i) + "]";
                     std::string lightPos = "_light_position[" + std::to_string(i) + "]";
                     std::string lightAttenuation = "_light_attenuation[" + std::to_string(i) + "]";
                     std::string lightBrightness = "_light_brightness[" + std::to_string(i) + "]";
-            
+
                     if (i < lights.size()) {
-            
-                        shader.setUniform(lightColor.c_str(), lights[i].getColor());
-                        shader.setUniform(lightPos.c_str(), lights[i].getPosition());
-                        shader.setUniform(lightAttenuation.c_str(), lights[i].getAttenuation());
-                        shader.setUniform(lightBrightness.c_str(), lights[i].getBrightness());
-            
+
+                        shader.setUniform4f(lightColor.c_str(), lights[i].getColor());
+                        shader.setUniform3f(lightPos.c_str(), lights[i].getPosition());
+                        shader.setUniform3f(lightAttenuation.c_str(), lights[i].getAttenuation());
+                        shader.setUniform1f(lightBrightness.c_str(), lights[i].getBrightness());
+
                     }
                     else {
-            
-                        shader.setUniform(lightColor.c_str(), float4(0, 0, 0, 0));
-                        shader.setUniform(lightPos.c_str(), float3(0, 0, 0));
-                        shader.setUniform(lightAttenuation.c_str(), float3(1, 0, 0));
-                        shader.setUniform(lightBrightness.c_str(), 0.0f);
+
+                        shader.setUniform4f(lightColor.c_str(), float4(0, 0, 0, 0));
+                        shader.setUniform3f(lightPos.c_str(), float3(0, 0, 0));
+                        shader.setUniform3f(lightAttenuation.c_str(), float3(1, 0, 0));
+                        shader.setUniform1f(lightBrightness.c_str(), 0.0f);
                     }
                 }
             
-                shader.setUniform("_texture", objects[i].getTID());
-                shader.setUniform("_pr_matrix", projection);
-                shader.setUniform("_vw_matrix", camera.getViewMatrix());
-                shader.setUniform("_camera_position", camera.getPosition());
+                shader.setUniform1i("_texture", objects[i].getTID());
+                shader.setUniformMatrix4fv("_pr_matrix", projection);
+                shader.setUniformMatrix4fv("_vw_matrix", camera.getViewMatrix());
+                shader.setUniform3f("_camera_position", camera.getPosition());
+                shader.setUniformMatrix4fv("_tr_matrix", matrix4x4(1));
             
-                if (objects[i].getObjectID() != suzanne.getObjectID()) {
-            
-                    shader.setUniform("_environmentMap", enviroMap.getEnvironmentMap());
-                }
-                else {
-            
-                    shader.setUniform("_environmentMap", (GLuint)ship.getEnvironmentMap());
-                }
+                shader.setUniform1i("_environmentMap", objects[i].getEnvironmentMap());
             
                 renderer3D.submit(objects[i]);
             
                 shader.disable();
             }
             
-            skybox.render(projection, camera.getViewMatrix());
-            //framebufferQuad.render();
+            enviroSkybox.render(projection, camera.getViewMatrix());
             crosshair.render();
             
             hdr.stop();
@@ -337,10 +332,6 @@ int main() {
         window.update();
         time.~Timer();
         lastTime = time.elapsedTimeMilliseconds() / 50;
-    }
-
-    for (int i = 0; i < cubeList.size(); i++) {
-        cubeList[i].destroy();
     }
 
     scene.destroy();

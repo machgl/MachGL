@@ -7,8 +7,6 @@ namespace MachGL {
 
 			m_originalPos = m_pos;
 			m_originalY = m_originalPos.y;
-
-			if (m_cameraType == CameraType::CUBEMAP) createProjection();
 		}
 
 		void Camera::moveX(const float& velocity) {
@@ -67,9 +65,7 @@ namespace MachGL {
 		matrix4x4 Camera::getViewMatrix() {
 
 			if (m_cameraType == CameraType::FPS) m_pos.y = m_cameraY;
-
-			if (m_cameraType == CameraType::CUBEMAP) return m_projectionMatrix;
-			else return Maths::Matrix::lookAt(m_pos, m_pos + m_cameraFront, m_cameraUp);
+			return Maths::Matrix::lookAt(m_pos, m_pos + m_cameraFront, m_cameraUp);
 		}
 
 		void Camera::switchToFace(const uint32_t& face) {
@@ -78,18 +74,18 @@ namespace MachGL {
 
 				case 0:
 					m_pitch = 0;
-					m_yaw = 90;
+					m_yaw = 0;
 					break;
 				case 1:
 					m_pitch = 0;
 					m_yaw = -90;
 					break;
 				case 2:
-					m_pitch = -90;
+					m_pitch = -89;
 					m_yaw = 180;
 					break;
 				case 3:
-					m_pitch =  90;
+					m_pitch =  89;
 					m_yaw = 180;
 					break;
 				case 4:
@@ -100,30 +96,18 @@ namespace MachGL {
 					m_pitch = 0;
 					m_yaw = 0;
 					break;
-				case 6: 
-					m_pitch = 0;
-					m_yaw = 0;
-					break;
 			}
 
 			updateViewMatrix();
 		}
 
-		void Camera::createProjection() {
-
-			WindowDimension dimensions = { 128, 128 };
-			m_projectionMatrix = Maths::Matrix::perspective(90, dimensions, 0.1f, 1000.0f);
-		}
-			
 		void Camera::updateViewMatrix() {
 
-			m_viewMatrix = matrix4x4(1.0);
-			glm::rotate(m_viewMatrix, Maths::Functions::radians(180), float3(0, 0, 1));
-			glm::rotate(m_viewMatrix, Maths::Functions::radians(m_pitch), float3(1, 0, 0));
-			glm::rotate(m_viewMatrix, Maths::Functions::radians(m_yaw), float3(0, 1, 0));
-			float3 negativeCameraPos = -m_pos;
-			glm::translate(m_viewMatrix, negativeCameraPos);
-			m_projectionMatrix *= m_viewMatrix;
+			float3 front;
+			front.x = cos(Maths::Functions::radians(m_yaw)) * cos(Maths::Functions::radians(-m_pitch));
+			front.y = sin(Maths::Functions::radians(-m_pitch));
+			front.z = sin(Maths::Functions::radians(m_yaw)) * cos(Maths::Functions::radians(-m_pitch));
+			m_cameraFront = Maths::Vector::normalize(front);
 		}
 	}
 }

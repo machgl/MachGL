@@ -11,16 +11,30 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
-        Model::Model(const std::string& filepath) : m_filepath(filepath) { load(); }
-        Model::Model(const std::vector<float3>& vertices) : m_vertices(vertices) { }
+        Model::Model(const std::string& filepath) : m_filepath(filepath) { 
+            
+            load(); 
+        }
+
+        Model::Model(const std::vector<float3>& vertices) : m_vertices(vertices) {
+        
+        }
+
         Model::Model(const std::vector<float3>& vertices, const std::vector<float3>& normals, const std::vector<float2>& UVs, 
             const std::vector<unsigned int>& indices)
-            : m_vertices(vertices), m_vertexNormals(normals), m_vertexTextures(UVs), m_indices(indices) { }
+            : m_vertices(vertices), m_vertexNormals(normals), m_vertexTextures(UVs), m_indices(indices) { 
+        
+        }
 		
         void Model::load() {
 
-            auto*    mesh        = fast_obj_read(m_filepath.c_str());
-            uint32_t vertexCount = mesh->position_count;
+            auto* mesh = fast_obj_read(m_filepath.c_str());
+            
+            if (!mesh) {
+
+                MACH_ERROR_MSG("Could not load: " + m_filepath);
+                return;
+            }
 
             m_indices = std::vector<unsigned int>((uint64_t)mesh->face_count * 3);
           
