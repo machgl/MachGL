@@ -16,7 +16,7 @@ namespace MachGL {
 		class QuadParticle : public Particle {
 
 			private:
-				Plane::Plane		   m_plane;
+				Plane::MACH_PLANE	   m_plane;
 				Plane::PlaneProperties m_planeProperties;
 
 			public:

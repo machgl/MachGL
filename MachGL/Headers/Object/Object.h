@@ -14,11 +14,11 @@ namespace MachGL {
 
         struct ObjectProperties {
 
-            float                   shineDamper  = 1.0f;
-            float                   reflectivity = 0.0f;
-            float                   textureScale = 1.0f;
-            float3                  scale        = float3(1);
-            float4                  color        = float4(1);
+            float  shineDamper  = 1.0f;
+            float  reflectivity = 0.0f;
+            float  textureScale = 1.0f;
+            float3 scale        = float3(1);
+            float4 color        = float4(1);
         };
 
         static bool isInBounds(const Bound* bound1, const Bound* bound2) {
@@ -48,60 +48,67 @@ namespace MachGL {
 
         class Object {
 
-            private:
-                sPoint<Model>           m_model         = nullptr;
+            protected:
+                MACH_MODEL              m_model         = nullptr;
                 Bound*                  m_bounds        = nullptr;
                 float3                  m_position;
-                GLuint                  m_VAO;
-                GLuint                  m_VBO;
-                GLuint                  m_IBO;
+                uint32_t                m_VAO;
+                uint32_t                m_VBO;
+                uint32_t                m_IBO;
                 float                   m_TID;
-                sPoint<Graphics::Image> m_image         = nullptr;
-                sPoint<Graphics::Image> m_image2        = nullptr;
+                Graphics::MACH_IMAGE    m_image         = nullptr;
+                Graphics::MACH_IMAGE    m_image2        = nullptr;
                 bool                    m_hasTexture    = true;
                 ObjectType              m_type;
                 bool                    m_dynamicSkybox = false;
                 Vertex*                 m_vertexBuffer  = nullptr;
                 Index*                  m_indexBuffer   = nullptr;
-                GLuint                  m_enviromap     = 0;
+                uint32_t                m_enviromap     = 0;
                 uint32_t                m_objectID;
                 ObjectProperties        m_properties;
                 
             public:
-                Object();
-                Object(const sPoint<Model>& model, const float3& position, const sPoint<Graphics::Image>& image);
-                Object(const sPoint<Model>& model, const float3& position, const sPoint<Graphics::Image>& image, const sPoint<Graphics::Image>& image2, const ObjectType& type);
+                
+                static sPoint<Object> createObject();
+                static sPoint<Object> createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image);
+                static sPoint<Object> createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2, const ObjectType& type);
+            
+                Object() = default;
+                Object(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image);
+                Object(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2, const ObjectType& type);
                 ~Object() = default;
                 void create();
                 void create(const ObjectProperties& properties);
-                void destroy();
+                virtual void destroy() = 0;
 
-                inline void setTexture(const Graphics::Image& image) { m_image = make_sPoint<Graphics::Image>(image); }
+                inline void setTexture(const Graphics::MACH_IMAGE& image) { m_image = image; }
                 inline const float& getShineDamper() const { return m_properties.shineDamper; }
                 inline const float& getReflectivity() const { return m_properties.reflectivity; }
                 inline const float& getTextureScale() const { return m_properties.textureScale; }
                 inline const float3& getPosition() const { return m_position; }
                 inline const float4& getColor() const { return m_properties.color; }
-                inline const GLuint& getVAO() const { return m_VAO; }
-                inline const GLuint& getVBO() const { return m_VBO; }
-                inline const GLuint& getIBO() const { return m_IBO; }
-                inline const GLuint getTID() const { return m_image == nullptr ? 0 : m_image->getTID(); }
-                inline const GLuint getTID2() const { return m_image2 == nullptr ? 0 : m_image2->getTID(); }
+                inline const uint32_t& getVAO() const { return m_VAO; }
+                inline const uint32_t& getVBO() const { return m_VBO; }
+                inline const uint32_t& getIBO() const { return m_IBO; }
+                inline const uint32_t getTID() const { return m_image == nullptr ? 0 : m_image->getTID(); }
+                inline const uint32_t getTID2() const { return m_image2 == nullptr ? 0 : m_image2->getTID(); }
                 inline const auto& getModel() const { return m_model; }
                 inline const Bound* getBounds() const { return m_bounds; }
                 inline const float3& getScale() const { return m_properties.scale; }
                 inline const ObjectType& getType() const { return m_type; }
                 inline const bool& isDynamicSkybox() const { return m_dynamicSkybox; }
                 inline void setEnviromentMap(const GLuint& environmentMap) { m_enviromap = environmentMap; }
-                inline const GLuint& getEnvironmentMap() const { return m_enviromap; }
+                inline const uint32_t& getEnvironmentMap() const { return m_enviromap; }
                 inline const uint32_t& getObjectID() const { return m_objectID; }
-
-                inline sPoint<Object> ref() { return make_sPoint<Object>(*this); }
                 
-            private:
+            protected:
+                virtual void loadToBuffers() = 0;
+                virtual void loadToVAO() = 0;
                 void generateCubeBounds();
-                void loadToBuffers();
-                void loadToVAO();
 		};
+    
+        using MACH_OBJECT = sPoint<Object>;
+    
+        
 	}
 }

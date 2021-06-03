@@ -12,16 +12,17 @@ namespace MachGL {
 		ParticleCluster::ParticleCluster(const ParticleProperties& properties, const uint32_t& particles) 
 			: m_properties(properties), m_particles(particles) {
 
-			if (!m_properties.object) std::cout << "ERROR: Please define an object for the particle system" << std::endl;
+            if (!m_properties.object) MACH_ERROR_MSG("Please define an object for the particle system");
 			
-			m_shader = make_uPoint<Graphics::Shader>("CoreAssets/CoreShaders/particle.vert", "CoreAssets/CoreShaders/particle.frag");
+            m_renderer = Graphics::Renderer3D::createRenderer();
+			m_shader = Graphics::Shader::createShader("CoreAssets/CoreShaders/particle.vert", "CoreAssets/CoreShaders/particle.frag");
 			m_particle = CubeParticle();
 		}
 
 		void ParticleCluster::render() {
 
 			m_shader->enable();
-			m_renderer.submit(m_objects);
+			//m_renderer->submit(m_objects);
 			m_shader->disable();
 		}
 

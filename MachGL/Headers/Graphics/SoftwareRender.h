@@ -22,8 +22,8 @@ namespace MachGL {
 				uint32_t                  m_width, m_height;
 				WindowDimension           m_windowDimension;
 				GLuint					  m_TID;
-				uPoint<Plane::SimpleRect> m_rect;
-				uPoint<Graphics::Image>   m_image;
+				sPoint<Plane::SimpleRect> m_rect;
+				Graphics::MACH_IMAGE      m_image;
 
 			public:
 				uint32_t*                 pixels;

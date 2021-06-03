@@ -1,3 +1,9 @@
+/*
+ 
+    MachGL (Alpha)
+ 
+ */
+
 #pragma once
 
 #include "../Core/Includes.h"
@@ -9,13 +15,14 @@ namespace MachGL {
 
         class Shader {
 
-            private:
-                GLuint                                 m_shaderID;
-                std::string                            m_vertPath;
-                std::string                            m_fragPath;
-                std::unordered_map<std::string, GLint> m_uniformLocations;
+            protected:
+                uint32_t                                    m_shaderID;
+                std::string                                 m_vertPath;
+                std::string                                 m_fragPath;
+                std::unordered_map<std::string, uint32_t>   m_uniformLocations;
                 
             public:
+                static sPoint<Shader> createShader(const std::string& vertexPath, const std::string& fragmentPath);
                 /// <summary>
                 /// Default constructor for a shader object, not intended for use.
                 /// </summary>
@@ -36,19 +43,19 @@ namespace MachGL {
                 /// <summary>
                 /// Enables the shader programs.
                 /// </summary>
-                void enable() const;
+                virtual void enable() const = 0;
 
                 /// <summary>
                 /// Disables the shader programs.
                 /// </summary>
-                void disable() const;
+                virtual void disable() const = 0;
 
                 /// <summary>
                 /// Sets an integer to a uniform.
                 /// </summary>
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="num">Integer value to set to the uniform.</param>
-                void setUniform1i(const std::string& name, const GLint& num);
+                virtual void setUniform1i(const std::string& name, const GLint& num) = 0;
 
                 /// <summary>
                 /// Sets an array of integers to a uniform.
@@ -56,23 +63,23 @@ namespace MachGL {
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="num">Array integers to be set to the uniform.</param>
                 /// <param name="count">Number of values within the array.</param>
-                void setUniform1iv(const std::string& name, GLint* num, const GLuint& count);
+                virtual void setUniform1iv(const std::string& name, GLint* num, const GLuint& count) = 0;
 
                 /// <summary>
                 /// Sets an float to a uniform.
                 /// </summary>
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="num">Float value to set to the uniform.</param>
-                void setUniform1f(const std::string& name, const GLfloat& num);
+                virtual void setUniform1f(const std::string& name, const GLfloat& num) = 0;
 
-                void setUniform1fv(const std::string& name, GLfloat* num, const GLuint& count);
+                virtual void setUniform1fv(const std::string& name, GLfloat* num, const GLuint& count) = 0;
 
                 /// <summary>
                 /// Sets a float2 to a uniform.
                 /// </summary>
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="vec">float2 value to set to the uniform.</param>
-                void setUniform2f(const std::string& name, const float2& vec);
+                virtual void setUniform2f(const std::string& name, const float2& vec) = 0;
 
                 /// <summary>
                 /// Sets a float2 to array to a uniform.
@@ -80,14 +87,14 @@ namespace MachGL {
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="vecs">Float3 array to be set to the uniform.</param>
                 /// <param name="count">Number of values within the array.</param>
-                void setUniform2fv(const std::string& name, float2* vecs, const GLuint& count);
+                virtual void setUniform2fv(const std::string& name, float2* vecs, const GLuint& count) = 0;
 
                 /// <summary>
                 /// Sets a float3 to a uniform.
                 /// </summary>
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="vec">float3 value to set to the uniform.</param>
-                void setUniform3f(const std::string& name, const float3& vec);
+                virtual void setUniform3f(const std::string& name, const float3& vec) = 0;
 
                 /// <summary>
                 /// Sets a float3 to array to a uniform.
@@ -95,14 +102,14 @@ namespace MachGL {
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="vecs">Float3 array to be set to the uniform.</param>
                 /// <param name="count">Number of values within the array.</param>
-                void setUniform3fv(const std::string& name, float3* vecs, const GLuint& count);
+                virtual void setUniform3fv(const std::string& name, float3* vecs, const GLuint& count) = 0;
 
                 /// <summary>
                 /// Sets a float4 to a uniform.
                 /// </summary>
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="vec">float4 value to set to the uniform.</param>
-                void setUniform4f(const std::string& name, const float4& vec);
+                virtual void setUniform4f(const std::string& name, const float4& vec) = 0;
 
                 /// <summary>
                 /// Sets a float4 to array to a uniform.
@@ -110,22 +117,22 @@ namespace MachGL {
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="vecs">Float4 array to be set to the uniform.</param>
                 /// <param name="count">Number of values within the array.</param>
-                void setUniform4fv(const std::string& name, float4* vecs, const GLuint& count);
+                virtual void setUniform4fv(const std::string& name, float4* vecs, const GLuint& count) = 0;
 
                 /// <summary>
                 /// Sets a matrix4x4 to a uniform.
                 /// </summary>
                 /// <param name="name">Name of the uniform.</param>
                 /// <param name="matrix">matrix4x4 to be set to the uniform.</param>
-                void setUniformMatrix4fv(const std::string& name, const matrix4x4& matrix);
+                virtual void setUniformMatrix4fv(const std::string& name, const matrix4x4& matrix) = 0;
 
-                inline sPoint<Shader> ref() { return make_sPoint<Shader>(*this); }
 
-            private:
-                //Loads the shaders in from the files and makes a glProgram.
-                GLuint load();
+            protected:
+                virtual uint32_t load() = 0;
+                virtual int getUniformLocation(const std::string& name) = 0;
                 bool inCache() const;
-                GLint getUniformLocation(const std::string& name);
-            };
+        };
+    
+        using MACH_SHADER = sPoint<Shader>;
     }
 }

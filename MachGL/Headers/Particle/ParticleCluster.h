@@ -27,7 +27,7 @@ namespace MachGL {
 			float3					position  = float3(0);
 			float3					scale     = float3(1.0f);
 			float4					color	  = float4(1);
-			sPoint<Object::Object>  object;
+			Object::MACH_OBJECT     object;
 			float					velocity  = 1.0f;
 			float3					direction = float3(0, 1, 0);
 		};
@@ -35,14 +35,14 @@ namespace MachGL {
 		class ParticleCluster {
 
 			private:
-				bool						m_active		= false;
-				bool						m_defaultShader = true;
-				ParticleProperties			m_properties;
-				uPoint<Graphics::Shader>	m_shader;
-				Graphics::Renderer3D        m_renderer;
-				uint32_t					m_particles;
-				std::vector<Object::Object> m_objects;
-				Particle					m_particle;
+				bool						      m_active		= false;
+				bool						      m_defaultShader = true;
+				ParticleProperties			      m_properties;
+				Graphics::MACH_SHADER	          m_shader;
+				Graphics::MACH_RENDERER_3D        m_renderer;
+				uint32_t					      m_particles;
+				std::vector<Object::MACH_OBJECT> m_objects;
+				Particle					      m_particle;
 
 			public:
 				ParticleCluster(const ParticleProperties& properties, const uint32_t& particles);

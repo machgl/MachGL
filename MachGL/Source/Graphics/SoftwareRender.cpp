@@ -31,11 +31,11 @@ namespace MachGL {
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 			
-			m_image = make_uPoint<Graphics::Image>(m_TID);
+			m_image = Graphics::Image::createImage(m_TID);
 
 			clear(0);
 
-			m_rect = make_uPoint<Plane::SimpleRect>(m_position, float2((float)m_width, (float)m_height), m_image->ref(), m_windowDimension);
+			m_rect = make_sPoint<Plane::SimpleRect>(m_position, float2((float)m_width, (float)m_height), m_image, m_windowDimension);
 		}
 
 		void SoftwareRender::clear(const uint32_t& color) {

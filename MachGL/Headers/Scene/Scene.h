@@ -33,17 +33,17 @@ namespace MachGL {
 			std::string vertShader;
 			std::string fragShader;
 			Object::ObjectProperties objectProperties;
-			sPoint<Graphics::Shader> shader;
-			sPoint<Graphics::Image> loadedTexture;
+			Graphics::MACH_SHADER shader;
+			Graphics::MACH_IMAGE loadedTexture;
 		};
 
 		class Scene {
 
 			private:
-				std::vector<Object::Object> m_objects;
+				std::vector<Object::MACH_OBJECT> m_objects;
 				std::vector<SceneObject> m_sceneObjects;
 				std::string m_filepath;
-				Graphics::Renderer3D m_renderer;
+				Graphics::MACH_RENDERER_3D m_renderer;
 				std::vector<std::future<void>> m_futures;
 				std::string m_sceneName;
 

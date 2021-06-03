@@ -48,8 +48,10 @@ void main () {
     vs_out.shine = shine;
     vs_out.reflectivity = reflectivity;
 
+    vec3 viewNormal = mat3(transpose(inverse(_tr_matrix))) * normal.xyz;
     vec3 viewVector = normalize(worldPosition.xyz - _camera_position);
-    vs_out.reflectedVector = reflect(viewVector, normalize(normal.xyz));
+
+    vs_out.reflectedVector = reflect(viewVector, normalize(viewNormal));
 
     for (int i = 0; i < MAX_LIGHTS; i++) {
 

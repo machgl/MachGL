@@ -3,7 +3,7 @@
 namespace MachGL {
 	namespace Object {
 
-		Camera::Camera(const float3& position, const CameraType& cameraType, const sPoint<Window>& window) : m_pos(position), m_cameraType(cameraType), m_window(window) {
+		Camera::Camera(const float3& position, const CameraType& cameraType, const MACH_WINDOW& window) : m_pos(position), m_cameraType(cameraType), m_window(window) {
 
 			m_originalPos = m_pos;
 			m_originalY = m_originalPos.y;
@@ -104,9 +104,9 @@ namespace MachGL {
 		void Camera::updateViewMatrix() {
 
 			float3 front;
-			front.x = cos(Maths::Functions::radians(m_yaw)) * cos(Maths::Functions::radians(-m_pitch));
-			front.y = sin(Maths::Functions::radians(-m_pitch));
-			front.z = sin(Maths::Functions::radians(m_yaw)) * cos(Maths::Functions::radians(-m_pitch));
+			front.x = cos(Maths::Functions::radians(m_yaw)) * cos(Maths::Functions::radians(m_pitch));
+			front.y = sin(Maths::Functions::radians(m_pitch));
+			front.z = sin(Maths::Functions::radians(m_yaw)) * cos(Maths::Functions::radians(m_pitch));
 			m_cameraFront = Maths::Vector::normalize(front);
 		}
 	}

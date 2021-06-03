@@ -7,10 +7,11 @@ project "MachGL"
 
     files 
     {
+        "**.h",
         "Headers/**.h",
         "Source/**.cpp"
     }
-
+        
     defines 
     {
         "GLFW_INCLUDE_NONE"

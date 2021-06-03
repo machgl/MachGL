@@ -22,11 +22,11 @@ namespace MachGL {
 
 			protected:
 				WindowDimension			m_windowDimension;
-				sPoint<Framebuffer>		m_framebuffer;
-				sPoint<Image>			m_image;
-				uPoint<Shader>			m_shader;
-				uPoint<Plane::Plane>    m_plane;
-				Renderer2D				m_renderer;
+				MACH_FRAMEBUFFER		m_framebuffer;
+				MACH_IMAGE			    m_image;
+				MACH_SHADER			    m_shader;
+				Plane::MACH_PLANE       m_plane;
+				MACH_RENDERER_2D		m_renderer;
 				uint32_t				m_width = 0, m_height = 0;
 				matrix4x4				m_projection;
 				Plane::PlaneProperties	m_planeProperties;
@@ -59,8 +59,8 @@ namespace MachGL {
 			private:
 				bool				m_horizontal     = true;
 				uint32_t			m_gaussianPasses = 5;
-				sPoint<Framebuffer> m_framebuffer2;
-				uPoint<Image>		m_image2;
+				MACH_FRAMEBUFFER    m_framebuffer2;
+                MACH_IMAGE		    m_image2;
 
 			public:
 				GaussianBlur(const WindowDimension& windowDimension);

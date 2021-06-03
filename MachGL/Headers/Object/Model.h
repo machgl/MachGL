@@ -20,17 +20,17 @@ namespace MachGL {
 		class Model {
 
 			private:
-				std::string			  m_filepath;
-				std::vector<float3>   m_vertices;
-				std::vector<float3>   m_normals;
-				std::vector<float2>   m_vertexTextures;
-				std::vector<float3>   m_vertexNormals;
-				std::vector<float2>   m_UVs;
+				std::string			      m_filepath;
+				std::vector<float3>       m_vertices;
+				std::vector<float3>       m_normals;
+				std::vector<float2>       m_vertexTextures;
+				std::vector<float3>       m_vertexNormals;
+				std::vector<float2>       m_UVs;
 				std::vector<unsigned int> m_indices;
-				bool				  m_hasTexture   = true;
+				bool				      m_hasTexture   = true;
 				
 			public:
-				Model() = default;
+                Model() = default;
 				Model(const std::string& filepath);
 				Model(const std::vector<float3>& vertices);
 				Model(const std::vector<float3>& vertices, const std::vector<float3>& normals, const std::vector<float2>& UVs, 
@@ -46,9 +46,11 @@ namespace MachGL {
 				inline const size_t getIndexSize() const { return m_indices.size(); }
 				inline sPoint<Model> ref() { return make_sPoint<Model>(*this); }
 
-
+                
 			private:
 				void load();
-			};
+        };
+        
+        using MACH_MODEL = sPoint<Model>;
 	}
 }

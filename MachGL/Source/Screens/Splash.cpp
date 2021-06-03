@@ -2,10 +2,10 @@
 
 namespace MachGL {
 
-	Splash::Splash(const WindowDimension& windowDimension, const sPoint<Graphics::Image>& image)
+	Splash::Splash(const WindowDimension& windowDimension, const Graphics::MACH_IMAGE& image)
 		: m_windowDimension(windowDimension), m_image(image) {
 
-		m_splash = make_uPoint<Plane::SimpleRect>(float2(0, 0), float2(windowDimension.width, windowDimension.height), m_image, m_windowDimension);
+		m_splash = make_sPoint<Plane::SimpleRect>(float2(0, 0), float2(windowDimension.width, windowDimension.height), m_image, m_windowDimension);
 	}
 
 	void Splash::render() {

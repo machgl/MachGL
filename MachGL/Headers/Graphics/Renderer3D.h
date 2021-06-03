@@ -13,6 +13,9 @@ namespace MachGL {
         class Renderer3D {
 
             public:
+            
+                static sPoint<Renderer3D> createRenderer();
+                
                 Renderer3D()  = default;
                 ~Renderer3D() = default;
                 
@@ -20,7 +23,7 @@ namespace MachGL {
 				/// Submits a list of objects for rendering and renders them.
 				///	<param name="objects"></param>
 				/// </summary>
-                void submit(const std::vector<Object::Object>& objects);
+                void submit(const std::vector<Object::MACH_OBJECT>& objects);
 
                 /// <summary>
 				/// Submits a list of objects for rendering and renders them but with a defined render distance, 
@@ -29,16 +32,18 @@ namespace MachGL {
                 ///	<param name="camera">Camera object to give the position of the camera to the renderer.</param>
                 ///	<param name="renderDistance">Defines the distance from the camera that the objects will render.</param>
 				/// </summary>
-                void submit(const std::vector<Object::Object>& objects, const Object::Camera& camera, const float& renderDistance);
+                void submit(const std::vector<Object::MACH_OBJECT>& objects, const Object::Camera& camera, const float& renderDistance);
 
-                void submit(const Object::Object& object);
+                void submit(const Object::MACH_OBJECT& object);
 
-                void submit(const Object::Object& object, const Object::Camera& camera, const float& renderDistance);
+                void submit(const Object::MACH_OBJECT& object, const Object::Camera& camera, const float& renderDistance);
 
                 void submit(const std::vector<Submittable3D>& submittables);
             
-            private:
-                void flush(const Object::Object& object);
+            protected:
+                virtual void flush(const Object::MACH_OBJECT& object) = 0;
         };
+        
+        using MACH_RENDERER_3D = sPoint<Renderer3D>;
     }
 }

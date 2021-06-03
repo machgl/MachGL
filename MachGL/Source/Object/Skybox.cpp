@@ -9,33 +9,36 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
-		Skybox::Skybox(const sPoint<Graphics::Image>& image)
+		Skybox::Skybox(const Graphics::MACH_IMAGE& image)
         : m_image(image) {
 		    
-            m_object = make_sPoint<Object>(make_sPoint<Model>(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
+            m_renderer = Graphics::Renderer3D::createRenderer();
+            m_object = Object::Object::createObject(make_sPoint<Model>(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
             m_object->create();
-            m_objects.push_back(*m_object);
-            m_shader = make_sPoint<Graphics::Shader>("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
+            m_objects.push_back(m_object);
+            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
             m_type = SkyboxType::STATIC;
 		}
 
-        Skybox::Skybox(const sPoint<Graphics::Image>& image, const sPoint<Graphics::Image>& image2)
+        Skybox::Skybox(const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2)
             : m_image(image), m_image2(image2) {
 
-            m_object = make_sPoint<Object>(make_sPoint<Model>(makeVertices()), float3(0), m_image, m_image2, ObjectType::SKYBOX);
+            m_renderer = Graphics::Renderer3D::createRenderer();
+            m_object = Object::Object::createObject(make_sPoint<Model>(makeVertices()), float3(0), m_image, m_image2, ObjectType::SKYBOX);
             m_object->create();
-            m_objects.push_back(*m_object);
-            m_shader = make_sPoint<Graphics::Shader>("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
+            m_objects.push_back(m_object);
+            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
             m_type = SkyboxType::DYNAMIC;
         }
 
         Skybox::Skybox(const GLuint& cubemapID) {
 
-            m_image = make_sPoint<Graphics::Image>(cubemapID);
-            m_object = make_sPoint<Object>(make_sPoint<Model>(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
+            m_renderer = Graphics::Renderer3D::createRenderer();
+            m_image = Graphics::Image::createImage(cubemapID);
+            m_object = Object::Object::createObject(make_sPoint<Model>(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
             m_object->create();
-            m_objects.push_back(*m_object);
-            m_shader = make_sPoint<Graphics::Shader>("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
+            m_objects.push_back(m_object);
+            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
             m_type = SkyboxType::STATIC;
         }
 
@@ -125,7 +128,7 @@ namespace MachGL {
                 m_shader->setUniform1f("_blendFactor", m_blendFactor);
             }
 
-            m_renderer.submit(m_objects);
+            m_renderer->submit(m_objects);
             m_shader->disable();
 
             glDepthFunc(GL_LESS);

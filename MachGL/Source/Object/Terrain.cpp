@@ -9,7 +9,8 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 	
-		Terrain::Terrain(const uint32_t& size, const uint32_t& vertexCount) : m_size(size), m_vertexCount(vertexCount) {
+		Terrain::Terrain(const uint32_t& size, const uint32_t& vertexCount)
+            : m_size(size), m_vertexCount(vertexCount) {
 
 			m_model = generateTerrain();
 		}
@@ -22,7 +23,7 @@ namespace MachGL {
 			m_model = generateTerrain();
 		}
 
-		sPoint<Model> Terrain::generateTerrain() {
+		MACH_MODEL Terrain::generateTerrain() {
 
 			const uint32_t count = m_vertexCount * m_vertexCount;
 			std::vector<float3> vertices(count);

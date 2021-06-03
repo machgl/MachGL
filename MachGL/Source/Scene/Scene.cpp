@@ -13,19 +13,21 @@ namespace MachGL {
 			loadScene();
 		}
 
-		void loadObject(const SceneObject& sceneObject, std::vector<Object::Object>* objects) {
+		void loadObject(const SceneObject& sceneObject, std::vector<Object::MACH_OBJECT>* objects) {
 
 			sPoint<Object::Model> model = make_sPoint<Object::Model>(sceneObject.mesh);
-			sPoint<Object::Object> object = make_sPoint<Object::Object>(model, sceneObject.position, sceneObject.loadedTexture);
+			Object::MACH_OBJECT object = Object::Object::createObject(model, sceneObject.position, sceneObject.loadedTexture);
 
 			object->create(sceneObject.objectProperties);
 
 			std::lock_guard<std::mutex> lock(m_objectLoaderMutex);
-			objects->push_back(*object);
+			objects->push_back(object);
 		}
 
 		void Scene::loadScene() {
 
+            m_renderer = Graphics::Renderer3D::createRenderer();
+            
 			if (m_filepath.substr(m_filepath.find_last_of(".") + 1) != "msf") {
 
 				MACH_ERROR_MSG("File type not a MachGL scene file (.msf)");
@@ -63,8 +65,8 @@ namespace MachGL {
 					if (object["Color"]) sceneObject.objectProperties.color = object["Color"].as<float4>();
 
 					//Load in shaders and texture 
-					if (object["VertexShader"] && object["FragmentShader"]) sceneObject.shader = make_sPoint<Graphics::Shader>(sceneObject.vertShader, sceneObject.fragShader);
-					sceneObject.loadedTexture = object["texture"] ? make_sPoint<Graphics::Image>(sceneObject.texture, Graphics::ImageType::RGB) : nullptr;
+					if (object["VertexShader"] && object["FragmentShader"]) sceneObject.shader = Graphics::Shader::createShader(sceneObject.vertShader, sceneObject.fragShader);
+					sceneObject.loadedTexture = object["texture"] ? Graphics::Image::createImage(sceneObject.texture, Graphics::ImageType::RGB) : nullptr;
 
 					m_futures.push_back(std::async(std::launch::async, loadObject, sceneObject, &m_objects));
 				}
@@ -97,9 +99,9 @@ namespace MachGL {
 
 			for (uint32_t i = 0; i < m_objects.size(); i++) {
 				
-				loadShader(m_objects[i].getObjectID());
-				m_renderer.submit(m_objects[i]);
-				unloadShader(m_objects[i].getObjectID());
+				loadShader(m_objects[i]->getObjectID());
+				m_renderer->submit(m_objects[i]);
+				unloadShader(m_objects[i]->getObjectID());
 			}
 		}
 

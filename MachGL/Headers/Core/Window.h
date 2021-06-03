@@ -12,42 +12,34 @@
 namespace MachGL {
 
     class Window {
-
-        private:
-            std::string     m_title;
-            uint32_t        m_width, m_height;
-            uint32_t        m_aa            = 0;
-            GLFWwindow*     m_window        = nullptr;
-            sPoint<Splash>  m_splashScreen  = nullptr;
-            Graphics::Image m_splashImage;
-            bool            m_vsync         = false;
-            bool            m_fullscreen    = false;
-            double          m_previousTime  = 0;
-            int             m_frameCount    = 0;
-            static bool     m_keys[MAX_KEYS];
-            static bool     m_mouseButtons[MAX_BUTTONS];
-            static double   mx, my;
-            bool            m_isLoaded      = false;
-            bool            m_cursor        = true;
-            bool            m_debug         = false;
-            Timer           m_timer;
-            std::string     m_iconPath      = "MachGL/CoreAssets/CoreTextures/defaultIcon.png";
-            GLFWimage       m_icons[1];
-            float           m_xScale        = 1;
-            float           m_yScale        = 1;
+   
+        protected:
+            std::string          m_title;
+            uint32_t             m_width, m_height;
+            uint32_t             m_aa            = 0;
+            sPoint<Splash>       m_splashScreen  = nullptr;
+            Graphics::MACH_IMAGE m_splashImage;
+            bool                 m_vsync         = false;
+            bool                 m_fullscreen    = false;
+            double               m_previousTime  = 0;
+            int                  m_frameCount    = 0;
+            static bool          m_keys[MAX_KEYS];
+            static bool          m_mouseButtons[MAX_BUTTONS];
+            static double        mx, my;
+            bool                 m_isLoaded      = false;
+            bool                 m_cursor        = true;
+            bool                 m_debug         = false;
+            Timer                m_timer;
+            std::string          m_iconPath      = "MachGL/CoreAssets/CoreTextures/defaultIcon.png";
+            float                m_xScale        = 1;
+            float                m_yScale        = 1;
 
         public:
-
-            /// <summary>
-            /// Creates and initilizes a window.
-            /// </summary>
-            /// <param name="title">Title of window</param>
-            /// <param name="width">Horizonal resolution</param>
-            /// <param name="height">Vertical resolution</param>
-            /// <param name="vsync">V-Sync on (true) or off (false)</param>
-            Window(const std::string& title, const float& width, const float& height);
-
-            ~Window();
+            static sPoint<Window> createWindow(const std::string& title, const float& width, const float& height);
+            
+            Window() = default;
+        
+            virtual ~Window() = 0;
 
             /// <summary>
             /// Enables v-sync
@@ -78,25 +70,25 @@ namespace MachGL {
             /// <summary>
             /// Initilizes the window.
             /// </summary>
-            void init();
+            virtual void init() = 0;
 
             /// <summary>
             /// Clears the color and depth buffer (OpenGL) and enables GL_DEPTH_TEST.
             /// This should be called at the START of the main loop (before any drawing to the screen).
             /// </summary>
-            void clear();
+            virtual void clear() = 0;
 
             /// <summary>
             /// This updates the screen and swaps the buffers. 
             /// This should be the last function to be called in the main loop.
             /// </summary>
-            void update();
+            virtual void update() = 0;
 
             /// <summary>
             /// Checks if the window has been closed. Returns a boolean.
             /// </summary>
             /// <returns></returns>
-            bool closed() const;
+            virtual bool closed() const = 0;;
 
             /// <summary>
             /// Checks if the key specified has been pressed. Returns a boolean.
@@ -117,21 +109,6 @@ namespace MachGL {
             /// </summary>
             /// <param name="position">Requires a float2 to edit</param>
             static void getMousePosition(float2& position);
-
-            /// <summary>
-            /// Callback function for keyboard input. Designed for the GLFW function glfwSetKeyCallback
-            /// </summary>
-            static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
-
-            /// <summary>
-            /// Callback function for mouse button input. Designed for the GLFW function glfwSetMouseButtonCallback
-            /// </summary>
-            static void mouseButton_callback(GLFWwindow* window, int button, int action, int mods);
-
-            /// <summary>
-            /// Callback function for mouse position. Designed for the GLFW function glfwSetCursorPosCallback
-            /// </summary>
-            static void cursor_position_callback(GLFWwindow* window, double xPos, double yPos);
 
             /// <summary>
             /// Sets the window to a loaded state (Stops the splash screen).
@@ -163,20 +140,16 @@ namespace MachGL {
             inline void setIcon(const std::string& file) { m_iconPath = file; };
 
             /// <summary>
-            /// Returns a shared pointer of the window object
-            /// </summary>
-            /// <returns>Reference to the window</returns>
-            inline sPoint<Window> ref() { return make_sPoint<Window>(*this); }
-
-            /// <summary>
             /// Gets the dimensions of the window as a WindowDimension struct.
             /// </summary>
             /// <returns>WindowDimension struct of the window dimensions.</returns>
             const WindowDimension getWindowDimension() const;
         
-        private:
+        protected:
             void checkOpenGLError();
     };
+
+    using MACH_WINDOW = sPoint<Window>;
 }
 
 

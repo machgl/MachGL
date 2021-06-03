@@ -12,6 +12,7 @@ namespace MachGL {
 		EnvironmentMap::EnvironmentMap(const float& size, const WindowDimension& windowDimension) 
 			: m_size(size), m_windowDimension(windowDimension) { 
 			
+            m_renderer = Graphics::Renderer3D::createRenderer();
 			m_projection = Maths::Matrix::simplePerspective(90, WindowDimension{ (uint32_t)128, (uint32_t)128 });
 			init();
 		}
@@ -20,7 +21,6 @@ namespace MachGL {
 			
 			glGenFramebuffers(1, &m_fbo);
 			glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-			
 			glGenTextures(1, &m_textureColorBuffer);
 			glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureColorBuffer);
 
@@ -54,7 +54,7 @@ namespace MachGL {
 			glEnable(GL_DEPTH_TEST);
 		}
 
-		void EnvironmentMap::reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera, const sPoint<Shader>& shader) {
+		void EnvironmentMap::reflectedObjects(const std::vector<Object::MACH_OBJECT>& objects, Object::Camera& camera, const MACH_SHADER& shader) {
 
 			for (int i = 0; i < 6; i++) {
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_textureColorBuffer, 0);
@@ -65,13 +65,13 @@ namespace MachGL {
 
 				for (uint32_t i = 0; i < objects.size(); i++) {
 
-					shader->setUniform1i("_texture", objects[i].getTID());
-					m_renderer.submit(objects[i]);
+					shader->setUniform1i("_texture", objects[i]->getTID());
+					m_renderer->submit(objects[i]);
 				}
 			}
 		}
 
-		void EnvironmentMap::reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera, const sPoint<Shader>& shader, const sPoint<Object::Skybox>& skybox) {
+		void EnvironmentMap::reflectedObjects(const std::vector<Object::MACH_OBJECT>& objects, Object::Camera& camera, const MACH_SHADER& shader, const sPoint<Object::Skybox>& skybox) {
 
 			for (int i = 0; i < 6; i++) {
 				glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_textureColorBuffer, 0);
@@ -80,16 +80,14 @@ namespace MachGL {
 				shader->enable();
 				shader->setUniformMatrix4fv("_vw_matrix", camera.getViewMatrix());
 				shader->setUniformMatrix4fv("_pr_matrix", m_projection);
-				shader->setUniform3f("_camera_position", camera.getPosition());
-
+                
 				for (uint32_t i = 0; i < objects.size(); i++) {
 
-					shader->setUniform1i("_texture", objects[i].getTID());
-					m_renderer.submit(objects[i]);
+					shader->setUniform1i("_texture", objects[i]->getTID());
+					m_renderer->submit(objects[i]);
 				}
 
 				shader->disable();
-
 				skybox->render(m_projection, camera.getViewMatrix());
 			}
 		}

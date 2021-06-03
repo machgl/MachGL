@@ -10,13 +10,13 @@ namespace MachGL {
 
 		private:
 			WindowDimension m_windowDimension;
-			sPoint<Graphics::Image> m_image;
-			uPoint<Plane::SimpleRect> m_splash;
+			Graphics::MACH_IMAGE m_image;
+			sPoint<Plane::SimpleRect> m_splash;
 			
 		public:
 			Splash() = default;
 			~Splash() = default;
-			Splash(const WindowDimension& windowDimension, const sPoint<Graphics::Image>& image);
+			Splash(const WindowDimension& windowDimension, const Graphics::MACH_IMAGE& image);
 			void render();
 
 			inline void setAlpha(const float& alpha) { m_splash->setAlpha(alpha); }

@@ -96,7 +96,12 @@ namespace MachGL {
         GLuint id = 0;
     };
 
+    enum class GraphicsAPI {
+        MACH_OpenGL
+    };
+
     static std::vector<ShaderInstance> shaderCache;
+    static GraphicsAPI MACH_GRAPHICS_API;
 }
 
 //Fix compatability issues with YAML and custom data structures

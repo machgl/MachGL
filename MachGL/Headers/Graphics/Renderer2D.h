@@ -12,6 +12,9 @@ namespace MachGL {
 		class Renderer2D {
 
 			public:
+            
+                static sPoint<Renderer2D> createRenderer();
+            
 				Renderer2D()  = default;
 				~Renderer2D() = default;
 
@@ -19,11 +22,13 @@ namespace MachGL {
 				/// Submits a list of planes for rendering and renders them. 
 				///	<param name="planes">List of planes to send to renderer.</param>
 				/// </summary>
-				void submit(const std::vector<Plane::Plane>& planes);
-				void submit(const Plane::Plane& plane);
+				void submit(const std::vector<Plane::MACH_PLANE>& planes);
+				void submit(const Plane::MACH_PLANE& plane);
 
-			private:
-				void flush(const Plane::Plane& plane);
+			protected:
+				virtual void flush(const Plane::MACH_PLANE& plane) = 0;
 		};
+    
+        using MACH_RENDERER_2D = sPoint<Renderer2D>;
 	}
 }

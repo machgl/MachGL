@@ -20,22 +20,21 @@ namespace MachGL {
 		class EnvironmentMap {
 
 			private:
-				Renderer3D		m_renderer;
-				GLuint			m_fbo;
-				GLuint			m_rbo;
-				GLuint			m_textureColorBuffer;
-				float			m_size;
-				WindowDimension m_windowDimension;
-				matrix4x4		m_projection;
-				float3			m_position;
+				MACH_RENDERER_3D m_renderer;
+				GLuint			 m_fbo;
+				GLuint			 m_rbo;
+				GLuint			 m_textureColorBuffer;
+				float			 m_size;
+				WindowDimension  m_windowDimension;
+				matrix4x4		 m_projection;
+				float3			 m_position;
 
 			public:
 				EnvironmentMap(const float& size, const WindowDimension& windowDimension);
 				void capture();
 				void stop();
-
-				void reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera, const sPoint<Shader>& shader);
-				void reflectedObjects(const std::vector<Object::Object>& objects, Object::Camera& camera, const sPoint<Shader>& shader, const sPoint<Object::Skybox>& skybox);
+				void reflectedObjects(const std::vector<Object::MACH_OBJECT>& objects, Object::Camera& camera, const MACH_SHADER& shader);
+				void reflectedObjects(const std::vector<Object::MACH_OBJECT>& objects, Object::Camera& camera, const MACH_SHADER& shader, const sPoint<Object::Skybox>& skybox);
 				const GLuint& getEnvironmentMap() const { return m_textureColorBuffer; }
 			private:
 				void init();
