@@ -17,7 +17,7 @@ namespace MachGL {
 				float3			m_cameraFront		= float3(0, 0, -1);
 				float3			m_cameraUp			= float3(0, 1, 0);
 				CameraType		m_cameraType		= CameraType::FPS;
-				sPoint<Window>  m_window			= nullptr;
+				MACH_WINDOW  m_window			= nullptr;
 				float			m_yaw				= 0.0f;
 				float			m_pitch				= 0.0f;
 				float			m_cameraY			= m_pos.y;

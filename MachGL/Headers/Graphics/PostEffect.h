@@ -14,6 +14,7 @@ Mach::GL (Alpha)
 #include "../Graphics/Shader.h"
 #include "../Graphics/Renderer2D.h"
 #include "../Maths/Matrix.h"
+#include "../Plane/Plane.h"
 
 namespace MachGL {
 	namespace Graphics {

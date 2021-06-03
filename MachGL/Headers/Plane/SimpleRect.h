@@ -27,7 +27,7 @@ namespace MachGL {
 				Graphics::MACH_IMAGE        m_image  = nullptr;
 				matrix4x4                   m_projection;
 				Graphics::MACH_SHADER       m_shader;
-				MACH_PLANE  			    m_plane  = nullptr;
+				MACH_PLANE  			    m_plane;
 				std::vector<MACH_PLANE>		m_planes;
 				WindowDimension			    m_windowDimension;
 				uint32_t					m_texture;

@@ -3,6 +3,7 @@
     MachGL (Alpha)
  
  */
+#pragma once
 
 #include "../../Graphics/Renderer3D.h"
 

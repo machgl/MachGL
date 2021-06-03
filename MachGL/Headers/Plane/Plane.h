@@ -112,7 +112,6 @@ namespace MachGL {
 				inline const float4& getColor() const { return m_color; }
 				inline const PlaneType& getType() const { return m_type; }
 				inline const PlaneShape& getShape() const { return m_shape; }
-				inline auto ref() { return make_sPoint<Plane>(*this); }
 				inline const uint32_t& getVAO() const { return m_VAO; }
 				inline const uint32_t& getVBO() const { return m_VBO; }
 				inline const uint32_t& getIBO() const { return m_IBO; }

@@ -4,6 +4,8 @@
  
  */
 
+#pragma once
+
 #include "../../Graphics/Image.h"
 
 namespace MachGL {

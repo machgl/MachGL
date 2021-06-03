@@ -107,8 +107,6 @@ namespace MachGL {
                 void generateCubeBounds();
 		};
     
-        using MACH_OBJECT = sPoint<Object>;
-    
-        
+        using MACH_OBJECT = sPoint<Object>;    
 	}
 }
