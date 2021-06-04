@@ -1,10 +1,10 @@
 Mach::GL is an OpenGL game engine that combines the ease of high-level programming with the control of low level access. 
 
-How to install: 
+## How to install: 
 
 - For all platforms ensure you have git installed.
 
-## Windows (Support for VS 2019 only):
+#### Windows (Support for VS 2019 only):
 
 - Create a directorary and navigate to it using: `cd path_to_directory`.
 - Run the command (INCLUDE the dot at the end) `git clone https://github.com/machgl/MachGL .` (Note this will not some required modules - see next command).
@@ -13,7 +13,7 @@ How to install:
 - Once VS is open, right click on the 'Sandbox' project and select 'Set Default Startup Project'.
 - Build the solution.
 
-## MacOS (Support for XCode only):
+#### MacOS (Support for XCode only):
 
 - Create a directorary and navigate to it using: `cd path_to_directory`.
 - Run the command (INCLUDE the dot at the end) `git clone https://github.com/machgl/MachGL .` (Note this will not some required modules - see next command).
@@ -22,10 +22,10 @@ How to install:
 - Open the generated XCode workspace file and navigate in the menu bar to Product -> Scheme and click on sandbox. 
 - Build the solution.
 
-## Note (MacOS Only) 
+##### Note (MacOS Only) 
 Once the solution has been built, the 'CoreAssets' folder in MachGL must be copied into the build directory (To be fixed).
 
-Current features:
+### Current features:
   - High performance 2D & 3D renderers
   - Framebuffers
   - OBJ file loading 
@@ -36,8 +36,9 @@ Current features:
   - HDR
   - Static environment maps for objects (from loaded cubemap)
   - Dynamic skyboxes 
+  - API Abstraction
   
- Currently working on: 
+ ### Currently working on: 
   - Particle system
   - Texture atlases 
   - Documenting code
@@ -45,7 +46,7 @@ Current features:
   - Post-processing effects (bloom effects etc.)
   - Scene file saving/loading (using YAML)
   
- Features I want to add soon:
+ ### Features I want to add soon:
   - Scene editor
   - Mesh simplifier 
   - Normal maps
