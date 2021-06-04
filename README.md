@@ -2,7 +2,28 @@ Mach::GL is an OpenGL game engine that combines the ease of high-level programmi
 
 How to install: 
 
-***TODO***
+- For all platforms ensure you have git installed.
+
+##Windows (Support for VS 2019 only):
+
+- Create a directorary and navigate to it using: `cd path_to_directory`.
+- Run the command (INCLUDE the dot at the end) `git clone https://github.com/machgl/MachGL .` (Note this will not some required modules - see next command).
+- Run the command `git submodule update --init --remote`.
+- Within the working directorary double-click on the windows_build_vs2019.bat file. This will make a VS solution file which can be opened.
+- Once VS is open, right click on the 'Sandbox' project and select 'Set Default Startup Project'.
+- Build the solution.
+
+##MacOS (Support for XCode only):
+
+- Create a directorary and navigate to it using: `cd path_to_directory`.
+- Run the command (INCLUDE the dot at the end) `git clone https://github.com/machgl/MachGL .` (Note this will not some required modules - see next command).
+- Run the command `git submodule update --init --remote` to clone the required modules from third-party vendors.
+- Run the command `./macos_build_xcode.sh` to build the xcode workspace.
+- Open the generated XCode workspace file and navigate in the menu bar to Product -> Scheme and click on sandbox. 
+- Build the solution.
+
+##Note (MacOS Only) 
+Once the solution has been built, the 'CoreAssets' folder in MachGL must be copied into the build directory (To be fixed).
 
 Current features:
   - High performance 2D & 3D renderers
