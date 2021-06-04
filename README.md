@@ -7,7 +7,7 @@ Mach::GL is an OpenGL game engine that combines the ease of high-level programmi
 #### Windows (Support for VS 2019 only):
 
 - Create a directorary and navigate to it using: `cd path_to_directory`.
-- Run the command (INCLUDE the dot at the end) `git clone https://github.com/machgl/MachGL .` (Note this will not some required modules - see next command).
+- Run the command (INCLUDE the dot at the end) `git clone https://github.com/machgl/MachGL .` (Note this will not clone some required modules - see next command).
 - Run the command `git submodule update --init --remote`.
 - Within the working directorary double-click on the windows_build_vs2019.bat file. This will make a VS solution file which can be opened.
 - Once VS is open, right click on the 'Sandbox' project and select 'Set Default Startup Project'.
