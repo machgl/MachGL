@@ -32,5 +32,7 @@ namespace MachGL {
 				~SimpleCircle() {  }
 				void render() { m_rect->render(); }
 		};
+
+		using MACH_SIMPLE_CIRCLE = sPoint<SimpleCircle>;
 	}
 }

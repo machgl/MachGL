@@ -44,5 +44,7 @@ namespace MachGL {
 				inline void setAlpha(const float& alpha) { m_alpha = alpha; }
 				inline void setRadius(const float& radius) { m_radius = radius; }
 		};
+
+		using MACH_SIMPLE_RECT = sPoint<SimpleRect>;
 	}
 }

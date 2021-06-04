@@ -17,7 +17,7 @@ namespace MachGL {
 				float3			m_cameraFront		= float3(0, 0, -1);
 				float3			m_cameraUp			= float3(0, 1, 0);
 				CameraType		m_cameraType		= CameraType::FPS;
-				MACH_WINDOW  m_window			= nullptr;
+				MACH_WINDOW     m_window			= nullptr;
 				float			m_yaw				= 0.0f;
 				float			m_pitch				= 0.0f;
 				float			m_cameraY			= m_pos.y;
@@ -31,18 +31,18 @@ namespace MachGL {
 				Camera(const float3& position, const CameraType& cameraType, const MACH_WINDOW& window);
 				inline const float3& getPosition() const { return m_pos; }
 				inline const float3& getFront() const { return m_cameraFront; }
-				void avoidDefaults() { m_defaults = false; }
-				void setYaw(const float& yaw) { m_yaw = yaw; }
-				void setUp(const float3& cameraUp) { m_cameraUp = cameraUp; }
-				void limitY(const float& cameraY) { m_cameraY = cameraY; }
-				void reset() { m_pos = m_originalPos; m_cameraY = m_originalY; };
+				inline void avoidDefaults() { m_defaults = false; }
+				inline void setYaw(const float& yaw) { m_yaw = yaw; }
+				inline void setPitch(const float& pitch) { m_pitch = pitch; }
+				inline void setUp(const float3& cameraUp) { m_cameraUp = cameraUp; }
+				inline void limitY(const float& cameraY) { m_cameraY = cameraY; }
+				inline void reset() { m_pos = m_originalPos; m_cameraY = m_originalY; };
 				void moveX(const float& velocity);
 				void moveY(const float& velocity);
 				void moveZ(const float& velocity);
 				void mouseMovement(const float& sensitivity);
-				void switchToFace(const uint32_t& face);
-				void updateViewMatrix();
 				matrix4x4 getViewMatrix();
+				matrix4x4 getViewMatrix(const uint32_t& face);
 		};
 	}
 }

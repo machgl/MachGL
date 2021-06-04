@@ -6,8 +6,8 @@
     #define HEIGHT (float) 2160
 
 #else
-    #define WIDTH (float) 1280
-    #define HEIGHT (float) 720
+    #define WIDTH (uint32_t) 1920
+    #define HEIGHT (uint32_t) 1080
 #endif
 
 #define MAX_LIGHTS 12
@@ -48,6 +48,16 @@ int main() {
         "Textures/Skybox/back.jpg"
     };
 
+    std::vector<std::string> debugFileNames{
+
+        "Textures/DebugSandbox/red.jpg",
+        "Textures/DebugSandbox/orange.jpg",
+        "Textures/DebugSandbox/yellow.jpg",
+        "Textures/DebugSandbox/green.jpg",
+        "Textures/DebugSandbox/blue.jpg",
+        "Textures/DebugSandbox/pink.jpg"
+    };
+
     std::vector<std::string> nightFileNames {
 
         "Textures/Skybox/nightRight.png",
@@ -61,13 +71,13 @@ int main() {
     Graphics::MACH_IMAGE skyboxTexture = Graphics::Image::createImage(fileNames);
     Graphics::MACH_IMAGE nightSkyboxTexture = Graphics::Image::createImage(nightFileNames);
 
-    Object::Skybox skybox(skyboxTexture, nightSkyboxTexture);
+    Object::Skybox skybox(skyboxTexture);
     
     Graphics::MACH_SHADER shader = Graphics::Shader::createShader("Shaders/test.vert", "Shaders/test.frag");
 
     Object::Camera camera(float3(0, 5, 10), Object::CameraType::FPS, window);
     
-    Object::Light light(float3(10, 10, 10), float4(0, 0, 1, 1));
+    Object::Light light(float3(5, 10, 10), float4(0, 0, 1, 1));
     Object::Light sun(float3(0, 70, 0), float4(1, 1, 0.8f, 1));
 
     light.setAttenuation(float3(1, 0.001f, 0.002f));
@@ -90,7 +100,7 @@ int main() {
     Object::MACH_OBJECT suzanne = Object::Object::createObject(suzanneModel.ref(), light.getPosition(), deathstarTexture);
     Object::MACH_OBJECT suzanneRed = Object::Object::createObject(suzanneModel.ref(), float3(0, 10, -50), deathstarTexture);
     Object::MACH_OBJECT suzanneBlue = Object::Object::createObject(suzanneModel.ref(), float3(-50, 10, 0), deathstarTexture);
-    Object::MACH_OBJECT ship = Object::Object::createObject(cubeModel.ref(), float3(-10, 10, 10), nullptr);
+    Object::MACH_OBJECT ship = Object::Object::createObject(sphereModel.ref(), float3(-10, 10, 10), nullptr);
 
     Object::ObjectProperties sunProperties;
     sunProperties.color = sun.getColor();
@@ -130,7 +140,7 @@ int main() {
     std::vector<Object::MACH_OBJECT> objects;
     std::vector<Object::MACH_OBJECT> cubeObjects;
 
-    uint32_t cubes = 8;
+    uint32_t cubes = 14;
 
     for (uint32_t x = 0; x < cubes; x++) {
         for (uint32_t y = 0; y < cubes; y++) {
@@ -150,10 +160,10 @@ int main() {
     suzanneBlue->create(suzanneBlueProperties);
     ship->create(shipProperties);
 
-    Graphics::EnvironmentMap enviroMap(1280, window->getWindowDimension());
+    Graphics::MACH_ENVIRONMENT_MAP enviroMap = Graphics::EnvironmentMap::createEnvironmentMap(1280, window->getWindowDimension());
 
     suzanne->setEnviromentMap(skybox.getObject()->getTID());
-    ship->setEnviromentMap(enviroMap.getEnvironmentMap());
+    ship->setEnviromentMap(enviroMap->getEnvironmentMap());
     
     objects.push_back(scene);
     objects.push_back(ship);
@@ -171,53 +181,25 @@ int main() {
 
     Object::Camera enviroCamera(ship->getPosition(), Object::CameraType::CUBEMAP, window);
     
-    Object::Skybox enviroSkybox(enviroMap.getEnvironmentMap());
+    Object::Skybox enviroSkybox(enviroMap->getEnvironmentMap());
 
     std::vector<Object::MACH_OBJECT> reflectedObjects;
     reflectedObjects.push_back(scene);
-    reflectedObjects.push_back(suzanne);
-    reflectedObjects.push_back(suzanneRed);
-    reflectedObjects.push_back(suzanneBlue);
+    //reflectedObjects.push_back(suzanne);
+    //reflectedObjects.push_back(suzanneRed);
+    //reflectedObjects.push_back(suzanneBlue);
 
     Graphics::HDR hdr(window->getWindowDimension());
     hdr.setExposure(1.4f);
     hdr.setGamma(1.3f);
 
-    ship->setEnviromentMap(enviroMap.getEnvironmentMap());
-    
+    ship->setEnviromentMap(enviroMap->getEnvironmentMap());
+
     //******************************************************************************************
     // Start of enviroment map
-    enviroMap.capture();
-    shader->enable();
-
-    for (uint32_t i = 0; i < MAX_LIGHTS; i++) {
-
-        std::string lightColor = "_light_color[" + std::to_string(i) + "]";
-        std::string lightPos = "_light_position[" + std::to_string(i) + "]";
-        std::string lightAttenuation = "_light_attenuation[" + std::to_string(i) + "]";
-        std::string lightBrightness = "_light_brightness[" + std::to_string(i) + "]";
-
-        if (i < lights.size()) {
-
-            shader->setUniform4f(lightColor.c_str(), lights[i].getColor());
-            shader->setUniform3f(lightPos.c_str(), lights[i].getPosition());
-            shader->setUniform3f(lightAttenuation.c_str(), lights[i].getAttenuation());
-            shader->setUniform1f(lightBrightness.c_str(), lights[i].getBrightness());
-
-        }
-        else {
-
-            shader->setUniform4f(lightColor.c_str(), float4(0, 0, 0, 0));
-            shader->setUniform3f(lightPos.c_str(), float3(0, 0, 0));
-            shader->setUniform3f(lightAttenuation.c_str(), float3(1, 0, 0));
-            shader->setUniform1f(lightBrightness.c_str(), 0.0f);
-        }
-    }
-
-    enviroMap.reflectedObjects(reflectedObjects, enviroCamera, shader, skybox.ref());
-
-    shader->disable();
-    enviroMap.stop();
+    enviroMap->capture();
+    enviroMap->reflectedObjects(reflectedObjects, enviroCamera, skybox.ref());
+    enviroMap->stop();
 
     //****************************************************************************************
 

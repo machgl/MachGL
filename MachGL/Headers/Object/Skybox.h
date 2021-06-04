@@ -56,5 +56,7 @@ namespace MachGL {
 				void cycle();
 				std::vector<float3>	makeVertices();
 		};
+
+		using MACH_SKYBOX = sPoint<Skybox>;
 	}
 }

@@ -42,5 +42,7 @@ namespace MachGL {
 				~SimpleTriangle() = default;
 				inline void setAlpha(const float& alpha) { m_alpha = alpha; }
 		};
+
+		using MACH_SIMPLE_TRIANGLE = sPoint<SimpleTriangle>;
 	}
 }

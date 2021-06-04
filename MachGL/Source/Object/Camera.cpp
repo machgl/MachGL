@@ -65,49 +65,33 @@ namespace MachGL {
 		matrix4x4 Camera::getViewMatrix() {
 
 			if (m_cameraType == CameraType::FPS) m_pos.y = m_cameraY;
+			if (m_cameraType == CameraType::CUBEMAP) return Maths::Matrix::lookAt(m_pos, m_pos + m_cameraFront, m_cameraUp);
 			return Maths::Matrix::lookAt(m_pos, m_pos + m_cameraFront, m_cameraUp);
 		}
 
-		void Camera::switchToFace(const uint32_t& face) {
+		matrix4x4 Camera::getViewMatrix(const uint32_t& face) {
 
 			switch (face) {
 
 				case 0:
-					m_pitch = 0;
-					m_yaw = 0;
-					break;
-				case 1:
-					m_pitch = 0;
-					m_yaw = -90;
-					break;
-				case 2:
-					m_pitch = -89;
-					m_yaw = 180;
-					break;
-				case 3:
-					m_pitch =  89;
-					m_yaw = 180;
-					break;
-				case 4:
-					m_pitch = 0;
-					m_yaw = 180;
-					break;
-				case 5:
-					m_pitch = 0;
-					m_yaw = 0;
+					return Maths::Matrix::lookAt(m_pos, m_pos + float3(1, 0, 0), float3(0, -1, 0));
+					break;							  
+				case 1:								  
+					return Maths::Matrix::lookAt(m_pos, m_pos + float3(-1, 0, 0), float3(0, -1, 0));
+					break;							  
+				case 2:								  
+					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, 1, 0), float3(0, 0, 1));
+					break;							  
+				case 3:								  
+					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, -1, 0), float3(0, 0, -1));
+					break;							  
+				case 4:								  
+					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, 0, 1), float3(0, -1, 0));
+					break;							  
+				case 5:								  
+					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, 0, -1), float3(0, -1, 0));
 					break;
 			}
-
-			updateViewMatrix();
-		}
-
-		void Camera::updateViewMatrix() {
-
-			float3 front;
-			front.x = cos(Maths::Functions::radians(m_yaw)) * cos(Maths::Functions::radians(m_pitch));
-			front.y = sin(Maths::Functions::radians(m_pitch));
-			front.z = sin(Maths::Functions::radians(m_yaw)) * cos(Maths::Functions::radians(m_pitch));
-			m_cameraFront = Maths::Vector::normalize(front);
 		}
 	}
 }

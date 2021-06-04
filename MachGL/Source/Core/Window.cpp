@@ -8,7 +8,7 @@ namespace MachGL {
     double Window::mx;
     double Window::my;
 
-    MACH_WINDOW Window::createWindow(const std::string& title, const float& width, const float& height) {
+    MACH_WINDOW Window::createWindow(const std::string& title, const uint32_t& width, const uint32_t& height) {
         
         switch(MACH_GRAPHICS_API) {
                 

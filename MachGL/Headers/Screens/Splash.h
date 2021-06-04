@@ -11,7 +11,7 @@ namespace MachGL {
 		private:
 			WindowDimension m_windowDimension;
 			Graphics::MACH_IMAGE m_image;
-			sPoint<Plane::SimpleRect> m_splash;
+			Plane::MACH_SIMPLE_RECT m_splash;
 			
 		public:
 			Splash() = default;
@@ -21,4 +21,6 @@ namespace MachGL {
 
 			inline void setAlpha(const float& alpha) { m_splash->setAlpha(alpha); }
 	};
+
+	using MACH_SPLASH = sPoint<Splash>;
 }

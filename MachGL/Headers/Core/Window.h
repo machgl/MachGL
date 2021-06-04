@@ -17,7 +17,7 @@ namespace MachGL {
             std::string          m_title;
             uint32_t             m_width, m_height;
             uint32_t             m_aa            = 0;
-            sPoint<Splash>       m_splashScreen  = nullptr;
+            MACH_SPLASH          m_splashScreen  = nullptr;
             Graphics::MACH_IMAGE m_splashImage;
             bool                 m_vsync         = false;
             bool                 m_fullscreen    = false;
@@ -35,7 +35,7 @@ namespace MachGL {
             float                m_yScale        = 1;
 
         public:
-            static sPoint<Window> createWindow(const std::string& title, const float& width, const float& height);
+            static sPoint<Window> createWindow(const std::string& title, const uint32_t& width, const uint32_t& height);
             
             Window() = default;
         
