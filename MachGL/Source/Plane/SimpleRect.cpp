@@ -9,39 +9,34 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Plane {
 
-		SimpleRect::SimpleRect(const float2& position, const float2& size, const Graphics::MACH_IMAGE& image, const WindowDimension& windowDimension)
-			: m_position(position), m_size(size), m_image(image), m_windowDimension(windowDimension) {
-
-            m_renderer = Graphics::Renderer2D::createRenderer();
-			m_projection = Maths::Matrix::simpleOrthographic(m_windowDimension);
-			m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.vert", "../MachGL/CoreAssets/CoreShaders/simple.frag");
-			
-			PlaneProperties planeProperties;
-			planeProperties.position = float3(m_position, 0);
-			planeProperties.size = m_size;
-			planeProperties.image = m_image;
-
-			m_plane = Plane::Plane::createPlane(planeProperties);
-			m_plane->create();
-			m_planes.push_back(m_plane);
+		SimpleRect::SimpleRect(const RectProperties& properties, const WindowDimension& windowDimension) {
+            
+            m_position = properties.position;
+            m_size = properties.size;
+            m_color = properties.color;
+            m_image = properties.image;
+            m_windowDimension = windowDimension;
 		}
 
-		SimpleRect::SimpleRect(const float2& position, const float2& size, const float4& color, const WindowDimension& windowDimension)
-			: m_position(position), m_size(size), m_color(color), m_windowDimension(windowDimension) {
-
+        void SimpleRect::create() {
+            
             m_renderer = Graphics::Renderer2D::createRenderer();
-			m_projection = Maths::Matrix::simpleOrthographic(m_windowDimension);
-			m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.vert", "../MachGL/CoreAssets/CoreShaders/simple.frag");
+            m_projection = Maths::Matrix::simpleOrthographic(m_windowDimension);
+            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.vert", "../MachGL/CoreAssets/CoreShaders/simple.frag");
+            
+            PlaneProperties planeProperties;
+            planeProperties.position = float3(m_position, 0);
+            planeProperties.size = m_size;
+            planeProperties.color = m_color;
+            planeProperties.image = m_image;
 
-			PlaneProperties planeProperties;
-			planeProperties.position = float3(m_position, 0);
-			planeProperties.size = m_size;
-			planeProperties.color = m_color;
-
-			m_plane = Plane::Plane::createPlane(planeProperties);
-			m_plane->create();
-			m_planes.push_back(m_plane);
-		}
+            m_plane = Plane::Plane::createPlane(planeProperties);
+            
+            if (m_textureAtlasSize != float2(0)) m_plane->setUVs(m_image->getAtlasUVs(m_textureAtlasCoords, m_textureAtlasSize));
+            
+            m_plane->create();
+            m_planes.push_back(m_plane);
+        }
 
 		void SimpleRect::render() {
 

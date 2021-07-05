@@ -91,6 +91,9 @@ namespace MachGL {
 				case 5:								  
 					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, 0, -1), float3(0, -1, 0));
 					break;
+                default:
+                    return Maths::Matrix::lookAt(m_pos, m_pos + float3(1, 0, 0), float3(0, -1, 0));
+                    break;    
 			}
 		}
 	}

@@ -6,8 +6,8 @@
     #define HEIGHT (float) 2160
 
 #else
-    #define WIDTH (uint32_t) 1920
-    #define HEIGHT (uint32_t) 1080
+    #define WIDTH (uint32_t) 1280
+    #define HEIGHT (uint32_t) 720
 #endif
 
 #define MAX_LIGHTS 12
@@ -36,8 +36,18 @@ int main() {
     Graphics::MACH_IMAGE dirtTexture = Graphics::Image::createImage("Textures/dirtTexture.jpg", Graphics::ImageType::RGB);
     Graphics::MACH_IMAGE aTexture = Graphics::Image::createImage("Textures/a.png", Graphics::ImageType::RGB);
         
-    Plane::SimpleRect crosshair(float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25), float2(50, 50), crosshairTexture, window->getWindowDimension());
-
+    Plane::RectProperties crosshairProperties;
+    crosshairProperties.position = float2((WIDTH / 2) - 25, (HEIGHT / 2) - 25);
+    crosshairProperties.size = float2(50, 50);
+    crosshairProperties.image = crosshairTexture;
+    Plane::SimpleRect crosshair(crosshairProperties, window->getWindowDimension());
+    crosshair.create();
+    
+    Graphics::MACH_SHADER batchShader = Graphics::Shader::createShader("Shaders/batch.vert", "Shaders/batch.frag");
+    Graphics::Sprite sprite(float2(0, 0), float2(100, 100), aTexture);
+    Graphics::MACH_BATCH_RENDERER batchRenderer = Graphics::BatchRenderer::createBatchRenderer();
+    batchRenderer->setShader(batchShader);
+    
     std::vector<std::string> fileNames {
 
         "Textures/Skybox/right.jpg",
@@ -140,7 +150,7 @@ int main() {
     std::vector<Object::MACH_OBJECT> objects;
     std::vector<Object::MACH_OBJECT> cubeObjects;
 
-    uint32_t cubes = 14;
+    uint32_t cubes = 8;
 
     for (uint32_t x = 0; x < cubes; x++) {
         for (uint32_t y = 0; y < cubes; y++) {
@@ -197,12 +207,21 @@ int main() {
 
     //******************************************************************************************
     // Start of enviroment map
+    
     enviroMap->capture();
     enviroMap->reflectedObjects(reflectedObjects, enviroCamera, skybox.ref());
     enviroMap->stop();
-
+    
     //****************************************************************************************
 
+    Graphics::MACH_IMAGE atlasTest = Graphics::Image::createImage("Textures/atlasTest.jpg", Graphics::ImageType::RGB);
+    Plane::RectProperties atlasProperties;
+    atlasProperties.size = float2(256);
+    atlasProperties.image = atlasTest;
+    Plane::SimpleRect atlasRect(atlasProperties, window->getWindowDimension());
+    atlasRect.textureAtlasLocation(float2(0, 1), float2(16));
+    atlasRect.create();
+    
     while (!window->closed()) {
         
         Timer time;
@@ -313,13 +332,15 @@ int main() {
             
             skybox.render(projection, camera.getViewMatrix());
             crosshair.render();
+
+            atlasRect.render();
             
             hdr.stop();
 
             window->clear();
 
             hdr.render();
-
+            
             //****************************************************************************************************
             
             fpsTimer.getFPS();

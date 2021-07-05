@@ -66,3 +66,4 @@
 #include "Headers/Plane/SimpleTriangle.h"
 #include "Headers/Screens/Splash.h"
 #include "Headers/Utilities/Timer.h"
+#include "Headers/Graphics/BatchRenderer.h"

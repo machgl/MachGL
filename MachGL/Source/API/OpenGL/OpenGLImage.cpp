@@ -76,10 +76,9 @@ namespace MachGL {
 
                 glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
             }
-
-            GLfloat value, maxAnisotropy = 8.0f;
             
             #if defined(MACH_PLATFORM_WINDOWS)
+                GLfloat value, maxAnisotropy = 8.0f;
                 if (glfwExtensionSupported("GL_ARB_texture_filter_anisotropic")) {
                 
                     glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);

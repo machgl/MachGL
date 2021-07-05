@@ -18,6 +18,14 @@ Mach::Gl (Alpha)
 namespace MachGL {
 	namespace Plane {
 
+        struct RectProperties {
+            
+            float2 position = float3(0);
+            float2 size = float2(1);
+            float4 color = float4(0);
+            Graphics::MACH_IMAGE image = nullptr;
+        };
+    
 		class SimpleRect {
 
 			private:
@@ -34,15 +42,23 @@ namespace MachGL {
 				Graphics::MACH_RENDERER_2D	m_renderer;
 				float					    m_alpha  = 1.0f;
 				float					    m_radius = 0;
+                float2                      m_textureAtlasCoords = float2(0);
+                float2                      m_textureAtlasSize = float2(0);
 				
 			public:
-				SimpleRect(const float2& position, const float2& size, const Graphics::MACH_IMAGE& image, const WindowDimension& windowDimension);
-				SimpleRect(const float2& position, const float2& size, const float4& color, const WindowDimension& windowDimension);
+				SimpleRect(const RectProperties& properties, const WindowDimension& windowDimension);
+                void create();
 				void render();
 				~SimpleRect() = default;
 
 				inline void setAlpha(const float& alpha) { m_alpha = alpha; }
 				inline void setRadius(const float& radius) { m_radius = radius; }
+                
+                void textureAtlasLocation(const float2& pos, const float2& size) {
+                    
+                    m_textureAtlasCoords = pos;
+                    m_textureAtlasSize = size;
+                }
 		};
 
 		using MACH_SIMPLE_RECT = sPoint<SimpleRect>;

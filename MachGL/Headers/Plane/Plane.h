@@ -118,6 +118,7 @@ namespace MachGL {
 				inline const std::vector<float3>& getVertices() const { return m_vertices; }
 				inline const auto& getIndices() const { return m_indices; }
 				inline const std::vector<float2>& getUVs() const { return m_UVs; }
+                inline void setUVs(const std::vector<float2>& uvs) { m_UVs = uvs; }
 
 			protected:
 				virtual void loadToVAO() = 0;

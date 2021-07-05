@@ -41,5 +41,20 @@ namespace MachGL {
                 default: return make_sPoint<OpenGLImage>(tid);
             }
         }
+    
+        std::vector<float2> Image::getAtlasUVs(const float2& coords, const float2& size) {
+            
+            float xOffs = (coords.x * size.x) / m_width;
+            float yOffs = ((1 - coords.y) * size.y) / m_height;
+            float atlasWidth = size.x / m_width;
+            float atlasHeight = size.y / m_height;
+            
+            std::vector<float2> uvs;
+            uvs.push_back(float2(xOffs, yOffs + atlasHeight));
+            uvs.push_back(float2(xOffs, yOffs));
+            uvs.push_back(float2(xOffs + atlasWidth, yOffs));
+            uvs.push_back(float2(xOffs + atlasWidth, yOffs + atlasHeight));
+            return uvs;
+        }
 	}
 }

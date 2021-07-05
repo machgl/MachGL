@@ -86,7 +86,7 @@ namespace MachGL {
             glEnableVertexAttribArray(TID_index);
             glEnableVertexAttribArray(color_index);
 
-            glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, NULL, GL_DYNAMIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, vertexBufferSize, NULL, GL_STATIC_DRAW);
 
             glVertexAttribPointer(vertex_index, 3, GL_FLOAT, GL_FALSE, vertexSize, (const GLvoid*)0);
             glVertexAttribPointer(UV_index, 2, GL_FLOAT, GL_FALSE, vertexSize, (const GLvoid*)(offsetof(Vertex, uv)));
@@ -96,7 +96,7 @@ namespace MachGL {
             glBindBuffer(GL_ARRAY_BUFFER, 0);
 
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_IBO);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize, NULL, GL_DYNAMIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBufferSize, NULL, GL_STATIC_DRAW);
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
             glBindVertexArray(0);

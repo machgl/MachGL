@@ -30,7 +30,6 @@ namespace MachGL {
 				ImageType				 m_type		= ImageType::RGB;
 				
 			public:
-
                 static sPoint<Image> createImage(const std::string& fileName, const ImageType& imageType);
                 static sPoint<Image> createImage(const std::string& fileName, const ImageType& imageType, const bool& mipmap);
                 static sPoint<Image> createImage(const std::vector<std::string>& fileNames);
@@ -58,6 +57,8 @@ namespace MachGL {
 				/// </summary>
 				/// <returns>TextureID of the texture.</returns>
 				const uint32_t& getTID() const { return m_texture; }
+            
+                std::vector<float2> getAtlasUVs(const float2& coords, const float2& size);
 
 			protected:
 				virtual uint32_t load() = 0;

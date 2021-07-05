@@ -35,7 +35,12 @@ namespace MachGL {
 
 			clear(0);
 
-			m_rect = make_sPoint<Plane::SimpleRect>(m_position, float2((float)m_width, (float)m_height), m_image, m_windowDimension);
+            Plane::RectProperties properties;
+            properties.position = m_position;
+            properties.size = float2((float)m_width, (float)m_height);
+            properties.image = m_image;
+			m_rect = make_sPoint<Plane::SimpleRect>(properties, m_windowDimension);
+            m_rect->create();
 		}
 
 		void SoftwareRender::clear(const uint32_t& color) {
