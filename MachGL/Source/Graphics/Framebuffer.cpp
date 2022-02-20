@@ -6,15 +6,16 @@ Mach::GL (Alpha)
 
 #include "../../Headers/Graphics/Framebuffer.h"
 #include "../../Headers/API/OpenGL/OpenGLFramebuffer.h"
+#include "../../Headers/API/API.h"
 
 namespace MachGL {
 	namespace Graphics {
         
         MACH_FRAMEBUFFER Framebuffer::createFramebuffer(const float& width, const float& height) {
             
-            switch (MACH_GRAPHICS_API) {
+            switch (GraphicsAPI::getGraphicsAPI()) {
                     
-                case GraphicsAPI::MACH_OpenGL: return make_sPoint<OpenGLFramebuffer>(width, height);
+                case GraphicsAPI::API::MACH_OPEN_GL: return make_sPoint<OpenGLFramebuffer>(width, height);
                 default: return make_sPoint<OpenGLFramebuffer>(width, height);
             }
         }

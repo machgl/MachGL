@@ -1,9 +1,15 @@
+/*
+
+Mach::GL (Alpha)
+
+*/
+
 #pragma once
 
 #define MAX_KEYS 1024
 #define MAX_BUTTONS 32
 
-#include "Includes.h"
+#include "MachPCH.h"
 #include "DataStructures.h"
 #include "../Screens/Splash.h"
 #include "../Graphics/Image.h"
@@ -18,7 +24,7 @@ namespace MachGL {
             uint32_t             m_width, m_height;
             uint32_t             m_aa            = 0;
             MACH_SPLASH          m_splashScreen  = nullptr;
-            Graphics::MACH_IMAGE m_splashImage;
+            Graphics::MACH_IMAGE m_splashImage   = nullptr;
             bool                 m_vsync         = false;
             bool                 m_fullscreen    = false;
             double               m_previousTime  = 0;
@@ -30,16 +36,20 @@ namespace MachGL {
             bool                 m_cursor        = true;
             bool                 m_debug         = false;
             Timer                m_timer;
-            std::string          m_iconPath      = "MachGL/CoreAssets/CoreTextures/defaultIcon.png";
+            std::string          m_iconPath      = "../MachGL/CoreAssets/CoreTextures/defaultIcon.png";
             float                m_xScale        = 1;
             float                m_yScale        = 1;
+            std::string          m_APIVersion    = "";
+            std::string          m_graphicsCard  = "";
 
         public:
             static sPoint<Window> createWindow(const std::string& title, const uint32_t& width, const uint32_t& height);
             
             Window() = default;
         
-            virtual ~Window() = 0;
+            virtual void close() = 0;
+
+            ~Window() = default;
 
             /// <summary>
             /// Enables v-sync
@@ -144,7 +154,7 @@ namespace MachGL {
             /// </summary>
             /// <returns>WindowDimension struct of the window dimensions.</returns>
             const WindowDimension getWindowDimension() const;
-        
+
         protected:
             void checkOpenGLError();
     };

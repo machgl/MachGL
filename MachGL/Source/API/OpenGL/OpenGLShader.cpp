@@ -5,6 +5,7 @@
  */
 
 #include "../../../Headers/API/OpenGL/OpenGLShader.h"
+#include "../../../Headers/Core/Cache.h"
 
 namespace MachGL {
     namespace Graphics {
@@ -15,58 +16,118 @@ namespace MachGL {
             m_fragPath = fragmentPath;
             m_shaderID = load();
         }
-    
+
+        OpenGLShader::OpenGLShader(const std::string& shaderPath) {
+
+            m_shaderPath = shaderPath;
+            m_shaderID = load();
+        }
+
         uint32_t OpenGLShader::load() {
             
             GLuint program  = glCreateProgram();
-            GLuint vertex   = glCreateShader(GL_VERTEX_SHADER);
-            GLuint fragment = glCreateShader(GL_FRAGMENT_SHADER);
             GLint  result;
 
-            std::string vertSourceString = Utilities::FileUtilities::fileToString(m_vertPath);
-            std::string fragSourceString = Utilities::FileUtilities::fileToString(m_fragPath);
+            std::unordered_map<SupportedShaders, std::string> shaders;
+            
+            if (m_shaderPath != "") {
 
-            const char* vertSource = vertSourceString.c_str();
-            const char* fragSource = fragSourceString.c_str();
+                shaders = splitShader(m_shaderPath);
+            }
+            else {
 
-            glShaderSource(vertex, 1, &vertSource, 0);
-            glCompileShader(vertex);
-            glGetShaderiv(vertex, GL_COMPILE_STATUS, &result);
-
-            if (result == GL_FALSE) {
-
-                GLint length;
-                glGetShaderiv(vertex, GL_INFO_LOG_LENGTH, &length);
-                std::vector<char> error(length);
-                glGetShaderInfoLog(vertex, length, &length, &error[0]);
-                std::cout << "\nVertex: " << &error[0] << std::endl;
-                glDeleteShader(vertex);
-                return 0;
+                shaders[SupportedShaders::VERTEX] = Utilities::FileUtilities::fileToString(m_vertPath);
+                shaders[SupportedShaders::FRAGMENT] = Utilities::FileUtilities::fileToString(m_fragPath);
             }
 
-            glShaderSource(fragment, 1, &fragSource, 0);
-            glCompileShader(fragment);
-            glGetShaderiv(fragment, GL_COMPILE_STATUS, &result);
+            for (auto i = shaders.begin(); i != shaders.end(); i++) {
 
-            if (result == GL_FALSE) {
+                uint32_t shader;
+                std::string shaderType = "";
 
-                GLint length;
-                glGetShaderiv(fragment, GL_INFO_LOG_LENGTH, &length);
-                std::vector<char> error(length);
-                glGetShaderInfoLog(fragment, length, &length, &error[0]);
-                std::cout << "\nFragment: " << &error[0] << std::endl;
-                glDeleteShader(fragment);
-                return 0;
+                switch (i->first) {
+
+                    case SupportedShaders::VERTEX:
+                        shader = glCreateShader(GL_VERTEX_SHADER);
+                        shaderType = "Vertex";
+                        break;
+                    case SupportedShaders::FRAGMENT:
+                        shader = glCreateShader(GL_FRAGMENT_SHADER);
+                        shaderType = "Fragment";
+                        break;
+                    default:
+                        shader = -1;
+                        shaderType = "Unknown";
+                        return -1;
+                        break;
+                }
+
+                const char* source = i->second.c_str();
+
+                glShaderSource(shader, 1, &source, 0);
+                glCompileShader(shader);
+                glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+
+                if (result == GL_FALSE) {
+
+                    GLint length;
+                    glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
+                    std::vector<char> error(length);
+                    glGetShaderInfoLog(shader, length, &length, &error[0]);
+                    std::cout << "\n" << shaderType << " " << &error[0] << std::endl;
+                    glDeleteShader(shader);
+                    return 0;
+                }
+
+                glAttachShader(program, shader);
             }
 
-            glAttachShader(program, vertex);
-            glAttachShader(program, fragment);
             glLinkProgram(program);
             glValidateProgram(program);
-            glDeleteShader(vertex);
-            glDeleteShader(fragment);
 
             return program;
+        }
+
+        void OpenGLShader::createProgramFromBinaries() {
+
+            uint32_t shaderID = glCreateProgram();
+            std::vector<uint32_t> uniqueIDs;
+
+            for (auto&& [shader, spirv] : m_OpenGLShaders) {
+
+                uint32_t uniqueID = uniqueIDs.emplace_back(glCreateShader(getOpenGLShaderType(shader)));
+                glShaderBinary(1, &uniqueID, GL_SHADER_BINARY_FORMAT_SPIR_V, spirv.data(), spirv.size() * sizeof(uint32_t));
+                glSpecializeShader(uniqueID, "main", 0, nullptr, nullptr);
+                glAttachShader(shaderID, uniqueID);
+            }
+
+            glLinkProgram(shaderID);
+            GLint isLinked;
+            glGetProgramiv(shaderID, GL_LINK_STATUS, &isLinked);
+
+            if (isLinked == GL_FALSE) {
+
+                GLint maxLength;
+                glGetProgramiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength);
+
+                std::vector<GLchar> infoLog(maxLength);
+                glGetProgramInfoLog(shaderID, maxLength, &maxLength, infoLog.data());
+
+                glDeleteProgram(shaderID);
+
+                for (auto id : uniqueIDs) {
+
+                    glDeleteShader(id);
+                }
+            }
+
+            for (auto id : uniqueIDs) {
+
+                glDetachShader(shaderID, id);
+                glDeleteShader(id);
+            }
+
+            m_shaderID = shaderID;
         }
     
         void OpenGLShader::enable() const {
@@ -74,19 +135,20 @@ namespace MachGL {
             if (!inCache()) {
 
                 glUseProgram((GLuint)m_shaderID);
-                ShaderInstance instance;
-                instance.id = m_shaderID;
-                shaderCache.push_back(instance);
+                Cache::pushToCache(CachedInstance(m_shaderID));
             }
         }
 
         void OpenGLShader::disable() const {
 
             if (inCache()) {
+
                 glUseProgram(0);
-                
-                for (uint32_t i = 0; i < shaderCache.size(); i++)
-                    if (shaderCache[i].id == m_shaderID) shaderCache.erase(shaderCache.begin() + i);
+                Cache::eraseFromCache(m_shaderID);
+            }
+            else {
+
+                MACH_WARN_MSG("Shader: " + m_shaderPath + " was disabled more than once concurrently");
             }
         }
     
@@ -112,6 +174,14 @@ namespace MachGL {
         OpenGLShader::~OpenGLShader() {
             
             glDeleteShader(m_shaderID);
+        }
+        
+        void OpenGLShader::createCacheDirectory() {
+
+            std::string cacheDirectory = m_cacheDirectory + "OpenGL";
+            
+            if (!std::filesystem::exists(cacheDirectory))
+                std::filesystem::create_directories(cacheDirectory);
         }
     
         void OpenGLShader::setUniform1i(const std::string& name, const GLint& num) {

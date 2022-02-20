@@ -6,34 +6,42 @@
 
 #pragma once
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../Core/DataStructures.h"
 #include "../Utilities/FileUtilities.h"
 
 namespace MachGL {
     namespace Graphics {
 
+        enum class SupportedShaders {
+
+            VERTEX, FRAGMENT, NON
+        };
+
+        static std::string m_cacheDirectory = "Cache/";
+        
         class Shader {
 
             protected:
-                uint32_t                                    m_shaderID;
-                std::string                                 m_vertPath;
-                std::string                                 m_fragPath;
-                std::unordered_map<std::string, uint32_t>   m_uniformLocations;
+                uint32_t                                     m_shaderID;
+                std::string                                  m_vertPath;
+                std::string                                  m_fragPath;
+                std::string                                  m_shaderPath;
+                std::string                                  m_fileName;
+                std::unordered_map<std::string, uint32_t>    m_uniformLocations;
+                std::unordered_map<SupportedShaders, std::string> m_shaders;
+                std::unordered_map<SupportedShaders, std::vector<uint32_t>> m_vulkanShaders;
+                std::unordered_map<SupportedShaders, std::vector<uint32_t>> m_OpenGLShaders;
+                std::unordered_map<SupportedShaders, std::string> m_OpenGLSource;
                 
             public:
                 static sPoint<Shader> createShader(const std::string& vertexPath, const std::string& fragmentPath);
+                static sPoint<Shader> createShader(const std::string& shaderPath);
+                
                 /// <summary>
                 /// Default constructor for a shader object, not intended for use.
                 /// </summary>
                 Shader() = default;
-
-                /// <summary>
-                /// Creates a shader object that contains a vertex and fragment shader.
-                /// </summary>
-                /// <param name="vertexPath">Filepath to the vertex shader.</param>
-                /// <param name="fragmentPath">Filepath to the fragment shader.</param>
-                Shader(const std::string& vertexPath, const std::string& fragmentPath);
 
                 /// <summary>
                 /// Destrustor for the shader object.
@@ -126,13 +134,24 @@ namespace MachGL {
                 /// <param name="matrix">matrix4x4 to be set to the uniform.</param>
                 virtual void setUniformMatrix4fv(const std::string& name, const matrix4x4& matrix) = 0;
 
+                inline const uint32_t& getShaderID() const { return m_shaderID; }
 
             protected:
                 virtual uint32_t load() = 0;
                 virtual int getUniformLocation(const std::string& name) = 0;
                 bool inCache() const;
+                std::unordered_map<SupportedShaders, std::string> splitShader(const std::string & shaderPath);
+                virtual void createCacheDirectory() = 0;
+                void compileVulkanBinaries(const std::unordered_map<SupportedShaders, std::string>& shaders);
+                void compileOpenGLBinaries(const std::unordered_map<SupportedShaders, std::string>& shaders);
+                virtual void createProgramFromBinaries() = 0;
+                shaderc_shader_kind getSupportedShaderVulkan(const SupportedShaders& shader);
+                shaderc_shader_kind getSupportedShaderOpenGL(const SupportedShaders& shader);
+                GLenum getOpenGLShaderType(const SupportedShaders& shader);
         };
     
         using MACH_SHADER = sPoint<Shader>;
+        using MACH_RAW_SHADERS = std::unordered_map<SupportedShaders, std::string>;
+        using MACH_COMPILED_SHADERS = std::unordered_map<SupportedShaders, std::vector<uint32_t>>;
     }
 }

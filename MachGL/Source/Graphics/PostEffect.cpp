@@ -32,7 +32,7 @@ namespace MachGL {
 
 		HDR::HDR(const WindowDimension& windowDimension) : PostEffect(windowDimension) {
 
-			m_shader = Shader::createShader("../MachGL/CoreAssets/CoreShaders/HDR.vert", "../MachGL/CoreAssets/CoreShaders/HDR.frag");
+			m_shader = Shader::createShader("../MachGL/CoreAssets/CoreShaders/HDR.mglsdr");
 		}
 		
 		void HDR::render() {
@@ -41,7 +41,6 @@ namespace MachGL {
 			m_shader->setUniformMatrix4fv("_pr_matrix", m_projection);
 			m_shader->setUniform1f("_exposure", m_exposure);
 			m_shader->setUniform1f("_gamma", m_gamma);
-			m_shader->setUniform1i("_texture", m_plane->getTID());
 			m_renderer->submit(m_plane);
 			m_shader->disable();
 		}
@@ -53,7 +52,7 @@ namespace MachGL {
 			m_framebuffer2->init();
 
 			m_image2 = Graphics::Image::createImage(m_framebuffer2->getColorTexture());
-			m_shader = Shader::createShader("../MachGL/CoreAssets/CoreShaders/HDR.vert", "../MachGL/CoreAssets/CoreShaders/HDR.frag");
+			m_shader = Shader::createShader("../MachGL/CoreAssets/CoreShaders/HDR.mglsdr");
 		}
 
 		void GaussianBlur::blur() {

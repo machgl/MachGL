@@ -9,14 +9,18 @@ Mach::GL (Alpha)
 namespace MachGL {
 	namespace Object {
 
+        MACH_SKYBOX Skybox::createSkybox(const Graphics::MACH_IMAGE& image) { return make_sPoint<Skybox>(image); }
+        MACH_SKYBOX Skybox::createSkybox(const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2) { return make_sPoint<Skybox>(image, image2); }
+        MACH_SKYBOX Skybox::createSkybox(const GLuint& cubemapID) { return make_sPoint<Skybox>(cubemapID); }
+
 		Skybox::Skybox(const Graphics::MACH_IMAGE& image)
         : m_image(image) {
 		    
             m_renderer = Graphics::Renderer3D::createRenderer();
-            m_object = Object::Object::createObject(make_sPoint<Model>(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
+            m_object = Object::Object::createObject(Model::createModel(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
             m_object->create();
             m_objects.push_back(m_object);
-            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
+            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.mglsdr");
             m_type = SkyboxType::STATIC;
 		}
 
@@ -24,10 +28,10 @@ namespace MachGL {
             : m_image(image), m_image2(image2) {
 
             m_renderer = Graphics::Renderer3D::createRenderer();
-            m_object = Object::Object::createObject(make_sPoint<Model>(makeVertices()), float3(0), m_image, m_image2, ObjectType::SKYBOX);
+            m_object = Object::Object::createObject(Model::createModel(makeVertices()), float3(0), m_image, m_image2, ObjectType::SKYBOX);
             m_object->create();
             m_objects.push_back(m_object);
-            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
+            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.mglsdr");
             m_type = SkyboxType::DYNAMIC;
         }
 
@@ -35,10 +39,10 @@ namespace MachGL {
 
             m_renderer = Graphics::Renderer3D::createRenderer();
             m_image = Graphics::Image::createImage(cubemapID);
-            m_object = Object::Object::createObject(make_sPoint<Model>(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
+            m_object = Object::Object::createObject(Model::createModel(makeVertices()), float3(0), m_image, nullptr, ObjectType::SKYBOX);
             m_object->create();
             m_objects.push_back(m_object);
-            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.vert", "../MachGL/CoreAssets/CoreShaders/skybox.frag");
+            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/skybox.mglsdr");
             m_type = SkyboxType::STATIC;
         }
 
@@ -117,13 +121,8 @@ namespace MachGL {
             m_shader->setUniformMatrix4fv("_pr_matrix", projection);
             m_shader->setUniformMatrix4fv("_vw_matrix", matrix4x4(glm::mat3(view)));
 
-            if (m_type == SkyboxType::STATIC)
-                m_shader->setUniform1i("_skybox", m_image->getTID());
-
             if (m_type == SkyboxType::DYNAMIC) {
 
-                m_shader->setUniform1i("_skybox", m_image->getTID());
-                m_shader->setUniform1i("_skybox2", m_image2->getTID());
                 m_shader->setUniform1i("_skyboxes", (GLuint)2);
                 m_shader->setUniform1f("_blendFactor", m_blendFactor);
             }

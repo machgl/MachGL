@@ -14,7 +14,9 @@ namespace MachGL {
 
             m_renderer = Graphics::Renderer2D::createRenderer();
 			m_projection = Maths::Matrix::simpleOrthographic(m_windowDimension);
-			m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.vert", "../MachGL/CoreAssets/CoreShaders/simple.frag");
+			m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.mglsdr");
+			m_UBO = Graphics::UniformBuffer::createUniformBuffer(sizeof(matrix4x4), 3);
+			m_UBO->configureUBO(m_shader, "SimpleMatrices");
 
 			PlaneProperties planeProperties;
 			planeProperties.position = float3(m_position, 0);
@@ -25,6 +27,8 @@ namespace MachGL {
 			m_plane = Plane::Plane::createPlane(planeProperties);
             m_plane->create();
 			m_planes.push_back(m_plane);
+
+			m_UBO->pushToBuffer(m_projection);
 		}
 
 		SimpleTriangle::SimpleTriangle(const float2& position, const float2& size, const float4& color, const WindowDimension& windowDimension)
@@ -32,7 +36,9 @@ namespace MachGL {
 
             m_renderer = Graphics::Renderer2D::createRenderer();
 			m_projection = Maths::Matrix::simpleOrthographic(m_windowDimension);
-			m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.vert", "../MachGL/CoreAssets/CoreShaders/simple.frag");
+			m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.mglsdr");
+			m_UBO = Graphics::UniformBuffer::createUniformBuffer(sizeof(matrix4x4), 3);
+			m_UBO->configureUBO(m_shader, "SimpleMatrices");
 
 			PlaneProperties planeProperties;
 			planeProperties.position = float3(m_position, 0);
@@ -43,6 +49,8 @@ namespace MachGL {
 			m_plane = Plane::Plane::createPlane(planeProperties);
             m_plane->create();
 			m_planes.push_back(m_plane);
+
+			m_UBO->pushToBuffer(m_projection);
 		}
 
 		void SimpleTriangle::render() {
@@ -51,8 +59,6 @@ namespace MachGL {
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 			m_shader->enable();
-			m_shader->setUniform1i("_simple_texture", m_plane->getTID());
-			m_shader->setUniformMatrix4fv("_simple_pr_matrix", m_projection);
 			m_shader->setUniform1f("_simple_alpha", m_alpha);
 			m_renderer->submit(m_planes);
 			m_shader->disable();

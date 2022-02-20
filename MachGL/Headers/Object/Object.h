@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../Core/DataStructures.h"
 #include "../Graphics/Image.h"
 #include "Model.h"
@@ -74,8 +74,6 @@ namespace MachGL {
                 static sPoint<Object> createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2, const ObjectType& type);
             
                 Object() = default;
-                Object(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image);
-                Object(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2, const ObjectType& type);
                 ~Object() = default;
                 void create();
                 void create(const ObjectProperties& properties);

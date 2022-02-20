@@ -7,7 +7,7 @@ Mach::GL (Alpha)
 
 #pragma once
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../Core/DataStructures.h"
 #include "../Graphics/Image.h"
 #include "../Graphics/Shader.h"
@@ -15,6 +15,7 @@ Mach::GL (Alpha)
 #include "../Maths/Matrix.h"
 #include "../Graphics/Renderer2D.h"
 #include "../Graphics/Framebuffer.h"
+#include "../Graphics/UniformBuffer.h"
 
 namespace MachGL {
 	namespace Plane {
@@ -33,6 +34,7 @@ namespace MachGL {
 				WindowDimension             m_windowDimension;
 				Graphics::MACH_RENDERER_2D  m_renderer;
 				float					    m_alpha    = 1.0f;
+				Graphics::MACH_UNIFORM_BUFFER m_UBO;
 
 			public:
 

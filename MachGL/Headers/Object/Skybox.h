@@ -7,7 +7,7 @@ Mach::GL (Alpha)
 
 #pragma once
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../Core/DataStructures.h"
 #include "../Graphics/Image.h"
 #include "Model.h"
@@ -41,6 +41,11 @@ namespace MachGL {
 				Timer					    m_timer;
 
 			public:
+
+				static sPoint<Skybox> createSkybox(const Graphics::MACH_IMAGE& image);
+				static sPoint<Skybox> createSkybox(const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2);
+				static sPoint<Skybox> createSkybox(const GLuint& cubemapID);
+
 				Skybox() = default;
 				~Skybox() = default;
 				Skybox(const Graphics::MACH_IMAGE& image);

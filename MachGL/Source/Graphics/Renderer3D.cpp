@@ -6,15 +6,16 @@
 
 #include "../../Headers/Graphics/Renderer3D.h"
 #include "../../Headers/API/OpenGL/OpenGLRenderer3D.h"
+#include "../../Headers/API/API.h"
 
 namespace MachGL {
     namespace Graphics {
 
         MACH_RENDERER_3D Renderer3D::createRenderer() {
         
-            switch (MACH_GRAPHICS_API) {
+            switch (GraphicsAPI::getGraphicsAPI()) {
                     
-                case GraphicsAPI::MACH_OpenGL: return make_sPoint<OpenGLRenderer3D>();
+                case GraphicsAPI::API::MACH_OPEN_GL: return make_sPoint<OpenGLRenderer3D>();
                 default: return make_sPoint<OpenGLRenderer3D>();
             }
         }

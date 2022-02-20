@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../../Vendor/stb_image.h"
 #include "../Core/DataStructures.h"
 
@@ -28,6 +28,8 @@ namespace MachGL {
 				uint32_t			     m_texture	= 0;
 				bool					 m_mipmap	= true;
 				ImageType				 m_type		= ImageType::RGB;
+				unsigned char*			 m_data		= nullptr;
+				unsigned char*			 m_cubeData[6];
 				
 			public:
                 static sPoint<Image> createImage(const std::string& fileName, const ImageType& imageType);
@@ -63,6 +65,9 @@ namespace MachGL {
 			protected:
 				virtual uint32_t load() = 0;
                 virtual uint32_t loadCube() = 0;
+				void loadImageFromFile();
+				void loadCubeFromFile();
+				void freeImage(unsigned char* data); 
 		};
     
         using MACH_IMAGE = sPoint<Image>;

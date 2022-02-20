@@ -13,6 +13,21 @@ namespace MachGL {
 			loadScene();
 		}
 
+		Scene::Scene(const matrix4x4& projection, const Object::MACH_CAMERA& camera) {
+
+			m_renderer = Graphics::Renderer3D::createRenderer();
+			m_projection = projection;
+			m_camera = camera;
+		}
+
+		MACH_SCENE Scene::createScene(const std::string& filepath) {
+			return make_sPoint<Scene>(filepath);
+		}
+
+		MACH_SCENE Scene::createScene(const matrix4x4& projection, const Object::MACH_CAMERA& camera) {
+			return make_sPoint<Scene>(projection, camera);
+		}
+
 		void loadObject(const SceneObject& sceneObject, std::vector<Object::MACH_OBJECT>* objects) {
 
 			sPoint<Object::Model> model = make_sPoint<Object::Model>(sceneObject.mesh);
@@ -97,13 +112,32 @@ namespace MachGL {
 
 		void Scene::renderScene() {
 
-			for (uint32_t i = 0; i < m_objects.size(); i++) {
-				
-				loadShader(m_objects[i]->getObjectID());
-				m_renderer->submit(m_objects[i]);
-				unloadShader(m_objects[i]->getObjectID());
-			}
-		}
+			if (m_objects.size() > 0) {
 
+				for (uint32_t i = 0; i < m_objects.size(); i++) {
+
+					loadShader(m_objects[i]->getObjectID());
+					m_renderer->submit(m_objects[i]);
+					unloadShader(m_objects[i]->getObjectID());
+				}
+			}
+
+			if (m_groups.size() > 0) {
+				for (uint32_t i = 0; i < m_groups.size(); i++) {
+			
+					auto& objects = m_groups[i]->getObjects();
+					m_groups[i]->getShader()->enable();
+					m_groups[i]->getShader()->setUniform3f("_camera_position", m_camera->getPosition());
+					m_groups[i]->getMatrixUBO()->setData(&m_camera->getViewMatrix(), sizeof(matrix4x4), sizeof(matrix4x4));
+
+					for (uint32_t j = 0; j < objects.size(); j++)
+						m_renderer->submit(objects[j]);
+			
+					m_groups[i]->getShader()->disable();
+				}
+			}
+
+			if (m_skybox) m_skybox->render(m_projection, m_camera->getViewMatrix());
+		}
 	}
 }

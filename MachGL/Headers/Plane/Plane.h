@@ -7,8 +7,8 @@ Mach::GL (Alpha)
 
 #pragma once
 
-#include "..//Core/Includes.h"
-#include "..//Core/DataStructures.h"
+#include "MachPCH.h"
+#include "../Core/DataStructures.h"
 #include "../Graphics/Image.h"
 
 namespace MachGL {

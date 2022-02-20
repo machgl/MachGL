@@ -22,8 +22,10 @@ namespace MachGL {
             
             m_renderer = Graphics::Renderer2D::createRenderer();
             m_projection = Maths::Matrix::simpleOrthographic(m_windowDimension);
-            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.vert", "../MachGL/CoreAssets/CoreShaders/simple.frag");
-            
+            m_shader = Graphics::Shader::createShader("../MachGL/CoreAssets/CoreShaders/simple.mglsdr");
+            m_UBO = Graphics::UniformBuffer::createUniformBuffer(sizeof(matrix4x4), 3);
+            m_UBO->configureUBO(m_shader, "SimpleMatrices");
+
             PlaneProperties planeProperties;
             planeProperties.position = float3(m_position, 0);
             planeProperties.size = m_size;
@@ -36,6 +38,8 @@ namespace MachGL {
             
             m_plane->create();
             m_planes.push_back(m_plane);
+
+            m_UBO->pushToBuffer(m_projection);
         }
 
 		void SimpleRect::render() {
@@ -45,8 +49,6 @@ namespace MachGL {
 
 			m_shader->enable();
 			m_shader->setUniform1f("_radius", m_radius);
-			m_shader->setUniform1i("_simple_texture", m_plane->getTID());
-			m_shader->setUniformMatrix4fv("_simple_pr_matrix", m_projection);
 			m_shader->setUniform1f("_simple_alpha", m_alpha);
 			m_renderer->submit(m_planes);
 			m_shader->disable();

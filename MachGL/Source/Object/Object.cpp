@@ -6,30 +6,31 @@
 
 #include "../../Headers/Object/Object.h"
 #include "../../Headers/API/OpenGL/OpenGLObject.h"
+#include "../../Headers/API/API.h"
 
 namespace MachGL {
 	namespace Object {
         
         MACH_OBJECT Object::createObject() {
             
-            switch (MACH_GRAPHICS_API) {
-                case GraphicsAPI::MACH_OpenGL: return make_sPoint<OpenGLObject>();
+            switch (GraphicsAPI::getGraphicsAPI()) {
+                case GraphicsAPI::API::MACH_OPEN_GL: return make_sPoint<OpenGLObject>();
                 default: return make_sPoint<OpenGLObject>();
             }
         }
     
         MACH_OBJECT Object::createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image) {
             
-            switch (MACH_GRAPHICS_API) {
-                case GraphicsAPI::MACH_OpenGL: return make_sPoint<OpenGLObject>(model, position, image);
+            switch (GraphicsAPI::getGraphicsAPI()) {
+                case GraphicsAPI::API::MACH_OPEN_GL: return make_sPoint<OpenGLObject>(model, position, image);
                 default: return make_sPoint<OpenGLObject>(model, position, image);
             }
         }
         
         MACH_OBJECT Object::createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2, const ObjectType& type) {
             
-            switch (MACH_GRAPHICS_API) {
-                case GraphicsAPI::MACH_OpenGL: return make_sPoint<OpenGLObject>(model, position, image, image2, type);
+            switch (GraphicsAPI::getGraphicsAPI()) {
+                case GraphicsAPI::API::MACH_OPEN_GL: return make_sPoint<OpenGLObject>(model, position, image, image2, type);
                 default: return make_sPoint<OpenGLObject>(model, position, image, image2, type);
             }
         }

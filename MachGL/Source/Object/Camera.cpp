@@ -9,6 +9,10 @@ namespace MachGL {
 			m_originalY = m_originalPos.y;
 		}
 
+		MACH_CAMERA Camera::createCamera(const float3& position, const CameraType& cameraType, const MACH_WINDOW& window) {
+			return make_sPoint<Camera>(position, cameraType, window);
+		}
+
 		void Camera::moveX(const float& velocity) {
 
 			m_pos += velocity * m_cameraFront;
@@ -55,11 +59,7 @@ namespace MachGL {
 			if (m_pitch > 89) m_pitch = 89;
 			if (m_pitch < -89) m_pitch = -89;
 
-			float3 front;
-			front.x = cos(Maths::Functions::radians(m_yaw - 90)) * cos(Maths::Functions::radians(m_pitch));
-			front.y = sin(Maths::Functions::radians(m_pitch));
-			front.z = sin(Maths::Functions::radians(m_yaw - 90)) * cos(Maths::Functions::radians(m_pitch));
-			m_cameraFront = Maths::Vector::normalize(front);
+			m_cameraFront = getFront(m_pitch, m_yaw);
 		}
 		
 		matrix4x4 Camera::getViewMatrix() {
@@ -69,31 +69,40 @@ namespace MachGL {
 			return Maths::Matrix::lookAt(m_pos, m_pos + m_cameraFront, m_cameraUp);
 		}
 
+		float3 Camera::getFront(float pitch, float yaw) {
+
+			float3 front;
+			front.x = cos(Maths::Functions::radians(yaw - 90)) * cos(Maths::Functions::radians(pitch));
+			front.y = sin(Maths::Functions::radians(pitch));
+			front.z = sin(Maths::Functions::radians(yaw - 90)) * cos(Maths::Functions::radians(pitch));
+			return Maths::Vector::normalize(front);
+		}
+
 		matrix4x4 Camera::getViewMatrix(const uint32_t& face) {
 
 			switch (face) {
 
 				case 0:
-					return Maths::Matrix::lookAt(m_pos, m_pos + float3(1, 0, 0), float3(0, -1, 0));
-					break;							  
-				case 1:								  
-					return Maths::Matrix::lookAt(m_pos, m_pos + float3(-1, 0, 0), float3(0, -1, 0));
-					break;							  
-				case 2:								  
-					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, 1, 0), float3(0, 0, 1));
-					break;							  
-				case 3:								  
-					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, -1, 0), float3(0, 0, -1));
-					break;							  
-				case 4:								  
-					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, 0, 1), float3(0, -1, 0));
-					break;							  
-				case 5:								  
-					return Maths::Matrix::lookAt(m_pos, m_pos + float3(0, 0, -1), float3(0, -1, 0));
+					return Maths::Matrix::lookAt(m_pos, m_pos + getFront(0, 90), float3(0, -1, 0));
 					break;
-                default:
-                    return Maths::Matrix::lookAt(m_pos, m_pos + float3(1, 0, 0), float3(0, -1, 0));
-                    break;    
+				case 1:
+					return Maths::Matrix::lookAt(m_pos, m_pos + getFront(0, -90), float3(0, -1, 0));
+					break;
+				case 2:
+					return Maths::Matrix::lookAt(m_pos, m_pos + getFront(90, 180), float3(0, 0, 1));
+					break;
+				case 3:
+					return Maths::Matrix::lookAt(m_pos, m_pos + getFront(-90, 180), float3(0, 0, 1));
+					break;
+				case 4:
+					return Maths::Matrix::lookAt(m_pos, m_pos + getFront(0, 180), float3(0, -1, 0));
+					break;
+				case 5:
+					return Maths::Matrix::lookAt(m_pos, m_pos + getFront(0, 0), float3(0, -1, 0));
+					break;
+				default:
+					return Maths::Matrix::lookAt(m_pos, m_pos + getFront(0, 0), float3(0, -1, 0));
+					break;
 			}
 		}
 	}

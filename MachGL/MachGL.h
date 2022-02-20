@@ -1,7 +1,7 @@
 /*
 *   *****************************************************************************
 *
-*   Mach::GL 0.2 (Alpha) - mach-gl.com
+*   Mach::GL 0.3 (Alpha) - mach-gl.com
 *   
 *   A game engine for beginners and experts - an OpenGL game engine that 
 *   mixes the simplicity of high level programming and the control of 
@@ -40,6 +40,9 @@
 
 #pragma once
 
+#include "Headers/Core/DataStructures.h"
+#include "Headers/API/API.h"
+#include "Headers/Core/Cache.h"
 #include "Headers/Core/Window.h"
 #include "Headers/Graphics/EnvironmentMap.h"
 #include "Headers/Graphics/Framebuffer.h"
@@ -50,6 +53,7 @@
 #include "Headers/Graphics/Shader.h"
 #include "Headers/Graphics/SoftwareRender.h"
 #include "Headers/Graphics/Submittable3D.h"
+#include "Headers/Graphics/UniformBuffer.h"
 #include "Headers/Maths/Constants.h"
 #include "Headers/Maths/Matrix.h"
 #include "Headers/Maths/Vector.h"
@@ -64,6 +68,8 @@
 #include "Headers/Plane/SimpleCircle.h"
 #include "Headers/Plane/SimpleRect.h"
 #include "Headers/Plane/SimpleTriangle.h"
+#include "Headers/Scene/Scene.h"
 #include "Headers/Screens/Splash.h"
 #include "Headers/Utilities/Timer.h"
 #include "Headers/Graphics/BatchRenderer.h"
+

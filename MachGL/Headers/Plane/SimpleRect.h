@@ -6,7 +6,7 @@ Mach::Gl (Alpha)
 
 #pragma once
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../Core/DataStructures.h"
 #include "../Graphics/Image.h"
 #include "../Graphics/Shader.h"
@@ -14,6 +14,7 @@ Mach::Gl (Alpha)
 #include "../Maths/Matrix.h"
 #include "../Graphics/Renderer2D.h"
 #include "../Graphics/Framebuffer.h"
+#include "../Graphics/UniformBuffer.h"
 
 namespace MachGL {
 	namespace Plane {
@@ -44,8 +45,10 @@ namespace MachGL {
 				float					    m_radius = 0;
                 float2                      m_textureAtlasCoords = float2(0);
                 float2                      m_textureAtlasSize = float2(0);
+				Graphics::MACH_UNIFORM_BUFFER m_UBO;
 				
 			public:
+				SimpleRect() = default;
 				SimpleRect(const RectProperties& properties, const WindowDimension& windowDimension);
                 void create();
 				void render();

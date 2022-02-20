@@ -1,7 +1,7 @@
 project "Sandbox"
     kind "ConsoleApp"
     language "C++"
-    staticruntime "on"
+    staticruntime "off"
     
     targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
@@ -14,7 +14,17 @@ project "Sandbox"
 
     includedirs 
     {
-        "%{wks.location}/MachGL/Vendor/yaml-cpp/include"
+        "%{wks.location}/MachGL/Vendor/yaml-cpp/include",
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.yaml_cpp}",
+        "%{IncludeDir.SimpleNoise}",
+        "%{IncludeDir.Vulkan}"
+    }
+
+    defines 
+    {
+        "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS"
     }
 
     links 

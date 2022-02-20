@@ -1,0 +1,47 @@
+%vertex_shader
+
+#version 420 core
+
+layout (location = 0) in vec3 pos;
+
+uniform mat4 _pr_matrix = mat4(1.0);
+uniform mat4 _vw_matrix = mat4(1.0);
+
+out vec3 texCoords;
+
+void main() {
+	
+	texCoords = pos;
+	vec4 position = _pr_matrix * _vw_matrix * vec4(pos, 1.0);
+	gl_Position = position.xyww;
+}
+
+%fragment_shader
+
+#version 420 core
+
+layout (location = 0) out vec4 color;
+
+in vec3 texCoords;
+
+layout (binding = 0) uniform samplerCube _skybox;
+layout (binding = 1) uniform samplerCube _skybox2;
+uniform int _skyboxes = 1;
+uniform float _blendFactor = 0.5;
+
+void main() {
+	
+	vec3 uv = vec3(texCoords.x, texCoords.y, texCoords.z);
+
+	if (_skyboxes == 2) {
+
+		vec4 texture1 = texture(_skybox, uv);
+		vec4 texture2 = texture(_skybox2, uv);
+		color = mix(texture1, texture2, _blendFactor);
+
+	} else {
+
+		color = texture(_skybox, uv);
+	}
+
+}

@@ -6,6 +6,7 @@
 
 #include "../../Headers/Graphics/BatchRenderer.h"
 #include "../../Headers/API/OpenGL/OpenGLBatchRenderer.h"
+#include "../../Headers/API/API.h"
 
 namespace MachGL {
     namespace Graphics {
@@ -25,9 +26,9 @@ namespace MachGL {
     
         MACH_BATCH_RENDERER BatchRenderer::createBatchRenderer() {
             
-            switch (MACH_GRAPHICS_API) {
+            switch (GraphicsAPI::getGraphicsAPI()) {
                 
-                case GraphicsAPI::MACH_OpenGL: return make_sPoint<OpenGLBatchRenderer>();
+                case GraphicsAPI::API::MACH_OPEN_GL: return make_sPoint<OpenGLBatchRenderer>();
                 default: return make_sPoint<OpenGLBatchRenderer>();
             }
         }

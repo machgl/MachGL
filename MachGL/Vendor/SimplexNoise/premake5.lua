@@ -1,7 +1,7 @@
 project "SimplexNoise"
     kind "StaticLib"
     language "C++"
-    staticruntime "on"
+    staticruntime "off"
     
     targetdir ("bin/" ..outputdir .. "/%{prj.name}")
     objdir ("bin-int/" ..outputdir .. "/%{prj.name}")
@@ -16,7 +16,7 @@ project "SimplexNoise"
     {
         "include"
     }
-    
+
     filter "system:windows"
         systemversion "latest"
 

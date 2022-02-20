@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Includes.h"
+#include "MachPCH.h"
+#define MACH_TEST
 
 /// <summary>
 /// Defines all of the data types and structures used in the core game engine.
@@ -33,6 +34,22 @@ struct Index {
 struct WindowDimension {
 
     uint32_t width = 0, height = 0;
+};
+
+struct QueueFamilyIndices {
+    std::optional<uint32_t> graphicsFamily;
+    std::optional<uint32_t> presentFamily;
+
+    bool isComplete() {
+        return graphicsFamily.has_value() && presentFamily.has_value();
+    }
+};
+
+struct SwapChainSupportDetails {
+
+    VkSurfaceCapabilitiesKHR capabilities;
+    std::vector<VkSurfaceFormatKHR> formats;
+    std::vector<VkPresentModeKHR> presentModes;
 };
 
 namespace MachGL {
@@ -84,24 +101,45 @@ namespace MachGL {
     /// </summary>
     /// <param name="error">Error message to be printed by the console.</param>
     static void MACH_ERROR_MSG(const std::string& error) {
-        std::cout << "MACH::GL ERROR: " << error << std::endl;
+        std::cerr << "Mach::GL ERROR: " << error << std::endl;
     }
 
-    static void MACH_MSG(const std::string & msg) {
-        std::cout << "MACH::GL: " << msg << std::endl;
+    static void MACH_WARN_MSG(const std::string& error) {
+        std::cerr << "Mach::GL WARNING: " << error << std::endl;
     }
 
-    struct ShaderInstance {
+    static void MACH_MSG(const std::string& msg) {
+        std::cout << "Mach::GL: " << msg << std::endl;
+    }
 
-        GLuint id = 0;
+    static void MACH_OPEN_GL_MSG(const std::string& msg) {
+        std::cout << "Mach::GL: OpenGL: " << msg << std::endl;
+    }
+
+    static void MACH_VULKAN_MSG(const std::string& msg) {
+        std::cout << "Mach::GL: Vulkan: " << msg << std::endl;
+    }
+
+    struct CachedInstance {
+
+        CachedInstance() = default;
+        CachedInstance(const uint32_t& address) { cacheAddress = address; }
+
+        uint32_t cacheAddress = 0;
     };
 
-    enum class GraphicsAPI {
-        MACH_OpenGL
-    };
+    static std::string vulkanPackedToString(const uint32_t& packed) {
 
-    static std::vector<ShaderInstance> shaderCache;
-    static GraphicsAPI MACH_GRAPHICS_API;
+        std::string result;
+        
+        uint32_t major = VK_API_VERSION_MAJOR(packed);
+        uint32_t minor = VK_API_VERSION_MINOR(packed);
+        uint32_t patch = VK_API_VERSION_PATCH(packed);
+
+        result = std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
+
+        return result;
+    }
 }
 
 //Fix compatability issues with YAML and custom data structures
@@ -162,6 +200,7 @@ namespace YAML {
             node.push_back(rhs.x);
             node.push_back(rhs.y);
             node.push_back(rhs.z);
+            node.push_back(rhs.w);
             node.SetStyle(EmitterStyle::Flow);
             return node;
         }

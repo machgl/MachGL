@@ -1,0 +1,15 @@
+%vertex_shader
+
+#version 330 core
+
+void main() {
+
+}
+
+%fragment_shader
+
+#version 330 core
+
+void main() {
+
+}

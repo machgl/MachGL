@@ -5,7 +5,7 @@ Mach::GL (Alpha)
 
 */
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../Core/DataStructures.h"
 
 #pragma once
@@ -26,8 +26,19 @@ namespace MachGL {
 				/// <param name="far">End of the projection frustum (render distance).</param>
 				/// <returns>4x4 perspective projection matrix.</returns>
 				static matrix4x4 perspective(const float& fov, const WindowDimension& windowDimension, const float& near, const float& far) {
-					float aspectRatio = (float)windowDimension.width / (float)windowDimension.height;
-					return glm::perspective(fov, aspectRatio, near, far);
+					return glm::perspective(fov, (float)windowDimension.width / (float)windowDimension.height, near, far);
+				}
+
+				static void printMatrix(const matrix4x4& matrix) {
+
+					for (uint32_t r = 0; r < 4; r++) {
+						for (uint32_t c = 0; c < 4; c++) {
+
+							if (c == 3 && r == 3) std::cout << matrix[r][c];
+							else  std::cout << matrix[r][c] << ", ";
+						}
+						std::cout << std::endl;
+					}
 				}
 
 				/// <summary>

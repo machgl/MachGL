@@ -9,7 +9,7 @@ Mach::GL (Alpha)
 
 #define FAST_OBJ_IMPLEMENTATION
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../Core/DataStructures.h"
 
 namespace MachGL {
@@ -46,6 +46,10 @@ namespace MachGL {
 				inline const size_t getIndexSize() const { return m_indices.size(); }
 				inline sPoint<Model> ref() { return make_sPoint<Model>(*this); }
 
+				static sPoint<Model> createModel(const std::string& filepath);
+				static sPoint<Model> createModel(const std::vector<float3>& vertices);
+				static sPoint<Model> createModel(const std::vector<float3>& vertices, const std::vector<float3>& normals, const std::vector<float2>& UVs,
+					const std::vector<unsigned int>& indices);
                 
 			private:
 				void load();

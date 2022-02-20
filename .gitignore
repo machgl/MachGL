@@ -23,6 +23,8 @@
 *.xcodeproject
 *.dSYM
 
+#Vulkan
+MachGL/Vendor/Vulkan
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

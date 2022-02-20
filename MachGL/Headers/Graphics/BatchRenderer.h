@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "../Core/Includes.h"
+#include "MachPCH.h"
 #include "../Core/DataStructures.h"
 #include "Image.h"
 #include "Shader.h"
@@ -31,7 +31,7 @@ namespace MachGL {
         class BatchRenderer {
             
             protected:
-                const static uint32_t m_maxQuads = 10000;
+                static const uint32_t m_maxQuads = 10000;
                 MACH_SHADER m_shader;
                 std::vector<Sprite> m_sprites;
                 uint32_t m_vertexSize = sizeof(Vertex);

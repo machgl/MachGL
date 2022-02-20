@@ -1,0 +1,78 @@
+%vertex_shader
+
+#version 420 core
+
+layout (location = 0) in vec4 position;
+layout (location = 1) in vec2 uv;
+layout (location = 2) in float tid;
+layout (location = 3) in vec4 color;
+
+uniform float _radius = 0;
+
+layout (std140, binding = 3) uniform SimpleMatrices {
+
+	mat4 _simple_pr_matrix;
+};
+
+out DATA {
+
+	vec4 position;
+	vec2 uv;
+	float tid;
+	vec4 color;
+	float radius;
+
+} vs_out;
+
+void main() {
+
+	gl_Position = _simple_pr_matrix * position;
+	vs_out.position = position;
+	vs_out.uv = uv;
+	vs_out.tid = tid;
+	vs_out.color = color;
+	vs_out.radius = _radius;
+}
+
+%fragment_shader
+
+#version 420 core
+
+layout (location = 0) out vec4 color;
+layout (origin_upper_left) in vec4 gl_FragCoord;
+
+in DATA {
+
+	vec4 position;
+	vec2 uv;
+	float tid;
+	vec4 color;
+	float radius;
+
+} fs_in;
+
+layout (binding = 0) uniform sampler2D _simple_texture;
+uniform float _simple_alpha;
+
+void main() {
+	
+	if (fs_in.radius > 0) {
+		
+		vec2 pos = mod(gl_FragCoord.xy, fs_in.radius * 2) - fs_in.radius;
+		float dist = dot(pos, pos);
+
+		if (dist > fs_in.radius * fs_in.radius) {
+			discard;
+		}
+	}
+
+	vec4 texColor = fs_in.color;
+
+	texColor = texture(_simple_texture, fs_in.uv);
+		
+	if (texColor.a < 0.1f) {
+		discard;	
+	}
+
+	color = vec4(texColor.x, texColor.y, texColor.z, _simple_alpha);	
+}

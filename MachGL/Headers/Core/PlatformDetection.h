@@ -1,6 +1,6 @@
 #pragma once
 
-#define MACH_GL_VERSION "0.2.1 (ALPHA)"
+#define MACH_GL_VERSION "0.3 (ALPHA)"
 
 //Platform detection
 #if defined(_WIN64) || defined(_WIN32)
@@ -37,34 +37,4 @@
     #define MACH_VALID_PLATFORM
 #endif
 
-//Core includes for the engine
-#include "../../Vendor/glfw/include/GLFW/glfw3.h"
-#include "../../Vendor/glm/glm/glm.hpp"
-#include "../../Vendor/glm/glm/gtc/matrix_transform.hpp"
-#include "../../Vendor/glm/glm/gtc/type_ptr.hpp"
-#include "../../Vendor/glm/glm/gtx/rotate_vector.hpp"
-#include "../../Vendor/SimplexNoise/include/SimplexNoise.h"
-#include "../../Vendor/yaml-cpp/include/yaml-cpp/yaml.h"
-#include "../../Vendor/fast_obj.h"
-#include <math.h>
-#include <iostream>
-#include <list>
-#include <vector>
-#include <stdio.h>
-#include <stdlib.h>
-#include <iterator>
-#include <fstream>
-#include <strstream>
-#include <algorithm>
-#include <string>
-#include <vector>
-#include <array>
-#include <cstdlib>
-#include <chrono>
-#include <random>
-#include <numeric>
-#include <memory>
-#include <unordered_map>
-#include <future>
-#include <mutex>
 

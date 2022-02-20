@@ -27,6 +27,7 @@ group ""
 
 include "MachGL"
 include "Sandbox"
+include "VulkanSandbox"
 
 
     

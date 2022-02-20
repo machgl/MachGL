@@ -1,5 +1,12 @@
+/*
+
+Mach::GL (Alpha)
+
+*/
+
 #include "../../Headers/Core/Window.h"
 #include "../../Headers/API/GLFWWindow.h"
+#include "../../Headers/API/API.h"
 
 namespace MachGL {
 
@@ -10,10 +17,11 @@ namespace MachGL {
 
     MACH_WINDOW Window::createWindow(const std::string& title, const uint32_t& width, const uint32_t& height) {
         
-        switch(MACH_GRAPHICS_API) {
+        switch (GraphicsAPI::getGraphicsAPI()) {
                 
-            case GraphicsAPI::MACH_OpenGL: return make_sPoint<GLFWWindow>(title, width, height);
-            default: return make_sPoint<GLFWWindow>(title, width, height);
+            case GraphicsAPI::API::MACH_OPEN_GL: return make_sPoint<GLFWWindow>(title, width, height); break;
+            case GraphicsAPI::API::MACH_VULKAN: return make_sPoint<VulkanGLFWWindow>(title, width, height); break;
+            default: return make_sPoint<GLFWWindow>(title, width, height); break;
         }   
     }
 

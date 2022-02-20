@@ -34,34 +34,21 @@ namespace MachGL {
     
         uint32_t OpenGLImage::load() {
 
-            stbi_set_flip_vertically_on_load(1);
-
             GLuint result;
+
+            glCreateTextures(GL_TEXTURE_2D, 1, &result);
+
             glGenTextures(1, &result);
             glBindTexture(GL_TEXTURE_2D, result);
 
-            unsigned char* data = nullptr;
+            loadImageFromFile();
 
-            if (m_type == ImageType::RGB)
-                data = stbi_load(m_fileName.c_str(), &m_width, &m_height, &m_channels, STBI_rgb);
-
-            if (m_type == ImageType::RGBA)
-                data = stbi_load(m_fileName.c_str(), &m_width, &m_height, &m_channels, STBI_rgb_alpha);
-
-            if (data) {
+            if (m_data) {
 
                 if (m_type == ImageType::RGB)
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_data);
                 if (m_type == ImageType::RGBA)
-                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-                MACH_MSG("Loaded: " + m_fileName);
-                stbi_image_free(data);
-            }
-            else {
-
-                MACH_ERROR_MSG("Unable to load: " + m_fileName);
-                stbi_image_free(data);
+                    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_width, m_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, m_data);
             }
             
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -88,7 +75,7 @@ namespace MachGL {
             #endif
         
             glBindTexture(GL_TEXTURE_2D, 0);
-            stbi_set_flip_vertically_on_load(0);
+            freeImage(m_data);
             return result;
         }
     
@@ -103,20 +90,15 @@ namespace MachGL {
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-            for (uint32_t i = 0; i < m_fileNames.size(); i++) {
+            loadCubeFromFile();
 
-                unsigned char* data = stbi_load(m_fileNames[i].c_str(), &m_width, &m_height, &m_channels, 0);
+            for (uint32_t i = 0; i < 6; i++) {
 
-                if (data) {
+                if (m_cubeData[i]) {
 
                     glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB,
-                        m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-                    stbi_image_free(data);
-                }
-                else {
-
-                    MACH_ERROR_MSG("Unable to load: " + m_fileNames[i]);
-                    stbi_image_free(data);
+                        m_width, m_height, 0, GL_RGB, GL_UNSIGNED_BYTE, m_cubeData[i]);
+                    freeImage(m_cubeData[i]);
                 }
             }
             

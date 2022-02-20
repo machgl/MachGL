@@ -19,9 +19,9 @@ namespace MachGL {
                 glEnable(GL_CULL_FACE);
                 glCullFace(GL_BACK);
                 glFrontFace(GL_CCW);
-                glActiveTexture(GL_TEXTURE0 + object->getTID());
+                glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, object->getTID());
-                glActiveTexture(GL_TEXTURE0 + object->getEnvironmentMap());
+                glActiveTexture(GL_TEXTURE1);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, object->getEnvironmentMap());
                 glDrawElements(GL_TRIANGLES, (GLsizei)object->getModel()->getIndexSize(), GL_UNSIGNED_SHORT, NULL);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
@@ -32,11 +32,12 @@ namespace MachGL {
 
             if (object->getType() == Object::ObjectType::SKYBOX) {
 
-                glActiveTexture(GL_TEXTURE0 + object->getTID());
+                glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, object->getTID());
-                glActiveTexture(GL_TEXTURE0 + object->getTID2());
+                glActiveTexture(GL_TEXTURE1);
                 glBindTexture(GL_TEXTURE_CUBE_MAP, object->getTID2());
                 glDrawArrays(GL_TRIANGLES, 0, (GLsizei)object->getModel()->getVertices().size());
+                glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
             }
 
             glBindVertexArray(0);

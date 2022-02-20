@@ -25,6 +25,19 @@ namespace MachGL {
             : m_vertices(vertices), m_vertexNormals(normals), m_vertexTextures(UVs), m_indices(indices) { 
         
         }
+
+        MACH_MODEL Model::createModel(const std::string& filepath) {
+            return make_sPoint<Model>(filepath);
+        }
+
+        MACH_MODEL Model::createModel(const std::vector<float3>& vertices) {
+            return make_sPoint<Model>(vertices);
+        }
+
+        MACH_MODEL Model::createModel(const std::vector<float3>& vertices, const std::vector<float3>& normals, const std::vector<float2>& UVs,
+            const std::vector<unsigned int>& indices) {
+            return make_sPoint<Model>(vertices, normals, UVs, indices);
+        }
 		
         void Model::load() {
 

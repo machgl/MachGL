@@ -1,8 +1,8 @@
 #pragma once
 
+#include "MachPCH.h"
 #include "../Core/Window.h"
 #include "../Maths/Maths.h"
-#include "../Core/Includes.h"
 
 namespace MachGL {
 	namespace Object {
@@ -28,6 +28,8 @@ namespace MachGL {
 				bool			m_defaults			= true;
 				
 			public:
+				Camera() = default;
+				~Camera() = default;
 				Camera(const float3& position, const CameraType& cameraType, const MACH_WINDOW& window);
 				inline const float3& getPosition() const { return m_pos; }
 				inline const float3& getFront() const { return m_cameraFront; }
@@ -43,6 +45,14 @@ namespace MachGL {
 				void mouseMovement(const float& sensitivity);
 				matrix4x4 getViewMatrix();
 				matrix4x4 getViewMatrix(const uint32_t& face);
+				inline sPoint<Camera> ref() { return make_sPoint<Camera>(*this); }
+
+				static sPoint<Camera> createCamera(const float3& position, const CameraType& cameraType, const MACH_WINDOW& window);
+
+			private:
+				float3 getFront(float pitch, float yaw);
 		};
+
+		using MACH_CAMERA = sPoint<Camera>;
 	}
 }

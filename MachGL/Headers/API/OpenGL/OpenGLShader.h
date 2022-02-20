@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "../../Core/Includes.h"
+#include "MachPCH.h"
 #include "../../Core/DataStructures.h"
 #include "../../Graphics/Shader.h"
 
@@ -15,8 +15,11 @@ namespace MachGL {
 
         class OpenGLShader : public Shader {
             
+            friend class VulkanShader;
+
             public:
                 OpenGLShader(const std::string& vertexPath, const std::string& fragmentPath);
+                OpenGLShader(const std::string& shaderPath);
             
                 ~OpenGLShader();
 
@@ -33,11 +36,13 @@ namespace MachGL {
                 void setUniform4f(const std::string& name, const float4& vec) override;
                 void setUniform4fv(const std::string& name, float4* vecs, const GLuint& count) override;
                 void setUniformMatrix4fv(const std::string& name, const matrix4x4& matrix) override;
+                void createCacheDirectory() override;
 
-        private:
+        protected:
             //Loads the shaders in from the files and makes a glProgram.
             uint32_t load() override;
             int getUniformLocation(const std::string& name) override;
+            void createProgramFromBinaries() override;
         };
     }
 }
