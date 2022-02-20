@@ -37,12 +37,13 @@ Once the solution has been built, the 'CoreAssets' folder in MachGL must be copi
   - Static environment maps for objects (from loaded cubemap)
   - Dynamic skyboxes 
   - API Abstraction
+  - Dynamic enviornment maps for objects
+  - Scenes
   
  ### Currently working on: 
   - Particle system
   - Texture atlases 
   - Documenting code
-  - Dynamic enviornment maps for objects
   - Post-processing effects (bloom effects etc.)
   - Scene file saving/loading (using YAML)
   
