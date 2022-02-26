@@ -8,3 +8,6 @@
 	path = MachGL/Vendor/yaml-cpp
 	url = https://github.com/machgl/yaml-cpp
 
+[submodule "MachGL/Vendor/openal-soft"]
+	path = MachGL/Vendor/openal-soft
+	url = https://github.com/machgl/openal-soft
