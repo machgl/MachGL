@@ -62,7 +62,7 @@ namespace Sandbox {
 		m_enviroCamera = Object::Camera::createCamera(m_ship->getPosition(), Object::CameraType::CUBEMAP, m_window);
 		m_enviroMap = Graphics::EnvironmentMap::createEnvironmentMap(1024, m_window->getWindowDimension());
 
-		uint32_t cubes = 8;
+		uint32_t cubes = 10;
 
 		for (uint32_t x = 0; x < cubes; x++) {
 			for (uint32_t y = 0; y < cubes; y++) {
