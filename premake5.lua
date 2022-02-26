@@ -23,7 +23,7 @@ group "Dependencies"
     include "MachGL/Vendor/Glad"
     include "MachGL/Vendor/yaml-cpp"
     include "MachGL/Vendor/SimplexNoise"
-    include "MachGL/Vendor/openal-soft"
+    include "MachGL/Vendor/HazelAudio/HazelAudio/vendor/OpenAL-Soft"
 group ""
 
 include "MachGL"

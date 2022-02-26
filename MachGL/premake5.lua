@@ -21,7 +21,8 @@ project "MachGL"
     defines 
     {
         "GLFW_INCLUDE_NONE",
-        "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS"
+        "_SILENCE_ALL_CXX17_DEPRECATION_WARNINGS",
+        "AL_LIBTYPE_STATIC"
     }
 
     includedirs 
@@ -31,6 +32,9 @@ project "MachGL"
         "%{IncludeDir.yaml_cpp}",
         "%{IncludeDir.SimpleNoise}",
         "%{IncludeDir.Vulkan}",
+        "%{IncludeDir.OpenAL_Soft1}",
+        "%{IncludeDir.OpenAL_Soft2}",
+        "%{IncludeDir.OpenAL_Soft3}",
         "%{wks.location}/MachGL/Vendor/glm"
     }
 
@@ -39,7 +43,8 @@ project "MachGL"
         "GLFW",
         "Glad",
         "yaml-cpp",
-        "SimplexNoise"
+        "SimplexNoise",
+        "OpenAL-Soft"
     }
 
     --flags { "NoPCH" }
