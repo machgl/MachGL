@@ -17,6 +17,7 @@ namespace MachGL {
 		private:
 			GLFWwindow* m_window;
             GLFWimage m_icons[1];
+
 		public:
 			GLFWWindow(const std::string& title, const uint32_t& width, const uint32_t& height);
             ~GLFWWindow() = default;
@@ -26,13 +27,15 @@ namespace MachGL {
             void clear() override;
             bool closed() const override;
             void close() override;
+        private:
+            void checkOpenGLError();
 	};
 
     class VulkanGLFWWindow : public Window {
 
         private: 
-            GLFWimage m_icons[1];
             GLFWwindow* m_window;
+            GLFWimage m_icons[1];
             VkInstance m_instance;
             VkDebugUtilsMessengerEXT m_debugMessenger;
             VkSurfaceKHR m_surface;
@@ -45,6 +48,9 @@ namespace MachGL {
             VkFormat m_swapChainImageFormat;
             VkExtent2D m_swapChainExtent;
             std::vector<VkImageView> m_swapChainImageViews;
+            ALCdevice* m_audioDevice = nullptr;
+            ALboolean m_enumeration;
+            ALCcontext* m_audioContext;
             
     public:
         VulkanGLFWWindow(const std::string& title, const uint32_t& width, const uint32_t& height);

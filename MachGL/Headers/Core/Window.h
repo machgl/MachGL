@@ -21,7 +21,7 @@ namespace MachGL {
    
         protected:
             std::string          m_title;
-            uint32_t             m_width, m_height;
+            uint32_t             m_width = 0, m_height = 0;
             uint32_t             m_aa            = 0;
             MACH_SPLASH          m_splashScreen  = nullptr;
             Graphics::MACH_IMAGE m_splashImage   = nullptr;
@@ -41,7 +41,10 @@ namespace MachGL {
             float                m_yScale        = 1;
             std::string          m_APIVersion    = "";
             std::string          m_graphicsCard  = "";
-
+            ALCdevice*           m_audioDevice = nullptr;
+            ALboolean            m_enumeration;
+            ALCcontext*          m_audioContext;
+            
         public:
             static sPoint<Window> createWindow(const std::string& title, const uint32_t& width, const uint32_t& height);
             
@@ -156,7 +159,9 @@ namespace MachGL {
             const WindowDimension getWindowDimension() const;
 
         protected:
-            void checkOpenGLError();
+            void checkOpenALError();
+            void initAudioDevice();
+            void cleanupOpenAL();
     };
 
     using MACH_WINDOW = sPoint<Window>;

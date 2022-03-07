@@ -35,6 +35,9 @@ project "MachGL"
         "%{IncludeDir.OpenAL_Soft1}",
         "%{IncludeDir.OpenAL_Soft2}",
         "%{IncludeDir.OpenAL_Soft3}",
+        "%{IncludeDir.Vorbis}",
+        "%{IncludeDir.libogg}",
+        "%{IncludeDir.minimp3}",
         "%{wks.location}/MachGL/Vendor/glm"
     }
 
@@ -44,7 +47,8 @@ project "MachGL"
         "Glad",
         "yaml-cpp",
         "SimplexNoise",
-        "OpenAL-Soft"
+        "OpenAL-Soft",
+        "Vorbis"
     }
 
     --flags { "NoPCH" }

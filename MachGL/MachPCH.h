@@ -53,3 +53,6 @@ Mach::GL (Alpha)
 #include "../../Vendor/Vulkan/Include/shaderc/shaderc.hpp"
 #include "../../Vendor/Vulkan/Include/spirv_cross/spirv_cross.hpp"
 #include "../../../Vendor/Vulkan/Include/spirv_cross/spirv_glsl.hpp"
+#include "../../Vendor/HazelAudio/HazelAudio/vendor/OpenAL-Soft/include/AL/al.h"
+#include "../../Vendor/HazelAudio/HazelAudio/vendor/OpenAL-Soft/include/AL/alc.h"
+#include "../../Vendor/HazelAudio/HazelAudio/vendor/OpenAL-Soft/include/AL/alc.h"

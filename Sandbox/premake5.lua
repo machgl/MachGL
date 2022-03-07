@@ -19,7 +19,13 @@ project "Sandbox"
         "%{IncludeDir.Glad}",
         "%{IncludeDir.yaml_cpp}",
         "%{IncludeDir.SimpleNoise}",
-        "%{IncludeDir.Vulkan}"
+        "%{IncludeDir.Vulkan}",
+        "%{IncludeDir.OpenAL_Soft1}",
+        "%{IncludeDir.OpenAL_Soft2}",
+        "%{IncludeDir.OpenAL_Soft3}",
+        "%{IncludeDir.Vorbis}",
+        "%{IncludeDir.libogg}",
+        "%{IncludeDir.minimp3}"
     }
 
     defines 

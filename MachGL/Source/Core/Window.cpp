@@ -25,30 +25,43 @@ namespace MachGL {
         }   
     }
 
-    void Window::checkOpenGLError() {
+    void Window::checkOpenALError() {
 
-        GLenum errorCode;
+        ALCenum errorCode;
 
-        while ((errorCode = glGetError()) != GL_NO_ERROR) {
+        while ((errorCode = alGetError()) != AL_NO_ERROR) {
 
             std::string error;
 
             switch (errorCode) {
 
-                case GL_INVALID_ENUM: error = "INVALID ENUM"; break;
-                case GL_INVALID_VALUE: error = "INVALID VALUE"; break;
-                case GL_INVALID_OPERATION: error = "INVALID OPERATION"; break;
-                case GL_OUT_OF_MEMORY: error = "OUT OF MEMORY"; break;
-                case GL_INVALID_FRAMEBUFFER_OPERATION: error = "INVALID FRAMEBUFFER OPERATION"; break;
-                #if defined(MACH_PLATFORM_WINDOWS)
-                    case GL_STACK_OVERFLOW: error = "STACK OVERFLOW"; break;
-                    case GL_STACK_UNDERFLOW: error = "STACK UNDERFLOW"; break;
-                    case GL_CONTEXT_LOST: error = "CONTEXT LOST"; break;
-                #endif
+            case AL_INVALID_NAME: error = "INVALID NAME"; break;
+            case AL_INVALID_ENUM: error = "INVALID ENUM"; break;
+            case AL_INVALID_VALUE: error = "INVALID VALUE"; break;
+            case AL_INVALID_OPERATION: error = "INVALID OPERATION"; break;
+            case AL_OUT_OF_MEMORY: error = "OUT OF MEMORY"; break;
             }
 
-            MACH_ERROR_MSG("OpenGL Error: " + error + " (" + std::to_string(errorCode) + ")");
+            MACH_ERROR_MSG("OpenAL Error: " + error + " (" + std::to_string(errorCode) + ")");
         }
+    }
+
+    void Window::cleanupOpenAL() {
+
+        m_audioDevice = alcGetContextsDevice(m_audioContext);
+        alcMakeContextCurrent(NULL);
+        alcDestroyContext(m_audioContext);
+        alcCloseDevice(m_audioDevice);
+    }
+
+    void Window::initAudioDevice() {
+
+        if (!(m_audioDevice = alcOpenDevice(NULL))) MACH_ERROR_MSG("OpenAL Error: Failed to initialize audio device");
+        if (m_enumeration = alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_FALSE) MACH_ERROR_MSG("OpenAl Error: Enumeration not supported");
+
+        m_audioContext = alcCreateContext(m_audioDevice, NULL);
+
+        if (!alcMakeContextCurrent(m_audioContext)) MACH_ERROR_MSG("OpenAL Error: Failed to make audio context current");
     }
 
     bool Window::isKeyPressed(unsigned int keycode) {

@@ -3,6 +3,9 @@
 #include "MachPCH.h"
 #define MACH_TEST
 
+#include "vorbis/codec.h"
+#include "vorbis/vorbisfile.h"
+
 /// <summary>
 /// Defines all of the data types and structures used in the core game engine.
 /// </summary>
@@ -116,6 +119,10 @@ namespace MachGL {
         std::cout << "Mach::GL: OpenGL: " << msg << std::endl;
     }
 
+    static void MACH_OPEN_AL_MSG(const std::string& msg) {
+        std::cout << "Mach::GL: OpenAL: " << msg << std::endl;
+    }
+
     static void MACH_VULKAN_MSG(const std::string& msg) {
         std::cout << "Mach::GL: Vulkan: " << msg << std::endl;
     }
@@ -139,6 +146,34 @@ namespace MachGL {
         result = std::to_string(major) + "." + std::to_string(minor) + "." + std::to_string(patch);
 
         return result;
+    }
+
+    static size_t read(void* buffer, size_t elementSize, size_t elementCount, void* dataSource) {
+        assert(elementSize == 1);
+
+        std::ifstream& stream = *static_cast<std::ifstream*>(dataSource);
+        stream.read(static_cast<char*>(buffer), elementCount);
+        const std::streamsize bytesRead = stream.gcount();
+        stream.clear();
+        return static_cast<size_t>(bytesRead);
+    }
+
+    static int seek(void* dataSource, ogg_int64_t offset, int origin) {
+        static const std::vector<std::ios_base::seekdir> seekDirections{
+            std::ios_base::beg, std::ios_base::cur, std::ios_base::end
+        };
+
+        std::ifstream& stream = *static_cast<std::ifstream*>(dataSource);
+        stream.seekg(offset, seekDirections.at(origin));
+        stream.clear();
+        return 0;
+    }
+
+    static long tell(void* dataSource) {
+        std::ifstream& stream = *static_cast<std::ifstream*>(dataSource);
+        const auto position = stream.tellg();
+        assert(position >= 0);
+        return static_cast<long>(position);
     }
 }
 

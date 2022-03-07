@@ -40,6 +40,13 @@ int main() {
     Object::MACH_CAMERA camera = Object::Camera::createCamera(float3(0, 10, 0), Object::CameraType::FPS, window);
     Sandbox::TestScene testScene(window, camera);
 
+    Audio::AudioFile testAudio("Audio/test.ogg");
+    Audio::MACH_SOUND_BUFFER soundBuffer = Audio::SoundBuffer::createSoundBuffer();
+    Audio::MACH_SOUND_SOURCE soundSource = Audio::SoundSource::createSoundSource();
+
+    soundBuffer->addSoundEffect(testAudio);
+    soundSource->play(testAudio.getBufferID());
+
     while (!window->closed()) {
         
         Timer time;

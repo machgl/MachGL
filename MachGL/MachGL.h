@@ -72,4 +72,6 @@
 #include "Headers/Screens/Splash.h"
 #include "Headers/Utilities/Timer.h"
 #include "Headers/Graphics/BatchRenderer.h"
-
+#include "Headers/Audio/AudioFile.h"
+#include "Headers/Audio/SoundBuffer.h"
+#include "Headers/Audio/SoundSource.h"

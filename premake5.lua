@@ -24,6 +24,8 @@ group "Dependencies"
     include "MachGL/Vendor/yaml-cpp"
     include "MachGL/Vendor/SimplexNoise"
     include "MachGL/Vendor/HazelAudio/HazelAudio/vendor/OpenAL-Soft"
+    include "MachGL/Vendor/HazelAudio/HazelAudio/vendor/libogg"
+    include "MachGL/Vendor/HazelAudio/HazelAudio/vendor/Vorbis"
 group ""
 
 include "MachGL"

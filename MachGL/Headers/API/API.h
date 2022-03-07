@@ -1,7 +1,6 @@
 /*
 
-Mach::GL (Alpha) 
-
+	Mach::GL (Alpha) 
 
 */
 
@@ -22,6 +21,22 @@ namespace MachGL {
 
 		public:
 			inline static API getGraphicsAPI() { return s_graphicsAPI; }
-			inline static void setGraphicsAPI(API graphicsAPI) { s_graphicsAPI = graphicsAPI; }
+			inline static void setGraphicsAPI(const API& graphicsAPI) { s_graphicsAPI = graphicsAPI; }
+	};
+
+	class AudioAPI {
+
+		public:
+			enum class API {
+
+				MACH_OPEN_AL
+			};
+
+		private:
+			static API s_audioAPI;
+
+		public:
+			inline static API getAudioAPI() { return s_audioAPI; }
+			inline static void setAudioAPI(const API& audioAPI) { s_audioAPI = audioAPI; }
 	};
 }
