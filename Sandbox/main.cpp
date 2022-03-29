@@ -41,8 +41,9 @@ int main() {
     Sandbox::TestScene testScene(window, camera);
 
     Audio::AudioFile testAudio("Audio/test.ogg");
+    Audio::SoundSourceProperties soundSourceProperties = {};
     Audio::MACH_SOUND_BUFFER soundBuffer = Audio::SoundBuffer::createSoundBuffer();
-    Audio::MACH_SOUND_SOURCE soundSource = Audio::SoundSource::createSoundSource();
+    Audio::MACH_SOUND_SOURCE soundSource = Audio::SoundSource::createSoundSource(soundSourceProperties);
 
     soundBuffer->addSoundEffect(testAudio);
     soundSource->play(testAudio.getBufferID());

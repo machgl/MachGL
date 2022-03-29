@@ -11,12 +11,12 @@
 namespace MachGL {
 	namespace Audio {
 
-		MACH_SOUND_SOURCE SoundSource::createSoundSource() {
+		MACH_SOUND_SOURCE SoundSource::createSoundSource(const SoundSourceProperties& properties) {
 
 			switch (AudioAPI::getAudioAPI()) {
 
-				case AudioAPI::API::MACH_OPEN_AL: return make_sPoint<OpenALSoundSource>();
-				default: return make_sPoint<OpenALSoundSource>();
+				case AudioAPI::API::MACH_OPEN_AL: return make_sPoint<OpenALSoundSource>(properties);
+				default: return make_sPoint<OpenALSoundSource>(properties);
 			}
 		}
 	}

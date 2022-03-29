@@ -27,6 +27,14 @@ namespace MachGL {
             }
         }
         
+        MACH_OBJECT Object::createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const ObjectType& type) {
+
+            switch (GraphicsAPI::getGraphicsAPI()) {
+            case GraphicsAPI::API::MACH_OPEN_GL: return make_sPoint<OpenGLObject>(model, position, image, type);
+            default: return make_sPoint<OpenGLObject>(model, position, image, type);
+            }
+        }
+
         MACH_OBJECT Object::createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2, const ObjectType& type) {
             
             switch (GraphicsAPI::getGraphicsAPI()) {

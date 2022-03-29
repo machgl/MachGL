@@ -30,6 +30,16 @@ namespace MachGL {
             generateCubeBounds();
         }
 
+        OpenGLObject::OpenGLObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const ObjectType& type) {
+
+            m_model = model;
+            m_position = position;
+            m_image = image;
+            m_type = type;
+            loadToVAO();
+            generateCubeBounds();
+        }
+
         OpenGLObject::OpenGLObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2, const ObjectType& type) {
          
             m_model = model;

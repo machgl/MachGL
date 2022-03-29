@@ -34,7 +34,7 @@ namespace Sandbox {
 		m_shader = Graphics::Shader::createShader("Shaders/test.mglsdr");
 		m_mainGroup = Scene::Group::createGroup(m_shader, m_projection);
 		
-		m_terrain = Object::Object::createObject(Object::Terrain(800, 50, 2.5f, 1, 1.5f, 1).getModel(), float3(-200, 0, -200), m_dirtTexture, nullptr, Object::ObjectType::TERRAIN);
+		m_terrain = Object::Object::createObject(Object::Terrain(800, 50, 2.5f, 1, 1.5f, 1).getModel(), float3(-200, 0, -200), m_dirtTexture, Object::ObjectType::TERRAIN);
 		m_ship = Object::Object::createObject(m_shipModel, float3(-10, 10, 10), nullptr);
 		
 		m_cubeProperties.shineDamper = 10;

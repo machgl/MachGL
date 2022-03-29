@@ -9,14 +9,18 @@
 namespace MachGL {
 	namespace Audio {
 
-		OpenALSoundSource::OpenALSoundSource() {
+		OpenALSoundSource::OpenALSoundSource(const SoundSourceProperties& properties) {
+
+			m_properties = properties;
 
 			alGenSources(1, &(ALuint)m_source);
-			alSourcef((ALuint)m_source, AL_PITCH, m_pitch);
-			alSourcef((ALuint)m_source, AL_GAIN, m_gain);
-			alSource3f((ALuint)m_source, AL_POSITION, m_position.x, m_position.y, m_position.z);
-			alSource3f((ALuint)m_source, AL_VELOCITY, m_velocity.x, m_velocity.y, m_velocity.z);
-			alSourcei((ALuint)m_source, AL_LOOPING, m_loop);
+
+			setPitch(m_properties.pitch);
+			setGain(m_properties.gain);
+			setPosition(m_properties.position);
+			setVelocity(m_properties.velocity);
+			setLoop(m_properties.loop);
+
 			alSourcei((ALuint)m_source, AL_BUFFER, (ALint)m_buffer);
 		}
 
@@ -33,6 +37,31 @@ namespace MachGL {
 			}
 
 			alSourcePlay((ALuint)m_source);
+		}
+
+		void OpenALSoundSource::setPitch(const float& pitch) {
+
+			alSourcef((ALuint)m_source, AL_PITCH, pitch);
+		}
+
+		void OpenALSoundSource::setGain(const float& gain) {
+
+			alSourcef((ALuint)m_source, AL_GAIN, gain);
+		}
+
+		void OpenALSoundSource::setPosition(const float3& position) {
+
+			alSourcefv((ALuint)m_source, AL_POSITION, &m_properties.position[0]);
+		}
+
+		void OpenALSoundSource::setVelocity(const float3& velocity) {
+
+			alSourcefv((ALuint)m_source, AL_VELOCITY, &m_properties.velocity[0]);
+		}
+
+		void OpenALSoundSource::setLoop(const bool& loop) {
+
+			alSourcei((ALuint)m_source, AL_LOOPING, loop);
 		}
 	}
 }

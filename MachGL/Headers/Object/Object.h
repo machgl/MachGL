@@ -71,6 +71,7 @@ namespace MachGL {
                 
                 static sPoint<Object> createObject();
                 static sPoint<Object> createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image);
+                static sPoint<Object> createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const ObjectType& type);
                 static sPoint<Object> createObject(const MACH_MODEL& model, const float3& position, const Graphics::MACH_IMAGE& image, const Graphics::MACH_IMAGE& image2, const ObjectType& type);
             
                 Object() = default;
