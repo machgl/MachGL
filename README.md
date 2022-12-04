@@ -4,7 +4,7 @@ Mach::GL is an OpenGL game engine that combines the ease of high-level programmi
 
 - For all platforms ensure you have git installed.
 
-#### Windows (Support for VS 2019 only):
+#### Windows (Support for VS 2019 & 2022):
 
 - Create a directory and navigate to it using: `cd path_to_directory`.
 - Run the command (INCLUDE the dot at the end) `git clone https://github.com/machgl/MachGL .` (Note this will not clone some required modules - see next command).
